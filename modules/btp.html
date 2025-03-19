@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Transport Protocol (BTP) &mdash; FlexStack 0.9.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7430def1"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Applications Layer" href="applications.html" />
+    <link rel="prev" title="Security Layer" href="security.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FlexStack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">FlexStack Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="link_layer.html">Link Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geonetworking.html">GeoNetworking (GN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geonetworking.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geonetworking.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geonetworking.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Layer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Transport Protocol (BTP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-sending-btp-packet">Request Sending BTP Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="applications.html">Applications Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facilities/ca_basic_service.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/ca_basic_service.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/ca_basic_service.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="facilities/vru_awareness_service.html#vru-basic-service-management">VRU Basic Service Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/vru_awareness_service.html#vru-cluster-management">VRU Cluster Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/vru_awareness_service.html#vam-reception-management">VAM Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/vru_awareness_service.html#vam-transmission-management">VAM Transmission Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/vru_awareness_service.html#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facilities/den_service.html#denm-overview">DENM Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="facilities/den_service.html#den-service">DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/den_service.html#den-reception-management">DEN Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/den_service.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#local-dynamic-map-service">Local Dynamic Map Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#local-dynamic-map-maintenance">Local Dynamic Map Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facilities/local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="facilities/local_dynamic_map.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/docker-deployment.html">Docker Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/logging.html">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/logging.html#logging-configuration">Logging Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/logging.html#simple-configuration-logging">Simple Configuration Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/logging.html#file-configuration-logging">File Configuration Logging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FlexStack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Basic Transport Protocol (BTP)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/btp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basic-transport-protocol-btp">
+<span id="btp"></span><h1>Basic Transport Protocol (BTP)<a class="headerlink" href="#basic-transport-protocol-btp" title="Permalink to this heading"></a></h1>
+<section id="diagram">
+<h2>Diagram<a class="headerlink" href="#diagram" title="Permalink to this heading"></a></h2>
+<img alt="Basic Transport Protocol" src="../_images/basic_transport_protocol.png" />
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<section id="router-instantiation">
+<h3>Router Instantiation<a class="headerlink" href="#router-instantiation" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="request-sending-btp-packet">
+<h3>Request Sending BTP Packet<a class="headerlink" href="#request-sending-btp-packet" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">BTPDataRequest</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">BTPDataRequest</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">btp_type</span> <span class="o">=</span> <span class="n">CommonNH</span><span class="o">.</span><span class="n">BTP_B</span>
+<span class="n">request</span><span class="o">.</span><span class="n">source_port</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">request</span><span class="o">.</span><span class="n">destination_port</span> <span class="o">=</span> <span class="mi">2001</span>
+<span class="n">request</span><span class="o">.</span><span class="n">destinaion_port_info</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">request</span><span class="o">.</span><span class="n">gn_packet_transport_type</span> <span class="o">=</span> <span class="n">PacketTransportType</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">gn_destination_address</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">gn_area</span> <span class="o">=</span> <span class="n">Area</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">communication_profile</span> <span class="o">=</span> <span class="n">CommunicationProfile</span><span class="o">.</span><span class="n">UNSPECIFIED</span>
+<span class="n">request</span><span class="o">.</span><span class="n">traffic_class</span> <span class="o">=</span> <span class="n">TrafficClass</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;payload_data&quot;</span>
+<span class="n">request</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="response-receiving-btp-packet">
+<h3>Response Receiving BTP Packet<a class="headerlink" href="#response-receiving-btp-packet" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">BTPDataIndication</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">btp_data_indication</span><span class="p">(</span><span class="n">btp_data_indication</span><span class="p">:</span> <span class="n">BTPDataIndication</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received BTP data indication: </span><span class="si">{</span><span class="n">btp_data_indication</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">btp_router</span><span class="o">.</span><span class="n">register_indication_callback_btp</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">2001</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">btp_data_indication</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading"></a></h2>
+<p>Here is an example of a basic script that sends and receives BTP packets with a basic Ethernet Layer 2 Linux Interface:</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="security.html" class="btn btn-neutral float-left" title="Security Layer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="applications.html" class="btn btn-neutral float-right" title="Applications Layer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, i2CAT Foundation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

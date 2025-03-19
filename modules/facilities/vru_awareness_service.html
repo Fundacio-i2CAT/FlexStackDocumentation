@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VRU Awareness Service &mdash; FlexStack 0.9.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=7430def1"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Decentralized Environmental Notification (DEN) Service" href="den_service.html" />
+    <link rel="prev" title="Cooperative Awareness (CA) Basic Service" href="ca_basic_service.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FlexStack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">FlexStack Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../link_layer.html">Link Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geonetworking.html">GeoNetworking (GN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../btp.html">Basic Transport Protocol (BTP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#request-sending-btp-packet">Request Sending BTP Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../applications.html">Applications Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ca_basic_service.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ca_basic_service.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ca_basic_service.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VRU Awareness Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vru-basic-service-management">VRU Basic Service Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vru-cluster-management">VRU Cluster Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vam-reception-management">VAM Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vam-transmission-management">VAM Transmission Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="den_service.html#denm-overview">DENM Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="den_service.html#den-service">DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="den_service.html#den-reception-management">DEN Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="den_service.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="local_dynamic_map.html">Local Dynamic Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#local-dynamic-map-service">Local Dynamic Map Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#local-dynamic-map-maintenance">Local Dynamic Map Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local_dynamic_map.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/docker-deployment.html">Docker Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/logging.html">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/logging.html#logging-configuration">Logging Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/logging.html#simple-configuration-logging">Simple Configuration Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/logging.html#file-configuration-logging">File Configuration Logging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FlexStack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">VRU Awareness Service</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/facilities/vru_awareness_service.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vru-awareness-service">
+<h1>VRU Awareness Service<a class="headerlink" href="#vru-awareness-service" title="Permalink to this heading"></a></h1>
+<p>The Vulnerable Road User (VRU) Awareness Service allows VRUs to share their
+presence to other road users through VRU Awareness Messages (VAM)s. VAMs have the same
+instantation format than other facility-layer messages like CAMs, DENMs,
+etc.</p>
+<p><strong>Required</strong> components are;</p>
+<ul class="simple">
+<li><p><a class="reference external" href="link_layer.md">LinkLayer</a></p></li>
+<li><p><a class="reference external" href="geonetworking.md">GeoNetworking Router</a></p></li>
+<li><p><a class="reference external" href="btp.md">BTP Router</a></p></li>
+<li><p><a class="reference external" href="location_service.md">Location Service</a></p></li>
+<li><p><a class="reference external" href="device_data_provider.md">Device Data Provider</a></p></li>
+<li><p><a class="reference external" href="#vru-awareness-service">VRU Awareness Service</a></p></li>
+</ul>
+<p><strong>Optional</strong> (but recomended) components are;</p>
+<ul class="simple">
+<li><p><a class="reference external" href="local-dynamic-map.md">Local Dynamic_Map</a></p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><a class="reference external" href="logging.md">Logging</a> is always an optional component. But it’s highly recomended.</p>
+</div>
+<p>A quickstart is available <a class="reference external" href="#quickstart">here</a>, however keep reading
+if more detailed information about the component is needed.</p>
+<hr class="docutils" />
+<section id="vru-awareness-messages-overview">
+<h2>VRU Awareness Messages Overview<a class="headerlink" href="#vru-awareness-messages-overview" title="Permalink to this heading"></a></h2>
+<p>The VRU Awareness Message comes from the <a class="reference external" href="https://www.etsi.org/deliver/etsi_ts/103300_103399/10330003/02.01.01_60/ts_10330003v020101p.pdf">ETSI TS 103 300-3 V2.1.1
+(2020-11)</a>
+standard.</p>
+<p>The VRU Awareness Message is composed of six subcomponents including;</p>
+<ul class="simple">
+<li><p><a class="reference external" href="#vru-basic-service-management">VRU Basic Service Management</a></p></li>
+<li><p><a class="reference external" href="#vru-cluster-management">VRU Cluster Management</a></p></li>
+<li><p><a class="reference external" href="#vru-reception-management">VAM Reception Management</a></p></li>
+<li><p><a class="reference external" href="#vam-transmission-management">VAM Transmission Management</a></p></li>
+<li><p><a class="reference external" href="#vam-encoding-&amp;-decoding">VAM Encoding &amp; Decoding</a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="vru-basic-service-management">
+<h3>VRU Basic Service Management<a class="headerlink" href="#vru-basic-service-management" title="Permalink to this heading"></a></h3>
+<p>The <strong>VRU Basic Service Management</strong> is the main component for VAM
+messages. This component declares the neded subcomponents (i.e., VAM
+Coder, VAM Reception Management and VAM Transmission Mangement).</p>
+<p>The basic use is;</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
+
+<span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+                                            <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the <a class="reference external" href="btp-router.md">BTP Router</a> as well as the
+<a class="reference external" href="device-data-provider.md">Device_Data_Provider</a> are needed.</p>
+</section>
+<section id="vru-cluster-management">
+<h3>VRU Cluster Management<a class="headerlink" href="#vru-cluster-management" title="Permalink to this heading"></a></h3>
+<p>The <strong>VRU Cluster Management</strong> is the component in charge of providing
+the clustering intelligence. VRUs many times are clustered together
+(e.g., cyclists in a peloton, pedestrians in a busy street) meaning that
+providing a unique message for all of them can decrease the amount of
+messages sent whilst still mantaining VRU <strong>awareness</strong> levels intact.</p>
+<p>This component is however <strong>currently not implemented</strong>.</p>
+</section>
+<section id="vam-reception-management">
+<h3>VAM Reception Management<a class="headerlink" href="#vam-reception-management" title="Permalink to this heading"></a></h3>
+<p>The <strong>VAM Reception Management</strong> component is in charge of recieving all
+the VAM messages from the BTP component. The <strong>VAM Reception
+Management</strong> componet doesn’t have to be explicitly declared. It’s
+already declared with the code provided in the <strong>VRU Basic Service
+Management</strong> <a class="reference external" href="#vru-basic-service-management">example</a>.</p>
+</section>
+<section id="vam-transmission-management">
+<h3>VAM Transmission Management<a class="headerlink" href="#vam-transmission-management" title="Permalink to this heading"></a></h3>
+<p>The <strong>VAM Transmission Management</strong> component is in charge of
+transmitting all the VAM messages from the application layer to the BTP
+component. The declaration of the <strong>VAM Transmission Management</strong> can be
+done by adding a single line to the <strong>VRU Basic Service Management</strong>
+<a class="reference external" href="#vru-basic-service-management">example</a>;</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
+
+<span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+                                            <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">)</span>
+
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">vru_awareness_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <a class="reference external" href="location-service.md">location service</a> will be needed to transmit
+VAM messages. This location service will call the <strong>VAM Transmission
+Management</strong> every time a new location is obtained. The <strong>VAM
+Transmission Management</strong> can also trigger the transmission of VAM
+messages if one of the following occurs;</p>
+<ul class="simple">
+<li><p>The time elapsed since the last time the individual VAM was transmitted exceeds T_GenVamMax.</p></li>
+<li><p>The Euclidian absolute distance between the current estimated position of the reference point of the VRU and the estimated position of the reference point lastly included in an individual VAM exceeds a pre-defined threshold minReferencePointPositionChangeThreshold.</p></li>
+<li><p>The difference between the current estimated ground speed of the reference point of the VRU and the estimated absolute speed of the reference point of the VRU lastly included in an individual VAM exceeds a pre-defined threshold minGroundSpeedChangeThreshold.</p></li>
+<li><p>The difference between the orientation of the vector of the current estimated ground velocity of the reference point of the VRU and the estimated orientation of the vector of the ground velocity of the reference point of the VRU lastly included in an individual VAM exceeds a pre-defined threshold minGroundVelocityOrientationChangeThreshold.</p></li>
+<li><p>…</p></li>
+</ul>
+<p>Please refer to for <a class="reference external" href="https://www.etsi.org/deliver/etsi_ts/103300_103399/10330003/02.01.01_60/ts_10330003v020101p.pdf">ETSI TS 103 300-3 V2.1.1
+(2020-11)</a>
+for more information.</p>
+</section>
+<section id="vam-encoding-decoding">
+<h3>VAM Encoding &amp; Decoding<a class="headerlink" href="#vam-encoding-decoding" title="Permalink to this heading"></a></h3>
+<p><strong>VAM Encoding &amp; Decoding</strong> uses the <a class="reference external" href="https://asn1tools.readthedocs.io/en/latest/">ASN1Tools Python
+Library</a>. It encodes and
+decodes based on the <a class="reference external" href="https://forge.etsi.org/rep/ITS/asn1/vam-ts103300_3/tree/v2.1.1/">VAM
+ASN.1</a>.</p>
+<p>The coding and decoding is done automatically with the previously shown
+code.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<p>The VRU Awareness Message can be used in it’s most simple flavour as
+follows;</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging.config</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceDataProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+
+<span class="c1"># Geonet</span>
+<span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00\x00\x00\x00\x00\x00</span><span class="s2">&quot;</span>
+<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
+<span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
+<span class="n">mib</span><span class="o">.</span><span class="n">itsGnLocalGnAddr</span> <span class="o">=</span> <span class="n">gn_addr</span>
+<span class="n">gn_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Link-Layer</span>
+<span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="s2">&quot;eth0&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span>
+                  <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>
+
+<span class="c1"># BTP</span>
+<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+
+
+<span class="c1"># Facility - Location Service</span>
+<span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
+
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
+
+<span class="c1"># Facility - Device Data Provider</span>
+<span class="n">device_data_provider</span> <span class="o">=</span> <span class="n">DeviceDataProvider</span><span class="p">()</span>
+<span class="n">device_data_provider</span><span class="o">.</span><span class="n">station_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">device_data_provider</span><span class="o">.</span><span class="n">station_type</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Cyclist</span>
+
+<span class="c1"># Facility - VRU Awareness Service</span>
+<span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+                                            <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">)</span>
+
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">vru_awareness_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+
+<span class="c1"># Applications would be declared here</span>
+
+
+<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The only issue that can be encounter here is <a class="reference external" href="issues-networking-interface.md">Networking
+Interface</a>.</p>
+<p>Logging has been included to provide a way of visualizing the sent
+messages. View [Logging] to get more detailed information on how to use
+it.</p>
+</section>
+<hr class="docutils" />
+<section id="interfacing-with-the-vru-basic-service">
+<h2>Interfacing with the VRU Basic Service<a class="headerlink" href="#interfacing-with-the-vru-basic-service" title="Permalink to this heading"></a></h2>
+<p>Interaction between the application layer and the facility and below
+layers is done through the <a class="reference external" href="local-dynamic-map.md">Local_Dynamic_Map</a>.</p>
+<hr class="docutils" />
+<p>You can explore the examples scripts avaialble, expand upon them or use
+them as a baseline to create your own. If you have any questions about
+the agents, feel free to post in the <a class="reference external" href="forum-url">forum</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ca_basic_service.html" class="btn btn-neutral float-left" title="Cooperative Awareness (CA) Basic Service" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="den_service.html" class="btn btn-neutral float-right" title="Decentralized Environmental Notification (DEN) Service" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, i2CAT Foundation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

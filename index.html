@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlexStack(R) Community Edition &mdash; FlexStack 0.9.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=7430def1"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            FlexStack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#setting-up-the-example">Setting up the example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#logging">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#location-service">Location Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#link-layer">Link Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#geonetworking">GeoNetworking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#btp">BTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting_started.html#facilities-layer">Facilities Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#complete-script">Complete Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">FlexStack Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/link_layer.html">Link Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#cv2xlinklayer">CV2XLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#components">Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#building-the-library">Building the Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/geonetworking.html">GeoNetworking (GN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/security.html">Security Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/btp.html">Basic Transport Protocol (BTP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#request-sending-btp-packet">Request Sending BTP Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/applications.html">Applications Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-basic-service-management">VRU Basic Service Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-cluster-management">VRU Cluster Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-reception-management">VAM Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-transmission-management">VAM Transmission Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#denm-overview">DENM Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-service">DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-reception-management">DEN Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-service">Local Dynamic Map Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-maintenance">Local Dynamic Map Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/docker-deployment.html">Docker Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/logging.html">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#logging-configuration">Logging Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#simple-configuration-logging">Simple Configuration Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#file-configuration-logging">File Configuration Logging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">FlexStack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FlexStack(R) Community Edition</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flexstack-r-community-edition">
+<h1>FlexStack(R) Community Edition<a class="headerlink" href="#flexstack-r-community-edition" title="Permalink to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/i2cat_logo.png"><img alt="i2CAT Logo" src="_images/i2cat_logo.png" style="width: 200px;" /></a>
+</section>
+<section id="short-description">
+<h1>Short description<a class="headerlink" href="#short-description" title="Permalink to this heading"></a></h1>
+<p>FlexStack(R) is a software library implementing the ETSI C-ITS protocol stack. Its aim is to
+facilitate and accelerate the development and integration of software applications on vehicles,
+vulnerable road users (VRU), and roadside infrastructure that requires the exchange of V2X messages
+(compliant with ETSI standards) with other actors of the V2X ecosystem.</p>
+</section>
+<section id="pre-requisites">
+<h1>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h1>
+<section id="supported-operating-systems">
+<h2>Supported Operating Systems<a class="headerlink" href="#supported-operating-systems" title="Permalink to this heading"></a></h2>
+<p>This library can run on any system that supports Python 3.8 or higher.</p>
+<p>It’s important to remark that depending on the Access Technologies used, the library may require additional dependencies. For example, to use C-V2X with Qualcomm-based solutions, the library requires the cross-compilation of the “C-V2X Link Layer” that enables the usage of C-V2X directly by this message library.</p>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading"></a></h2>
+<p>All dependencies can be found in the <cite>requirements.txt</cite> file. To install them, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>On the Access Layer, the dependencies depend on the Access Technology used. Specific tutorials and examples can be found elsewhere.</p>
+</section>
+<section id="build-tools">
+<h2>Build tools<a class="headerlink" href="#build-tools" title="Permalink to this heading"></a></h2>
+<p>The library is built using Python. To build the library, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>build
+</pre></div>
+</div>
+<p>It requires the <cite>setuptools</cite> and <cite>wheel</cite> packages. If they are not installed, they can be installed using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>setuptools<span class="w"> </span>wheel
+</pre></div>
+</div>
+</section>
+<section id="other-dependencies">
+<h2>Other dependencies<a class="headerlink" href="#other-dependencies" title="Permalink to this heading"></a></h2>
+<p>Depending on the specific use case or application intended, there might be additional dependencies. For example, the usage of an MQTT broker to send and receive messages from the V2X library.</p>
+</section>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
+<p>Library can be easily installed using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>v2xflexstack
+</pre></div>
+</div>
+</section>
+<section id="developers">
+<h1>Developers<a class="headerlink" href="#developers" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Jordi Marias-i-Parella (<a class="reference external" href="mailto:jordi&#46;marias&#37;&#52;&#48;i2cat&#46;net">jordi<span>&#46;</span>marias<span>&#64;</span>i2cat<span>&#46;</span>net</a>)</p></li>
+<li><p>Daniel Ulied Guevara (<a class="reference external" href="mailto:daniel&#46;ulied&#37;&#52;&#48;i2cat&#46;net">daniel<span>&#46;</span>ulied<span>&#64;</span>i2cat<span>&#46;</span>net</a>)</p></li>
+<li><p>Adrià Pons Serra (<a class="reference external" href="mailto:adria&#46;pons&#37;&#52;&#48;i2cat&#46;net">adria<span>&#46;</span>pons<span>&#64;</span>i2cat<span>&#46;</span>net</a>)</p></li>
+<li><p>Marc Codina Bartomeus (<a class="reference external" href="mailto:marc&#46;codina&#37;&#52;&#48;i2cat&#46;net">marc<span>&#46;</span>codina<span>&#64;</span>i2cat<span>&#46;</span>net</a>)</p></li>
+</ul>
+</section>
+<section id="source">
+<h1>Source<a class="headerlink" href="#source" title="Permalink to this heading"></a></h1>
+<p>This code has been developed within the following research and innovation projects:</p>
+<ul class="simple">
+<li><p><strong>CARAMEL</strong> (Grant Agreement No. 833611) – Funded under the Horizon 2020 programme, focusing on cybersecurity for connected and autonomous vehicles.</p></li>
+<li><p><strong>PLEDGER</strong> (Grant Agreement No. 871536) – A Horizon 2020 project aimed at edge computing solutions to improve performance and security.</p></li>
+<li><p><strong>CODECO</strong> (Grant Agreement No. 101092696) – A Horizon Europe initiative addressing cooperative and connected mobility.</p></li>
+<li><p><strong>SAVE-V2X</strong> (Grant Agreement No. ACE05322000044) – Focused on V2X communication for vulnerable road user safety, and funded by ACCIO.</p></li>
+<li><p><strong>PoDIUM</strong> (Grant Agreement No. 101069547) – Funded under the Horizon 2021 programme, this project focuses on accelerating the implementation of connected, cooperative and automated mobility technology.</p></li>
+</ul>
+</section>
+<section id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Permalink to this heading"></a></h1>
+<p>This code has been developed by Fundació Privada Internet i Innovació Digital a Catalunya (i2CAT).</p>
+<p>FlexStack is a registered trademark of i2CAT. Unauthorized use is strictly prohibited.</p>
+<p>i2CAT is a <strong>non-profit research and innovation centre</strong> that promotes mission-driven knowledge to solve business challenges, co-create solutions with a transformative impact, empower citizens through open and participative digital social innovation with territorial capillarity, and promote pioneering and strategic initiatives. i2CAT <strong>aims to transfer</strong> research project results to private companies in order to create social and economic impact via the out-licensing of intellectual property and the creation of spin-offs. Find more information on i2CAT projects and IP rights at <a class="reference external" href="https://i2cat.net/tech-transfer/">https://i2cat.net/tech-transfer/</a></p>
+</section>
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h1>
+<p>This code is licensed under the terms of the AGPL. Information about the license can be located at <a class="reference external" href="https://www.gnu.org/licenses/agpl-3.0.html">https://www.gnu.org/licenses/agpl-3.0.html</a>.</p>
+<p>Please, refer to FlexStack Community Edition as a dependence of your works.</p>
+<p>If you find that this license doesn’t fit with your requirements regarding the use, distribution, or redistribution of our code for your specific work, please, don’t hesitate to contact the intellectual property managers in i2CAT at the following address: <a class="reference external" href="mailto:techtransfer&#37;&#52;&#48;i2cat&#46;net">techtransfer<span>&#64;</span>i2cat<span>&#46;</span>net</a>. Also, in the following page, you’ll find more information about the current commercialization status or other licensees: Under Development.</p>
+</section>
+<section id="attributions">
+<h1>Attributions<a class="headerlink" href="#attributions" title="Permalink to this heading"></a></h1>
+<p>Attributions of Third Party Components of this work:</p>
+<ul class="simple">
+<li><p><cite>asn1tools</cite> Version 0.165.0 – Imported python library - <a class="reference external" href="https://asn1tools.readthedocs.io/en/latest/">https://asn1tools.readthedocs.io/en/latest/</a> - MIT license</p></li>
+<li><p><cite>python-dateutil</cite> Version 2.8.2 – Imported python library - <a class="reference external" href="https://pypi.org/project/python-dateutil/">https://pypi.org/project/python-dateutil/</a> - dual license - either Apache 2.0 License or the BSD 3-Clause License.</p></li>
+<li><p><cite>tinydb</cite> Version 4.7.1 – Imported python library - <a class="reference external" href="https://tinydb.readthedocs.io/en/latest/">https://tinydb.readthedocs.io/en/latest/</a> - MIT license</p></li>
+<li><p><cite>ecdsa</cite> Version 0.18.0 – Imported python library - <a class="reference external" href="https://pypi.org/project/ecdsa/">https://pypi.org/project/ecdsa/</a> - MIT license</p></li>
+</ul>
+</section>
+<section id="external-links">
+<h1>External links<a class="headerlink" href="#external-links" title="Permalink to this heading"></a></h1>
+<p><a class="reference external" href="https://www.flexstack.eu">https://www.flexstack.eu</a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#setting-up-the-example">Setting up the example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#complete-script">Complete Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">FlexStack Architecture</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/link_layer.html">Link Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#cv2xlinklayer">CV2XLinkLayer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/geonetworking.html">GeoNetworking (GN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/security.html">Security Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/btp.html">Basic Transport Protocol (BTP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/applications.html">Applications Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/utils.html">Utils</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#denm-overview">DENM Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/docker-deployment.html">Docker Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/logging.html">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#logging-configuration">Logging Configuration</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, i2CAT Foundation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
