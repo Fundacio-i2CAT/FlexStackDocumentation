@@ -331,11 +331,6 @@ The whole script can be found below:
         period=1000, latitude=POSITION_COORDINATES[0], longitude=POSITION_COORDINATES[1]
     )
 
-    # Instantiate a Link Layer
-    link_layer = RawLinkLayer(
-        "lo", mac_address, receive_callback=gn_router.gn_data_indicate
-    )
-
     # Instantiate a GN router
     mib = MIB()
     gn_addr = GNAddress()
@@ -345,6 +340,12 @@ The whole script can be found below:
     mib.itsGnLocalGnAddr = gn_addr
     gn_router = GNRouter(mib=mib, sign_service=None)
     location_service.add_callback(gn_router.refresh_ego_position_vector)
+
+    # Instantiate a Link Layer
+    link_layer = RawLinkLayer(
+        "lo", mac_address, receive_callback=gn_router.gn_data_indicate
+    )
+
     gn_router.link_layer = link_layer
 
     # Instantiate a BTP router
@@ -413,11 +414,8 @@ The whole script can be found below:
     ca_basic_service = CooperativeAwarenessBasicService(
         btp_router=btp_router,
         vehicle_data=vehicle_data,
-        ldm=ldm,
     )
     location_service.add_callback(ca_basic_service.cam_transmission_management.location_service_callback)
 
     print("Press Ctrl+C to stop the program.")
     location_service.location_service_thread.join()
-
-
