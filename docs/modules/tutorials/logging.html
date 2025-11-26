@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logging &mdash; FlexStack 0.9.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=7430def1"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Sending and Recieving V2X Messages Through Ethernet" href="rawlinklayer-ethernet-deployment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FlexStack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#setting-up-the-example">Setting up the example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#logging">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#location-service">Location Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#link-layer">Link Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#geonetworking">GeoNetworking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#btp">BTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#facilities-layer">Facilities Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-script">Complete Script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">FlexStack Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../link_layer.html">Link Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#cv2xlinklayer">CV2XLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#components">Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#building-the-library">Building the Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../geonetworking.html">GeoNetworking (GN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">Security Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../btp.html">Basic Transport Protocol (BTP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#router-instantiation">Router Instantiation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#request-sending-btp-packet">Request Sending BTP Packet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../applications.html">Applications Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#diagram">Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-basic-service-management">VRU Basic Service Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-cluster-management">VRU Cluster Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-reception-management">VAM Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-transmission-management">VAM Transmission Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#denm-overview">DENM Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-service">DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-reception-management">DEN Reception Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-service">Local Dynamic Map Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-maintenance">Local Dynamic Map Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="docker-deployment.html">Docker Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logging-configuration">Logging Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simple-configuration-logging">Simple Configuration Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-configuration-logging">File Configuration Logging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FlexStack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Logging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/tutorials/logging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="logging">
+<h1>Logging<a class="headerlink" href="#logging" title="Permalink to this heading"></a></h1>
+<p>Logging is an ongoing effort in the Flexstack. Logs have been created
+for most of the fundamental components, ranging two levels; Information
+and Debug.</p>
+<section id="logging-configuration">
+<h2>Logging Configuration<a class="headerlink" href="#logging-configuration" title="Permalink to this heading"></a></h2>
+<section id="simple-configuration-logging">
+<h3>Simple Configuration Logging<a class="headerlink" href="#simple-configuration-logging" title="Permalink to this heading"></a></h3>
+<p>The easiest way to configure Logging in the Flexstack is through the
+Python logging library;</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="c1">#logging.DEBUG for Debug-level logs.</span>
+</pre></div>
+</div>
+<p>This will show logs for all the components, in a specific level.</p>
+</section>
+<section id="file-configuration-logging">
+<h3>File Configuration Logging<a class="headerlink" href="#file-configuration-logging" title="Permalink to this heading"></a></h3>
+<p>Another way of configuring logging is through a .ini file. Detailed
+information about Logging can be found in the <a class="reference external" href="https://docs.python.org/3/library/logging.html">Logging Python
+Library</a>.</p>
+<p>A useful configuration .ini file would be;</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[loggers]</span>
+<span class="na">keys</span><span class="o">=</span><span class="s">root</span>
+
+<span class="k">[handlers]</span>
+<span class="na">keys</span><span class="o">=</span><span class="s">consoleHandler</span>
+
+<span class="k">[formatters]</span>
+<span class="na">keys</span><span class="o">=</span><span class="s">sampleFormatter</span>
+
+<span class="c1"># ------------------------- Root Logger ------------------------- #</span>
+<span class="c1"># Add the handlers to the root logger if you want to log everything</span>
+<span class="k">[logger_root]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">INFO</span>
+<span class="na">handlers</span><span class="o">=</span><span class="s">consoleHandler</span>
+
+<span class="c1"># ------------------------- Applications Loggers ------------------------- #</span>
+
+
+<span class="c1"># ------------------------- Faclities Loggers ------------------------- #</span>
+<span class="k">[logger_ca_basic_service]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">ca_basic_service</span>
+
+<span class="k">[logger_vru_basic_service]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">vru_basic_service</span>
+
+<span class="k">[logger_cp_service]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">cp_service</span>
+
+<span class="k">[logger_local_dynamic_map]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">local_dynamic_map</span>
+
+<span class="c1"># ------------------------- BTP Loggers ------------------------- #</span>
+<span class="k">[logger_btp]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">btp</span>
+<span class="c1"># ------------------------- GeoNetworking Loggers ------------------------- #</span>
+
+<span class="c1"># ------------------------- Link Layer Loggers ------------------------- #</span>
+
+<span class="k">[logger_link_layer]</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">propagate</span><span class="o">=</span><span class="s">1</span>
+<span class="na">handlers</span><span class="o">=</span>
+<span class="na">qualname</span><span class="o">=</span><span class="s">link_layer</span>
+
+<span class="c1"># ------------------------- Security Loggers ------------------------- #</span>
+
+<span class="c1"># ------------------------- Utils Loggers ------------------------- #</span>
+
+<span class="c1"># ------------------------- Handlers ------------------------- #</span>
+
+<span class="k">[handler_consoleHandler]</span>
+<span class="na">class</span><span class="o">=</span><span class="s">StreamHandler</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">formatter</span><span class="o">=</span><span class="s">sampleFormatter</span>
+<span class="na">args</span><span class="o">=</span><span class="s">(sys.stdout,)</span>
+
+<span class="k">[handler_fileHandler]</span>
+<span class="na">class</span><span class="o">=</span><span class="s">FileHandler</span>
+<span class="na">level</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">formatter</span><span class="o">=</span><span class="s">sampleFormatter</span>
+<span class="na">args</span><span class="o">=</span><span class="s">(&#39;python.log&#39;, &#39;w&#39;)</span>
+
+
+<span class="c1"># ------------------------- Formatters ------------------------- #</span>
+
+<span class="k">[formatter_sampleFormatter]</span>
+<span class="na">format</span><span class="o">=</span><span class="s">%(asctime)s - %(name)s - %(levelname)s - %(message)s</span>
+</pre></div>
+</div>
+<p>To use this file configuration .ini file;</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging.config</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fileConfig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s2">&quot;config.ini&quot;</span><span class="p">,</span> <span class="n">disable_existing_loggers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rawlinklayer-ethernet-deployment.html" class="btn btn-neutral float-left" title="Sending and Recieving V2X Messages Through Ethernet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, i2CAT Foundation.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

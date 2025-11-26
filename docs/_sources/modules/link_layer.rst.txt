@@ -1,0 +1,103 @@
+.. _link_layer:
+
+Link Layer
+==========
+
+.. _cv2xlinklayer:
+
+CV2XLinkLayer
+-------------
+
+Overview
+~~~~~~~~
+
+`cv2xlinklayer` is a C++ library that provides an interface for Cellular Vehicle-to-Everything (C-V2X) communication. It interacts with a telematics SDK (`telux_cv2x`) to establish and manage transmission (Tx) and reception (Rx) flows. The library is exposed to Python using `pybind11`, allowing Python scripts to send and receive C-V2X messages.
+
+Components
+~~~~~~~~~~
+
+`cv2x_link_layer.cpp`
+^^^^^^^^^^^^^^^^^^^^
+This file implements the main logic of the C-V2X communication layer, including:
+
+- Initialization of the `Cv2xRadioManager`.
+- Setup of transmission (Tx) and reception (Rx) flows.
+- Callbacks for handling C-V2X status updates and data reception.
+- A `send` method for transmitting data.
+- A `receive` method for reading incoming messages.
+- Integration with `pybind11` for Python compatibility.
+
+`cv2x_link_layer.hpp`
+^^^^^^^^^^^^^^^^^^^^
+This header file declares the `CV2XLinkLayer` class and its methods.
+
+`CMakeLists.txt`
+^^^^^^^^^^^^^^^^
+This file defines the build process, including:
+
+- Minimum required CMake version (`3.12`).
+- Setting the project name (`cv2xlinklayer`).
+- Enforcing C++11 standard.
+- Finding and linking `pybind11` and `telux_cv2x`.
+- Generating a shared library (`cv2xlinklayer.so`).
+
+Building the Library
+~~~~~~~~~~~~~~~~~~~~
+
+Prerequisites
+^^^^^^^^^^^^^
+Ensure the following dependencies are installed:
+
+- CMake (`>= 3.12`)
+- `pybind11`
+- `telux_cv2x` SDK
+- A C++11-compliant compiler
+
+Build Steps
+^^^^^^^^^^^
+
+.. code-block:: sh
+
+    mkdir build && cd build
+    cmake ..
+    make
+
+The output shared library (`cv2xlinklayer.so`) will be placed in the `lib` directory.
+
+Using the Library in Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Importing the Module
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    import cv2xlinklayer
+
+Creating an Instance
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    link_layer = cv2xlinklayer.CV2XLinkLayer()
+
+Sending Data
+^^^^^^^^^^^^
+.. code-block:: python
+
+    data = "Hello, C-V2X!"
+    link_layer.send(data)
+
+Receiving Data
+^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    received_data = link_layer.receive()
+    print(received_data)
+
+Summary
+~~~~~~~
+
+This project enables C-V2X communication through a C++ library exposed to Python. By using `pybind11`, Python applications can seamlessly integrate with the underlying C++ logic for transmitting and receiving C-V2X messages.
+
