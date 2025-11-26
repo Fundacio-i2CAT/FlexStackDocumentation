@@ -71,9 +71,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#components">Components</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-the-library">Building the Library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-script">Complete Script</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="geonetworking.html">GeoNetworking (GN)</a><ul>
@@ -285,10 +285,146 @@ make
 </div>
 </section>
 </section>
-<section id="summary">
-<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h3>
-<p>This project enables C-V2X communication through a C++ library exposed to Python. By using <cite>pybind11</cite>, Python applications can seamlessly integrate with the underlying C++ logic for transmitting and receiving C-V2X messages.</p>
 </section>
+<section id="complete-script">
+<h2>Complete Script<a class="headerlink" href="#complete-script" title="Permalink to this heading"></a></h2>
+<p>A whole script can be found below to transmit and receive in C-V2X:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="c1"># Link Layer Imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.cv2x_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonCV2XLinkLayer</span>
+
+<span class="c1"># GeoNetworking imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
+
+<span class="c1"># BTP Router imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+
+<span class="c1"># Location Service imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
+
+<span class="c1"># Local Dynamic Map imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ldm_factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Location</span><span class="p">,</span>
+    <span class="n">SubscribeDataobjectsReq</span><span class="p">,</span>
+    <span class="n">SubscribeDataObjectsResp</span><span class="p">,</span>
+    <span class="n">RegisterDataConsumerReq</span><span class="p">,</span>
+    <span class="n">RegisterDataConsumerResp</span><span class="p">,</span>
+    <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAM</span>
+
+<span class="c1"># CA Basic Service imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.ca_basic_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CooperativeAwarenessBasicService</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.cam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VehicleData</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Basic Configuration Parameters</span>
+<span class="n">POSITION_COORDINATES</span> <span class="o">=</span> <span class="p">[</span><span class="mf">41.386931</span><span class="p">,</span> <span class="mf">2.112104</span><span class="p">]</span>
+<span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xaa\xbb\xcc\x11\x21\x11</span><span class="s2">&quot;</span>
+<span class="n">station_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mac_address</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Instantiate a Location Service</span>
+<span class="n">location_service</span> <span class="o">=</span> <span class="n">ThreadStaticLocationService</span><span class="p">(</span>
+    <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">longitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Instantiate a GN router</span>
+<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
+<span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
+<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
+<span class="n">mib</span><span class="o">.</span><span class="n">itsGnLocalGnAddr</span> <span class="o">=</span> <span class="n">gn_addr</span>
+<span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a Link Layer</span>
+    <span class="c1">#link_layer = RawLinkLayer(&quot;lo&quot;, mac_address, geonet_router.gn_data_indicate)</span>
+<span class="n">link_layer</span> <span class="o">=</span> <span class="n">PythonCV2XLinkLayer</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">link_layer</span>
+
+<span class="c1"># Instantiate a BTP router</span>
+<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a Local Dynamic Map (LDM)</span>
+<span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">()</span>
+<span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="p">(</span>
+    <span class="n">ldm_location</span><span class="p">,</span>
+    <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
+    <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
+    <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+
+<span class="c1"># Subscribe to LDM</span>
+<span class="n">register_data_consumer_reponse</span><span class="p">:</span> <span class="n">RegisterDataConsumerResp</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
+        <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
+            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+            <span class="n">access_permisions</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
+            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">ldm_location</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="k">if</span> <span class="n">register_data_consumer_reponse</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ldm_subscription_callback</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># We are printing any received CAM message.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">station_id</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received CAM from : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">subscribe_data_consumer_response</span><span class="p">:</span> <span class="n">SubscribeDataObjectsResp</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">subscribe_data_consumer</span><span class="p">(</span>
+        <span class="n">SubscribeDataobjectsReq</span><span class="p">(</span>
+            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+            <span class="n">data_object_type</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
+            <span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">notify_time</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">multiplicity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">ldm_subscription_callback</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="k">if</span> <span class="n">subscribe_data_consumer_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a CA Basic Service</span>
+<span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">()</span>
+<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_id</span> <span class="o">=</span> <span class="n">station_id</span>  <span class="c1"># Station Id of the ITS PDU Header</span>
+<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_type</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
+<span class="n">vehicle_data</span><span class="o">.</span><span class="n">drive_direction</span> <span class="o">=</span> <span class="s2">&quot;forward&quot;</span>
+<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_length</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vehicleLengthValue&quot;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>  <span class="c1"># as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
+    <span class="s2">&quot;vehicleLengthConfidenceIndication&quot;</span><span class="p">:</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_width</span> <span class="o">=</span> <span class="mi">62</span>
+
+<span class="n">ca_basic_service</span> <span class="o">=</span> <span class="n">CooperativeAwarenessBasicService</span><span class="p">(</span>
+    <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+    <span class="n">vehicle_data</span><span class="o">=</span><span class="n">vehicle_data</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to stop the program.&quot;</span><span class="p">)</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 </section>
 

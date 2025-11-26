@@ -279,7 +279,7 @@ Finally, to make sure the script keeps working unless stopped, there is enough w
 Complete Script
 ---------------
 
-The whole script can be found below:
+The whole script can be found below, as it uses low-level sockets it must be executed with sudo privileges:
 
 .. code-block:: python
 

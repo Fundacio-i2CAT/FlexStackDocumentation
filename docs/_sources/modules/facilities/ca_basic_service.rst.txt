@@ -84,7 +84,7 @@ Here is a basic script that sends and receives CAMs with a basic Ethernet Layer 
     from flexstack.utils.static_location_service import ThreadStaticLocationService
 
     # Local Dynamic Map imports
-    from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+    from flexstack.facilities.local_dynamic_map.factory import ldm_factory
     from flexstack.facilities.local_dynamic_map.ldm_classes import (
         Location,
         SubscribeDataobjectsReq,
@@ -133,7 +133,7 @@ Here is a basic script that sends and receives CAMs with a basic Ethernet Layer 
 
     # Instantiate a Local Dynamic Map (LDM)
     ldm_location = Location.initializer()
-    ldm = LDMFactory(
+    ldm = ldm_factory(
         ldm_location,
         ldm_maintenance_type="Reactive",
         ldm_service_type="Reactive",

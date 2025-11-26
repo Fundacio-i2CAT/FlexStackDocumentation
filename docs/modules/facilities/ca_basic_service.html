@@ -71,9 +71,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../link_layer.html#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../link_layer.html#components">Components</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../link_layer.html#building-the-library">Building the Library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#summary">Summary</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#complete-script">Complete Script</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../geonetworking.html">GeoNetworking (GN)</a><ul>
@@ -264,7 +264,7 @@ Here a basic example:</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
 
 <span class="c1"># Local Dynamic Map imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">LDMFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ldm_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Location</span><span class="p">,</span>
     <span class="n">SubscribeDataobjectsReq</span><span class="p">,</span>
@@ -313,7 +313,7 @@ Here a basic example:</p>
 
 <span class="c1"># Instantiate a Local Dynamic Map (LDM)</span>
 <span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">()</span>
-<span class="n">ldm</span> <span class="o">=</span> <span class="n">LDMFactory</span><span class="p">(</span>
+<span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="p">(</span>
     <span class="n">ldm_location</span><span class="p">,</span>
     <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
     <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>

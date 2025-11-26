@@ -96,8 +96,145 @@ Receiving Data
     received_data = link_layer.receive()
     print(received_data)
 
-Summary
-~~~~~~~
+Complete Script
+---------------
 
-This project enables C-V2X communication through a C++ library exposed to Python. By using `pybind11`, Python applications can seamlessly integrate with the underlying C++ logic for transmitting and receiving C-V2X messages.
+A whole script can be found below to transmit and receive in C-V2X:
+
+.. code-block:: python
+
+    # Configure logging
+    import logging
+    logging.basicConfig(level=logging.INFO)
+
+    # Link Layer Imports
+    from flexstack.linklayer.cv2x_link_layer import PythonCV2XLinkLayer
+
+    # GeoNetworking imports
+    from flexstack.geonet.router import Router as GNRouter
+    from flexstack.geonet.mib import MIB
+    from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+
+    # BTP Router imports
+    from flexstack.btp.router import Router as BTPRouter
+
+    # Location Service imports
+    from flexstack.utils.static_location_service import ThreadStaticLocationService
+
+    # Local Dynamic Map imports
+    from flexstack.facilities.local_dynamic_map.factory import ldm_factory
+    from flexstack.facilities.local_dynamic_map.ldm_classes import (
+        Location,
+        SubscribeDataobjectsReq,
+        SubscribeDataObjectsResp,
+        RegisterDataConsumerReq,
+        RegisterDataConsumerResp,
+        RequestDataObjectsResp,
+    )
+    from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+
+    # CA Basic Service imports
+    from flexstack.facilities.ca_basic_service.ca_basic_service import (
+        CooperativeAwarenessBasicService,
+    )
+    from flexstack.facilities.ca_basic_service.cam_transmission_management import (
+        VehicleData,
+    )
+
+    # Basic Configuration Parameters
+    POSITION_COORDINATES = [41.386931, 2.112104]
+    mac_address = b"\xaa\xbb\xcc\x11\x21\x11"
+    station_id = int(mac_address[-1])
+
+    # Instantiate a Location Service
+    location_service = ThreadStaticLocationService(
+        period=1000, latitude=POSITION_COORDINATES[0], longitude=POSITION_COORDINATES[1]
+    )
+
+    # Instantiate a GN router
+    mib = MIB()
+    gn_addr = GNAddress()
+    gn_addr.set_m(M.GN_MULTICAST)
+    gn_addr.set_st(ST.CYCLIST)
+    gn_addr.set_mid(MID(mac_address))
+    mib.itsGnLocalGnAddr = gn_addr
+    gn_router = GNRouter(mib=mib, sign_service=None)
+    location_service.add_callback(gn_router.refresh_ego_position_vector)
+
+    # Instantiate a Link Layer
+        #link_layer = RawLinkLayer("lo", mac_address, geonet_router.gn_data_indicate)
+    link_layer = PythonCV2XLinkLayer(gn_router.gn_data_indicate)
+    gn_router.link_layer = link_layer
+
+    # Instantiate a BTP router
+    btp_router = BTPRouter(gn_router)
+    gn_router.register_indication_callback(btp_router.btp_data_indication)
+
+    # Instantiate a Local Dynamic Map (LDM)
+    ldm_location = Location.initializer()
+    ldm = ldm_factory(
+        ldm_location,
+        ldm_maintenance_type="Reactive",
+        ldm_service_type="Reactive",
+        ldm_database_type="Dictionary",
+    )
+    location_service.add_callback(ldm_location.location_service_callback)
+
+    # Subscribe to LDM
+    register_data_consumer_reponse: RegisterDataConsumerResp = (
+        ldm.if_ldm_4.register_data_consumer(
+            RegisterDataConsumerReq(
+                application_id=CAM,
+                access_permisions=[CAM],
+                area_of_interest=ldm_location,
+            )
+        )
+    )
+    if register_data_consumer_reponse.result == 2:
+        exit(1)
+
+
+    def ldm_subscription_callback(data: RequestDataObjectsResp) -> None:
+        # We are printing any received CAM message.
+        print(data.data_objects[0]["dataObject"]["header"]["stationId"])
+        if data.data_objects[0]["dataObject"]["header"]["stationId"] != station_id:
+            print(f'Received CAM from : {data.data_objects[0]["dataObject"]["header"]["stationId"]}')
+
+
+    subscribe_data_consumer_response: SubscribeDataObjectsResp = (
+        ldm.if_ldm_4.subscribe_data_consumer(
+            SubscribeDataobjectsReq(
+                application_id=CAM,
+                data_object_type=[CAM],
+                priority=None,
+                filter=None,
+                notify_time=0.5,
+                multiplicity=None,
+                order=None,
+            ),
+            ldm_subscription_callback,
+        )
+    )
+    if subscribe_data_consumer_response.result.result != 0:
+        exit(1)
+
+    # Instantiate a CA Basic Service
+    vehicle_data = VehicleData()
+    vehicle_data.station_id = station_id  # Station Id of the ITS PDU Header
+    vehicle_data.station_type = 5  # Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
+    vehicle_data.drive_direction = "forward"
+    vehicle_data.vehicle_length = {
+        "vehicleLengthValue": 1023,  # as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
+        "vehicleLengthConfidenceIndication": "unavailable",
+    }
+    vehicle_data.vehicle_width = 62
+
+    ca_basic_service = CooperativeAwarenessBasicService(
+        btp_router=btp_router,
+        vehicle_data=vehicle_data,
+    )
+    location_service.add_callback(ca_basic_service.cam_transmission_management.location_service_callback)
+
+    print("Press Ctrl+C to stop the program.")
+    location_service.location_service_thread.join()
 
