@@ -22,7 +22,7 @@ Local Dynamic Map Overview
 The Local Dynamic Map follows the `ETSI EN 302 895 V1.1.1
 (2014-09) <https://www.etsi.org/deliver/etsi_en/302800_302899/302895/01.01.01_60/en_302895v010101p.pdf>`__
 standard. Newer standards have been published, but no significant
-relevant changes have been introduced.
+relevant changes have been introduced. Please refer to the ETSI standard for more detailed information.
 
 The Local Dynamic Map is composed of two subcomponents: 
 
@@ -31,7 +31,7 @@ The Local Dynamic Map is composed of two subcomponents:
 
 --------------
 
-Local Dynamic Map Service
+LDM Service
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The LDM is connected to authorized `LDM Data Providers <#ldm-data-providers>`__ and `LDM Data Consumers <#ldm-data-consumers>`__. `LDM Data
@@ -45,9 +45,10 @@ of interfaces:
 The LDM provides: 
 
 - Mechanisms for facilities to register and deregister as `LDM Data Providers <#ldm-data-providers>`__. 
-- Mechanisms for applications to register and deregister as `LDM Data Providers <#ldm-data-providers>`__ or `LDM Data Consumers <#ldm-data-consumers>`__. - Verification of the authorization of `LDM Data Providers <#ldm-data-providers>`__ and `LDM Data Consumers <#ldm-data-consumers>`__ before granting data access.
+- Mechanisms for applications to register and deregister as `LDM Data Providers <#ldm-data-providers>`__ or `LDM Data Consumers <#ldm-data-consumers>`__. 
+- Verification of the authorization of `LDM Data Providers <#ldm-data-providers>`__ and `LDM Data Consumers <#ldm-data-consumers>`__ before granting data access.
 
-Local Dynamic Map Maintenance
+LDM Maintenance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The LDM is responsible for maintaining all `LDM Data
@@ -401,78 +402,111 @@ This will call the ldm_subscrition_callback every 0.5 seconds (notifiy_time) wit
 Quickstart
 ----------
 
-The Local Dynamic Map can be used in conjunction with the `VRU Awareness
-Message <vru-basic-service.md>`__ in its simplest form as follows:
+The Local Dynamic Map can be used in conjunction with any Facility Layer component, in this case the `VRU Awareness
+Message <vru-basic-service.md>`__ is presented;
 
 .. code:: py
 
-   import logging
-   import logging.config
-
-   from flexstack.facilities.vru_awareness_service.vru_awareness_service import VRUAwarenessService
-   from flexstack.facilities.vru_awareness_service.vam_transmission_management import DeviceDataProvider
-   from flexstack.utils.static_location_service import ThreadStaticLocationService as LocationService
-
-   from flexstack.facilities.local_dynamic_map.factory import ldm_factory
-   from flexstack.facilities.local_dynamic_map.ldm_classes import Location
-
-   from flexstack.btp.router import Router as BTPRouter
-
-   from flexstack.geonet.router import Router
-   from flexstack.geonet.mib import MIB
-   from flexstack.geonet.gn_address import GNAddress, M, ST, MID
-
-   from flexstack.linklayer.raw_link_layer import RawLinkLayer
+    import logging
+    import argparse
+    from time import sleep
+    from sys import exit
 
 
-   logging.basicConfig(level=logging.INFO)
+    from flexstack.facilities.vru_awareness_service.vru_awareness_service import VRUAwarenessService
+    from flexstack.facilities.vru_awareness_service.vam_transmission_management import DeviceDataProvider
+    from flexstack.utils.static_location_service import ThreadStaticLocationService as LocationService
+
+    from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+    from flexstack.facilities.local_dynamic_map.ldm_classes import (
+        Location,
+        RequestDataObjectsResp,
+    )
+
+    from flexstack.btp.router import Router as BTPRouter
+
+    from flexstack.geonet.router import Router
+    from flexstack.geonet.mib import MIB
+    from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+
+    from flexstack.linklayer.raw_link_layer import RawLinkLayer
 
 
-   # Geonet
-   mac_address = b"\x00\x00\x00\x00\x00\x00"
-   mib = MIB()
-   gn_addr = GNAddress()
-   gn_addr.set_m(M.GN_MULTICAST)
-   gn_addr.set_st(ST.CYCLIST)
-   gn_addr.set_mid(MID(mac_address))
-   mib.itsGnLocalGnAddr = gn_addr
-   gn_router = Router(mib=mib, sign_service=None)
-
-   # Link-Layer
-   ll = RawLinkLayer(iface="eth0", mac_address=mac_address, 
-                     receive_callback=gn_router.gn_data_indicate)
-   gn_router.link_layer = ll
-
-   # BTP
-   btp_router = BTPRouter(gn_router)
-   gn_router.register_indication_callback(btp_router.btp_data_indication)
+    def __configure_logging(log_level: str) -> None:
+        numeric_level = getattr(logging, log_level.upper(), None)
+        if not isinstance(numeric_level, int):
+            raise ValueError(f"Invalid log level: {log_level}")
+        logging.basicConfig(level=numeric_level)
 
 
-   # Facility - Location Service
-   location_service = LocationService()
+    def ldm_subscription_callback(response: RequestDataObjectsResp) -> None:
+        print(response.data_objects)
 
-   location_service.add_callback(gn_router.refresh_ego_position_vector)
 
-   # Facility - Local Dynamic Maps
-   ldm_location = Location.initializer()
-   location_service.add_callback(ldm_location.location_service_callback)
-   local_dynamic_map = ldm_factory(
-       ldm_location, ldm_maintenance_type="Reactive", ldm_service_type="Reactive", ldm_database_type="Dictionary"
-   )
+    def configure_v2x(station_id: int, log_level: str) -> None | Exception:
+        # Configure logging level
+        __configure_logging(log_level)
 
-   # Facility - Device Data Provider
-   device_data_provider = DeviceDataProvider()
-   device_data_provider.station_id = 1
-   device_data_provider.station_type = 2  # Cyclist
+        # Geonet
+        mac_address = b"\x00\x00\x00\x00\x00" + bytes([station_id])
+        mib = MIB()
+        gn_addr = GNAddress()
+        gn_addr.set_m(M.GN_MULTICAST)
+        gn_addr.set_st(ST.CYCLIST)
+        gn_addr.set_mid(MID(mac_address))
+        gn_router = Router(mib=mib, sign_service=None)
 
-   # Facility - VRU Awareness Service
-   vru_awareness_service = VRUAwarenessService(btp_router=btp_router,
-                                               device_data_provider=device_data_provider, 
-                                               ldm=local_dynamic_map)
+        # Link-Layer
+        ll = RawLinkLayer(iface="lo", mac_address=mac_address, receive_callback=gn_router.gn_data_indicate)
+        gn_router.link_layer = ll
 
-   location_service.add_callback(vru_awareness_service.vam_transmission_management.location_service_callback)
+        # BTP
+        btp_router = BTPRouter(gn_router)
+        gn_router.register_indication_callback(btp_router.btp_data_indication)
 
-   # Applications would be declared here
+
+        # Facility - Location Service
+        location_service = LocationService()
+
+        location_service.add_callback(gn_router.refresh_ego_position_vector)
+
+        # Facility - Local Dynamic Maps
+        ldm_location = Location.initializer()
+        location_service.add_callback(ldm_location.location_service_callback)
+        ldm_factory = LDMFactory()
+        local_dynamic_map = ldm_factory.create_ldm(
+            ldm_location, ldm_maintenance_type="Reactive", ldm_service_type="Reactive", ldm_database_type="Dictionary"
+        )
+        ldm_factory.subscribe_to_ldm(
+            own_station_id=station_id,
+            ldm_location=ldm_location,
+            callback_function=ldm_subscription_callback,
+        )
+
+        # Facility - Device Data Provider
+        device_data_provider = DeviceDataProvider(station_id=station_id)
+
+        # Facility - VRU Awareness Service
+        vru_awareness_service = VRUAwarenessService(
+            btp_router=btp_router, device_data_provider=device_data_provider, ldm=local_dynamic_map
+        )
+        btp_router.freeze_callbacks()
+        location_service.add_callback(vru_awareness_service.vam_transmission_management.location_service_callback)
+
+
+    if __name__ == "__main__":
+        args = argparse.ArgumentParser(description="FlexStack CAM Sender/Receiver")
+        args.add_argument("--station-id", type=int, default=0, help="Station ID")
+        args.add_argument("--log-level", type=str, default="INFO", help="Logging level (DEBUG, INFO)")
+        args = args.parse_args()
+
+        configure_v2x(args.station_id, args.log_level)
+        try:
+            while True:
+                sleep(1)
+        except KeyboardInterrupt:
+            print("\nKeyboardInterrupt caught. Cleaning up...")
+            exit(0)
 
 The only issue that may be encountered here is `Networking
 Interface <issues-networking-interface.md>`__.
@@ -480,13 +514,6 @@ Interface <issues-networking-interface.md>`__.
 Logging is included to provide a way to visualize sent messages. View
 `Logging <logging.md>`__ for detailed usage instructions.
 
---------------
-
-Interfacing with the VRU Basic Service
---------------------------------------
-
-Interaction between the application layer and lower facility layers is
-done through the `Local Dynamic Map <local-dynamic-map.md>`__.
 
 --------------
 
