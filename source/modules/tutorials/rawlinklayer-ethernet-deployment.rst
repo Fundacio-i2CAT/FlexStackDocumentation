@@ -94,12 +94,21 @@ Or;
 
    AttributeError: 'RawLinkLayer' object has no attribute 'sock'
 
-To fix this use ``sudo``. To use ``sudo`` the current path must be
-exported. To run the script run;
+To fix this use ``sudo``. Two options are possible; 
 
-.. code:: py
+1. Enter the command ``sudo su`` to become root.
 
-   sudo env PATH=$PATH python test.py 
+   .. code:: py
+
+      sudo su
+      source <name_of_virtual_environment>/bin/activate
+      python <name_of_script>.py
+
+2. Run the script with ``sudo`` directly.
+
+   .. code:: py
+
+      sudo env PATH=$PATH python <name_of_script>.py 
 
 This should work and logging messages showing the components internal
 logs should start appearing.

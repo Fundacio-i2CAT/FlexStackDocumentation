@@ -553,77 +553,105 @@ Subscription Callback.</p>
 <p>The Local Dynamic Map can be used in conjunction with any Facility Layer component, in this case the <a class="reference external" href="vru-basic-service.md">VRU Awareness
 Message</a> is presented;</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">exit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">exit</span>
 
 
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceDataProvider</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceDataProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span>
 
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ldm_factory</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Location</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">LDMFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Location</span><span class="p">,</span>
+    <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
+<span class="p">)</span>
 
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
 
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
 
- <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
-
-
- <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-
- <span class="c1"># Geonet</span>
- <span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00\x00\x00\x00\x00\x00</span><span class="s2">&quot;</span>
- <span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
- <span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
- <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
- <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
- <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
- <span class="n">gn_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
- <span class="c1"># Link-Layer</span>
- <span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="s2">&quot;lo&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span>
-                 <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
- <span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>
-
- <span class="c1"># BTP</span>
- <span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
- <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
 
 
- <span class="c1"># Facility - Location Service</span>
- <span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__configure_logging</span><span class="p">(</span><span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">numeric_level</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">log_level</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numeric_level</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid log level: </span><span class="si">{</span><span class="n">log_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">numeric_level</span><span class="p">)</span>
 
- <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
 
- <span class="c1"># Facility - Local Dynamic Maps</span>
- <span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">()</span>
- <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
- <span class="n">local_dynamic_map</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="p">(</span>
-     <span class="n">ldm_location</span><span class="p">,</span> <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span> <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span> <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span>
- <span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ldm_subscription_callback</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data_objects</span><span class="p">)</span>
 
- <span class="c1"># Facility - Device Data Provider</span>
- <span class="n">device_data_provider</span> <span class="o">=</span> <span class="n">DeviceDataProvider</span><span class="p">()</span>
 
- <span class="c1"># Facility - VRU Awareness Service</span>
- <span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
-                                             <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">,</span>
-                                             <span class="n">ldm</span><span class="o">=</span><span class="n">local_dynamic_map</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">configure_v2x</span><span class="p">(</span><span class="n">station_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="c1"># Configure logging level</span>
+    <span class="n">__configure_logging</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span>
 
- <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">vru_awareness_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+    <span class="c1"># Geonet</span>
+    <span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00\x00\x00\x00\x00</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">station_id</span><span class="p">])</span>
+    <span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
+    <span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
+    <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
+    <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
+    <span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
+    <span class="n">gn_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
- <span class="c1"># Application code should be placed here, for now a simple sleep loop is used;</span>
- <span class="k">try</span><span class="p">:</span>
-     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-         <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
- <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">KeyboardInterrupt caught. Cleaning up...&quot;</span><span class="p">)</span>
-     <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Link-Layer</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="s2">&quot;lo&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span> <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
+    <span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>
+
+    <span class="c1"># BTP</span>
+    <span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+    <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+
+
+    <span class="c1"># Facility - Location Service</span>
+    <span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
+
+    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
+
+    <span class="c1"># Facility - Local Dynamic Maps</span>
+    <span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">()</span>
+    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+    <span class="n">ldm_factory</span> <span class="o">=</span> <span class="n">LDMFactory</span><span class="p">()</span>
+    <span class="n">local_dynamic_map</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="o">.</span><span class="n">create_ldm</span><span class="p">(</span>
+        <span class="n">ldm_location</span><span class="p">,</span> <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span> <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span> <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ldm_factory</span><span class="o">.</span><span class="n">subscribe_to_ldm</span><span class="p">(</span>
+        <span class="n">own_station_id</span><span class="o">=</span><span class="n">station_id</span><span class="p">,</span>
+        <span class="n">ldm_location</span><span class="o">=</span><span class="n">ldm_location</span><span class="p">,</span>
+        <span class="n">callback_function</span><span class="o">=</span><span class="n">ldm_subscription_callback</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Facility - Device Data Provider</span>
+    <span class="n">device_data_provider</span> <span class="o">=</span> <span class="n">DeviceDataProvider</span><span class="p">(</span><span class="n">station_id</span><span class="o">=</span><span class="n">station_id</span><span class="p">)</span>
+
+    <span class="c1"># Facility - VRU Awareness Service</span>
+    <span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span>
+        <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span> <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">,</span> <span class="n">ldm</span><span class="o">=</span><span class="n">local_dynamic_map</span>
+    <span class="p">)</span>
+    <span class="n">btp_router</span><span class="o">.</span><span class="n">freeze_callbacks</span><span class="p">()</span>
+    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">vru_awareness_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;FlexStack CAM Sender/Receiver&quot;</span><span class="p">)</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--station-id&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Station ID&quot;</span><span class="p">)</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--log-level&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Logging level (DEBUG, INFO)&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">configure_v2x</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">station_id</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">KeyboardInterrupt caught. Cleaning up...&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The only issue that may be encountered here is <a class="reference external" href="issues-networking-interface.md">Networking

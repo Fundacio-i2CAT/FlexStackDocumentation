@@ -284,11 +284,21 @@ probably raise one of the following errors;</p>
 <div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="ne">AttributeError</span><span class="p">:</span> <span class="s1">&#39;RawLinkLayer&#39;</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s1">&#39;sock&#39;</span>
 </pre></div>
 </div>
-<p>To fix this use <code class="docutils literal notranslate"><span class="pre">sudo</span></code>. To use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> the current path must be
-exported. To run the script run;</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>sudo env PATH=$PATH python test.py
+<p>To fix this use <code class="docutils literal notranslate"><span class="pre">sudo</span></code>. Two options are possible;</p>
+<ol class="arabic">
+<li><p>Enter the command <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">su</span></code> to become root.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span>
+<span class="n">source</span> <span class="o">&lt;</span><span class="n">name_of_virtual_environment</span><span class="o">&gt;/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+<span class="n">python</span> <span class="o">&lt;</span><span class="n">name_of_script</span><span class="o">&gt;.</span><span class="n">py</span>
 </pre></div>
 </div>
+</li>
+<li><p>Run the script with <code class="docutils literal notranslate"><span class="pre">sudo</span></code> directly.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>sudo env PATH=$PATH python &lt;name_of_script&gt;.py
+</pre></div>
+</div>
+</li>
+</ol>
 <p>This should work and logging messages showing the components internal
 logs should start appearing.</p>
 </section>
