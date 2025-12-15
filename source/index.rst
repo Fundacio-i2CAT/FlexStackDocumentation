@@ -120,7 +120,6 @@ Attributions of Third Party Components of this work:
 
    overview
    getting_started
-   architecture
 
 .. toctree::
    :maxdepth: 2
@@ -128,11 +127,7 @@ Attributions of Third Party Components of this work:
 
    modules/link_layer
    modules/geonetworking
-   modules/security
    modules/btp
-   modules/facilities
-   modules/applications
-   modules/utils
 
 .. toctree::
    :maxdepth: 2

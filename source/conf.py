@@ -9,13 +9,15 @@
 project = 'FlexStack'
 copyright = '2025, i2CAT Foundation'
 author = 'i2CAT Foundation'
-release = '0.9.6'
+release = '0.10.7'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     'sphinx.ext.githubpages',
+    'sphinxcontrib.mermaid',
+    'sphinx_design',
 ]
 
 templates_path = ['_templates']

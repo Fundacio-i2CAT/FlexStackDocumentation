@@ -1,3 +1,5 @@
 sphinx==7.1.2
 sphinx-rtd-theme==3.0.2
 sphinxcontrib-napoleon==0.7
+sphinxcontrib-mermaid==1.0.0
+sphinx-design==0.5.0

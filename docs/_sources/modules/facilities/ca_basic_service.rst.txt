@@ -1,201 +1,497 @@
+.. _ca_basic_service:
+
 Cooperative Awareness (CA) Basic Service
 ========================================
 
-Introduction
+The CA Basic Service is the heart of vehicle awareness in V2X — it broadcasts **Cooperative Awareness 
+Messages (CAMs)** that tell nearby vehicles "I'm here, this is my position, speed, and heading."
+
+.. note::
+
+   The CA Basic Service implements ETSI TS 103 900 V2.1.1 (2023-11). CAMs are the most fundamental 
+   V2X message type, enabling vehicles to be aware of each other's presence.
+
+What CAMs Contain
+-----------------
+
+Every CAM broadcasts essential information about your vehicle:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - **Position**
+     - GPS coordinates (latitude, longitude, altitude)
+   * - **Speed**
+     - Current velocity in m/s
+   * - **Heading**
+     - Direction of travel (degrees from north)
+   * - **Station ID**
+     - Unique identifier for this vehicle
+   * - **Station Type**
+     - Vehicle category (car, truck, motorcycle, etc.)
+   * - **Vehicle Size**
+     - Length and width dimensions
+
+Architecture
 ------------
-The FlexStack comes with an implementation of the Cooperative Awareness (CA) Basic Service based on the standard ETSI TS 103 900 V2.1.1 (2023-11).
-This service disseminates and processes the so-called Cooperative Awareness Messages (CAM)s that contain information about the sending vehicle, such as its position, speed, or heading
-with additional descriptive information like vehicle length or width.
 
-The implementation provided by the FlexStack Community Edition sends those messages whenever the Location Service (see :ref:`location_service`) provides a new location update.
-Also processes those messages on reception and provides the information to the Location Data Management (LDM) (see :ref:`ldm`).
+The CA Basic Service sits in the **Facilities Layer** and connects to BTP for transport:
 
-Diagram
--------
+.. mermaid::
 
-.. image:: /_static/img/ca_basic_service.png
-    :alt: Cooperative Awareness Basic Service
+   erdiagram TB
+       subgraph "Facilities Layer"
+           subgraph CA["CA Basic Service"]
+              TM[Transmission<br/>Management]
+              RM[Reception<br/>Management]
+           end
+           LDM[(Local Dynamic Map)]
+       end
+       
+       subgraph "Location"
+           LOC[Location Service]
+       end
+       
+       subgraph "Transport"
+           BTP[BTP Router<br/>Port 2001]
+       end
+       
+       LOC -->|"Position Updates"| TM
+       TM -->|"Generate CAM"| CA
+       CA <-->|"Send/Receive"| BTP
+       CA -->|"Store Received"| LDM
+       RM -->|"Process CAM"| CA
+       
+       style CA fill:#fff3e0,stroke:#f57c00
+       style LDM fill:#e8f5e9
 
-Usage
------
+**How it works:**
 
-To instantiate the Cooperative Awareness Basic Service, you need to import the following modules.
+1. **Sending**: Location Service updates trigger CAM generation → sent via BTP port 2001
+2. **Receiving**: Incoming CAMs on port 2001 → processed and stored in LDM
 
-.. code-block:: python
+----
 
-    from flexstack.facilities.ca_basic_service.ca_basic_service import CooperativeAwarenessBasicService
-    from flexstack.facilities.ca_basic_service.cam_transmission_management import VehicleData
+Getting Started
+---------------
 
-On one side there is the CooperativeAwarenessBasicService class that literally carries the implementation of that service.
-On the other side, there is the VehicleData class that contains the information about the sending vehicle.
-The VehicleData must be passed to the CooperativeAwarenessBasicService constructor with the vehicle's parameters.
-To configure the vehicle data class its parameters can be set following the format specified in the ETSI TS 102 894-2 V2.3.1 (2024-08) standard.
-Here a basic example:
+Step 1: Configure Vehicle Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: python
-
-    vehicle_data = VehicleData()
-    station_id = 0 # Station Id of the ITS PDU Header
-    station_type = 0 # Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
-    drive_direction = "unavailable"
-    vehicle_length = {
-        "vehicleLengthValue": 1023, # as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
-        "vehicleLengthConfidenceIndication": "unavailable",
-    }
-    vehicle_width = 62
-
-Before instantiating the CooperativeAwarenessBasicService, you need to have a Location Data Management (LDM) (see: :ref:`local_dynamic_map`) instance and a BTP Router instance (see: :ref:`btp_router`).
-
-
-.. code-block:: python
-
-    ca_basic_service = CooperativeAwarenessBasicService(
-        btp_router=btp_router,
-        vehicle_data=vehicle_data,
-        ldm = ldm,
-    )
-
-Once the service has been instantiated it will start automatically processing all the incoming Cooperative Awareness Messages (CAMs), but to send the CAMs you need to add a callback to the Location Service (see: :ref:`location_service`).
+First, describe your vehicle using ``VehicleData``:
 
 .. code-block:: python
 
-    location_service.add_callback(ca_basic_service.cam_transmission_management.location_service_callback)
+   from flexstack.facilities.ca_basic_service.cam_transmission_management import VehicleData
 
+   vehicle_data = VehicleData(
+       station_id=12345,              # Unique ID for your station
+       station_type=5,                # 5 = Passenger car
+       drive_direction="forward",     # "forward", "backward", or "unavailable"
+       vehicle_length={
+           "vehicleLengthValue": 42,  # Length in 10cm units (42 = 4.2m)
+           "vehicleLengthConfidenceIndication": "unavailable",
+       },
+       vehicle_width=18,              # Width in 10cm units (18 = 1.8m)
+   )
 
-Basic Script sending and receiving CAMs
----------------------------------------
+**VehicleData Parameters:**
 
-Here is a basic script that sends and receives CAMs with a basic Ethernet Layer 2 Linux Interface:
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Parameter
+     - Type
+     - Description
+   * - ``station_id``
+     - ``int``
+     - Unique station identifier (1 to 2^31-1)
+   * - ``station_type``
+     - ``int``
+     - Vehicle type code (see table below)
+   * - ``drive_direction``
+     - ``str``
+     - ``"forward"``, ``"backward"``, or ``"unavailable"``
+   * - ``vehicle_length``
+     - ``dict``
+     - Length value (0.1m units) and confidence
+   * - ``vehicle_width``
+     - ``int``
+     - Width in 0.1m units (1-62, where 62 = unavailable)
+
+**Station Types:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 25 60
+
+   * - Value
+     - Type
+     - Description
+   * - 0
+     - Unknown
+     - Unknown station type
+   * - 1
+     - Pedestrian
+     - Person on foot
+   * - 2
+     - Cyclist
+     - Bicycle rider
+   * - 3
+     - Moped
+     - Moped/scooter
+   * - 4
+     - Motorcycle
+     - Motorcycle
+   * - 5
+     - Passenger Car
+     - Standard automobile
+   * - 6
+     - Bus
+     - Bus/coach
+   * - 7
+     - Light Truck
+     - Light commercial vehicle
+   * - 8
+     - Heavy Truck
+     - Heavy goods vehicle
+   * - 15
+     - RSU
+     - Road Side Unit
+
+Step 2: Set Up Prerequisites
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The CA Basic Service requires:
+
+- A **BTP Router** (for sending/receiving)
+- A **Local Dynamic Map** (for storing received CAMs)
+- A **Location Service** (for position updates)
 
 .. code-block:: python
 
-    # Link Layer Imports
-    from flexstack.linklayer.raw_link_layer import RawLinkLayer
+   from flexstack.btp.router import Router as BTPRouter
+   from flexstack.geonet.router import Router as GNRouter
+   from flexstack.geonet.mib import MIB
+   from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+   from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+   from flexstack.facilities.local_dynamic_map.ldm_classes import Location, GeometricArea, Circle
+   from flexstack.utils.static_location_service import ThreadStaticLocationService
 
-    # GeoNetworking imports
-    from flexstack.geonet.router import Router as GNRouter
-    from flexstack.geonet.mib import MIB
-    from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+   # Location Service
+   location_service = ThreadStaticLocationService(
+       period=1000,
+       latitude=41.386931,
+       longitude=2.112104,
+   )
 
-    # BTP Router imports
-    from flexstack.btp.router import Router as BTPRouter
+   # GeoNetworking + BTP
+   MAC_ADDRESS = b'\x00\x11\x22\x33\x44\x55'
+   mib = MIB(itsGnLocalGnAddr=GNAddress(m=M.GN_MULTICAST, st=ST.PASSENGER_CAR, mid=MID(MAC_ADDRESS)))
+   gn_router = GNRouter(mib=mib, sign_service=None)
+   btp_router = BTPRouter(gn_router)
+   gn_router.register_indication_callback(btp_router.btp_data_indication)
+   location_service.add_callback(gn_router.refresh_ego_position_vector)
 
-    # Location Service imports
-    from flexstack.utils.static_location_service import ThreadStaticLocationService
+   # Local Dynamic Map
+   ldm_location = Location.initializer(latitude=413869310, longitude=21121040)
+   ldm_factory = LDMFactory()
+   ldm = ldm_factory.create_ldm(
+       ldm_location,
+       ldm_maintenance_type="Reactive",
+       ldm_service_type="Reactive",
+       ldm_database_type="Dictionary",
+   )
+   location_service.add_callback(ldm_location.location_service_callback)
 
-    # Local Dynamic Map imports
-    from flexstack.facilities.local_dynamic_map.factory import ldm_factory
-    from flexstack.facilities.local_dynamic_map.ldm_classes import (
-        Location,
-        SubscribeDataobjectsReq,
-        SubscribeDataObjectsResp,
-        RegisterDataConsumerReq,
-        RegisterDataConsumerResp,
-        RequestDataObjectsResp,
-    )
-    from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+Step 3: Create CA Basic Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    # CA Basic Service imports
-    from flexstack.facilities.ca_basic_service.ca_basic_service import (
-        CooperativeAwarenessBasicService,
-    )
-    from flexstack.facilities.ca_basic_service.cam_transmission_management import (
-        VehicleData,
-    )
+Now create the service and connect it to the location service:
 
-    POSITION_COORDINATES = [41.386931, 2.112104]
+.. code-block:: python
 
-    # Instantiate a Location Service
-    location_service = ThreadStaticLocationService(
-        period=100, latitude=POSITION_COORDINATES[0], longitude=POSITION_COORDINATES[1]
-    )
+   from flexstack.facilities.ca_basic_service.ca_basic_service import (
+       CooperativeAwarenessBasicService,
+   )
 
-    # Instantiate a GN router
-    mac_address = b"\xaa\xbb\xcc\x11\x21\x31"
-    mib = MIB()
-    gn_addr = GNAddress()
-    gn_addr.set_m(M.GN_MULTICAST)
-    gn_addr.set_st(ST.CYCLIST)
-    gn_addr.set_mid(MID(mac_address))
-    mib.itsGnLocalGnAddr = gn_addr
-    gn_router = GNRouter(mib=mib, sign_service=None)
-    location_service.add_callback(gn_router.refresh_ego_position_vector)
+   # Create the CA Basic Service
+   ca_basic_service = CooperativeAwarenessBasicService(
+       btp_router=btp_router,
+       vehicle_data=vehicle_data,
+       ldm=ldm,
+   )
 
-    # Instantiate a Link Layer
-    link_layer = RawLinkLayer(
-        "lo", mac_address, receive_callback=gn_router.gn_data_indicate
-    )
-    gn_router.link_layer = link_layer
+   # Connect location updates to trigger CAM transmission
+   location_service.add_callback(
+       ca_basic_service.cam_transmission_management.location_service_callback
+   )
 
-    # Instantiate a BTP router
-    btp_router = BTPRouter(gn_router)
-    gn_router.register_indication_callback(btp_router.btp_data_indication)
+That's it! The service will now:
 
-    # Instantiate a Local Dynamic Map (LDM)
-    ldm_location = Location.initializer()
-    ldm = ldm_factory(
-        ldm_location,
-        ldm_maintenance_type="Reactive",
-        ldm_service_type="Reactive",
-        ldm_database_type="Dictionary",
-    )
-    location_service.add_callback(ldm_location.location_service_callback)
+- ✅ **Automatically send CAMs** whenever the location service provides an update
+- ✅ **Automatically receive CAMs** and store them in the LDM
 
-    # Subscribe to LDM
-    register_data_consumer_reponse: RegisterDataConsumerResp = (
-        ldm.if_ldm_4.register_data_consumer(
-            RegisterDataConsumerReq(
-                application_id=CAM,
-                access_permisions=[CAM],
-                area_of_interest=ldm_location,
-            )
-        )
-    )
-    if register_data_consumer_reponse.result == 2:
-        exit(1)
+----
+
+Receiving CAMs
+--------------
+
+To be notified when CAMs arrive, subscribe to the LDM:
+
+.. code-block:: python
+
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       AccessPermission,
+       RegisterDataConsumerReq,
+       RegisterDataConsumerResp,
+       SubscribeDataobjectsReq,
+       SubscribeDataObjectsResp,
+       RequestDataObjectsResp,
+       Filter,
+       FilterStatement,
+       ComparisonOperators,
+       TimestampIts,
+       OrderTupleValue,
+       OrderingDirection,
+       SubscribeDataobjectsResult,
+   )
+
+   # Register as a CAM consumer
+   ldm.if_ldm_4.register_data_consumer(
+       RegisterDataConsumerReq(
+           application_id=CAM,
+           access_permisions=(AccessPermission.CAM,),
+           area_of_interest=ldm_area,
+       )
+   )
+
+   # Callback when CAMs are received
+   def on_cam_received(data: RequestDataObjectsResp) -> None:
+       cam = data.data_objects[0]["dataObject"]
+       station_id = cam["header"]["stationId"]
+       print(f"🚗 Received CAM from station {station_id}")
+
+   # Subscribe to CAM updates (filtering out our own)
+   ldm.if_ldm_4.subscribe_data_consumer(
+       SubscribeDataobjectsReq(
+           application_id=CAM,
+           data_object_type=(CAM,),
+           priority=1,
+           filter=Filter(
+               filter_statement_1=FilterStatement(
+                   "header.stationId",
+                   ComparisonOperators.NOT_EQUAL,
+                   MY_STATION_ID,  # Don't notify about our own CAMs
+               )
+           ),
+           notify_time=TimestampIts(0),
+           multiplicity=1,
+           order=(OrderTupleValue(
+               attribute="cam.generationDeltaTime",
+               ordering_direction=OrderingDirection.ASCENDING,
+           ),),
+       ),
+       on_cam_received,
+   )
+
+----
+
+CAM Message Structure
+---------------------
+
+A CAM contains three main containers:
+
+.. mermaid::
+
+   flowchart LR
+       subgraph CAM[CAM Message]
+           H[ITS PDU Header]
+           BC[Basic Container]
+           HFC[High Frequency Container]
+           LFC[Low Frequency Container]
+       end
+       
+       H --> BC --> HFC --> LFC
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Container
+     - Contents
+   * - **ITS PDU Header**
+     - Protocol version, message ID, station ID
+   * - **Basic Container**
+     - Station type, reference position
+   * - **High Frequency Container**
+     - Heading, speed, drive direction, vehicle length, width, acceleration
+   * - **Low Frequency Container**
+     - Vehicle role, exterior lights, path history
+
+----
+
+Complete Example
+----------------
+
+Here's a complete script that sends and receives CAMs:
+
+.. code-block:: python
+   :linenos:
+
+   #!/usr/bin/env python3
+   """
+   CA Basic Service Example
+   
+   Broadcasts CAMs and listens for nearby vehicles.
+   Run with: sudo python cam_example.py
+   """
+
+   import logging
+   import random
+   import time
+
+   from flexstack.linklayer.raw_link_layer import RawLinkLayer
+   from flexstack.geonet.router import Router as GNRouter
+   from flexstack.geonet.mib import MIB
+   from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+   from flexstack.btp.router import Router as BTPRouter
+   from flexstack.utils.static_location_service import ThreadStaticLocationService
+   from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       AccessPermission, Circle, ComparisonOperators, Filter, FilterStatement,
+       GeometricArea, Location, OrderTupleValue, OrderingDirection,
+       RegisterDataConsumerReq, RegisterDataConsumerResp, RequestDataObjectsResp,
+       SubscribeDataobjectsReq, SubscribeDataObjectsResp, SubscribeDataobjectsResult,
+       TimestampIts,
+   )
+   from flexstack.facilities.ca_basic_service.ca_basic_service import (
+       CooperativeAwarenessBasicService,
+   )
+   from flexstack.facilities.ca_basic_service.cam_transmission_management import VehicleData
+
+   logging.basicConfig(level=logging.INFO)
+
+   # Configuration
+   POSITION = [41.386931, 2.112104]  # Barcelona
+   MAC_ADDRESS = bytes([random.randint(0, 255) for _ in range(6)])
+   STATION_ID = random.randint(1, 2147483647)
 
 
-    def ldm_subscription_callback(data: RequestDataObjectsResp) -> None:
-        # We are printing any received CAM message.
-        print(data.data_objects[0]["dataObject"])
+   def on_cam_received(data: RequestDataObjectsResp) -> None:
+       """Called when a CAM is received from another vehicle."""
+       station_id = data.data_objects[0]["dataObject"]["header"]["stationId"]
+       print(f"🚗 Received CAM from station: {station_id}")
 
 
-    subscribe_data_consumer_response: SubscribeDataObjectsResp = (
-        ldm.if_ldm_4.subscribe_data_consumer(
-            SubscribeDataobjectsReq(
-                application_id=CAM,
-                data_object_type=[CAM],
-                priority=None,
-                filter=None,
-                notify_time=0.5,
-                multiplicity=None,
-                order=None,
-            ),
-            ldm_subscription_callback,
-        )
-    )
-    if subscribe_data_consumer_response.result.result != 0:
-        raise Exception(
-            f"Failed to subscribe to data objects: {str(subscribe_data_consumer_response.result)}"
-        )
+   def main():
+       # Location Service
+       location_service = ThreadStaticLocationService(
+           period=1000, latitude=POSITION[0], longitude=POSITION[1]
+       )
 
-    # Instantiate a CA Basic Service
-    vehicle_data = VehicleData()
-    station_id = 10  # Station Id of the ITS PDU Header
-    station_type = 5  # Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
-    drive_direction = "forward"
-    vehicle_length = {
-        "vehicleLengthValue": 1023,  # as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)
-        "vehicleLengthConfidenceIndication": "unavailable",
-    }
-    vehicle_width = 62
+       # GeoNetworking
+       mib = MIB(itsGnLocalGnAddr=GNAddress(m=M.GN_MULTICAST, st=ST.CYCLIST, mid=MID(MAC_ADDRESS)))
+       gn_router = GNRouter(mib=mib, sign_service=None)
+       location_service.add_callback(gn_router.refresh_ego_position_vector)
 
-    ca_basic_service = CooperativeAwarenessBasicService(
-        btp_router=btp_router,
-        vehicle_data=vehicle_data,
-        ldm=ldm,
-    )
+       # BTP
+       btp_router = BTPRouter(gn_router)
+       gn_router.register_indication_callback(btp_router.btp_data_indication)
 
-    # Start sending CAM messages
-    location_service.start()
-    location_service.location_service_thread.join()
+       # Local Dynamic Map
+       ldm_location = Location.initializer(
+           latitude=int(POSITION[0] * 10**7),
+           longitude=int(POSITION[1] * 10**7),
+       )
+       ldm_area = GeometricArea(circle=Circle(radius=5000), rectangle=None, ellipse=None)
+       ldm = LDMFactory().create_ldm(
+           ldm_location, ldm_maintenance_type="Reactive",
+           ldm_service_type="Reactive", ldm_database_type="Dictionary",
+       )
+       location_service.add_callback(ldm_location.location_service_callback)
+
+       # Register with LDM
+       ldm.if_ldm_4.register_data_consumer(RegisterDataConsumerReq(
+           application_id=CAM, access_permisions=(AccessPermission.CAM,), area_of_interest=ldm_area,
+       ))
+
+       # Subscribe to CAMs
+       ldm.if_ldm_4.subscribe_data_consumer(
+           SubscribeDataobjectsReq(
+               application_id=CAM, data_object_type=(CAM,), priority=1,
+               filter=Filter(filter_statement_1=FilterStatement(
+                   "header.stationId", ComparisonOperators.NOT_EQUAL, STATION_ID,
+               )),
+               notify_time=TimestampIts(0), multiplicity=1,
+               order=(OrderTupleValue(
+                   attribute="cam.generationDeltaTime",
+                   ordering_direction=OrderingDirection.ASCENDING,
+               ),),
+           ),
+           on_cam_received,
+       )
+
+       # CA Basic Service
+       vehicle_data = VehicleData(
+           station_id=STATION_ID, station_type=5, drive_direction="forward",
+           vehicle_length={"vehicleLengthValue": 1023, "vehicleLengthConfidenceIndication": "unavailable"},
+           vehicle_width=62,
+       )
+       ca_service = CooperativeAwarenessBasicService(
+           btp_router=btp_router, vehicle_data=vehicle_data, ldm=ldm,
+       )
+       location_service.add_callback(ca_service.cam_transmission_management.location_service_callback)
+
+       # Link Layer
+       btp_router.freeze_callbacks()
+       link_layer = RawLinkLayer("lo", MAC_ADDRESS, receive_callback=gn_router.gn_data_indicate)
+       gn_router.link_layer = link_layer
+
+       print("✅ CA Basic Service running!")
+       print("📡 Broadcasting CAMs...")
+       print("Press Ctrl+C to exit\n")
+
+       try:
+           while True:
+               time.sleep(1)
+       except KeyboardInterrupt:
+           print("\n👋 Shutting down...")
+
+       location_service.stop_event.set()
+       location_service.location_service_thread.join()
+       link_layer.sock.close()
+
+
+   if __name__ == "__main__":
+       main()
+
+----
+
+CAM Generation Rules
+--------------------
+
+According to ETSI standards, CAMs are generated when:
+
+1. **Time-based**: At least every 1 second (T_GenCamMax)
+2. **Position change**: When position changes by more than 4 meters
+3. **Speed change**: When speed changes by more than 0.5 m/s
+4. **Heading change**: When heading changes by more than 4 degrees
+
+The minimum interval between CAMs is 100ms (T_GenCamMin).
+
+----
+
+See Also
+--------
+
+- :doc:`/getting_started` — Complete tutorial with CA Basic Service
+- :doc:`local_dynamic_map` — Where received CAMs are stored
+- :doc:`den_service` — Decentralized Environmental Notifications (hazard warnings)
+- :doc:`/modules/btp` — Transport layer (BTP port 2001)

@@ -6,20 +6,30 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; FlexStack 0.9.6 documentation</title>
+  <title>Getting Started &mdash; FlexStack 0.10.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=7430def1"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=31ca06fa"></script>
       <script src="_static/doctools.js?v=888ff710"></script>
       <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/design-tabs.js?v=36754332"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="FlexStack Architecture" href="architecture.html" />
+    <link rel="next" title="Link Layer" href="modules/link_layer.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
 </head>
 
@@ -49,124 +59,256 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-you-ll-build">What You’ll Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setting-up-the-example">Setting up the example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#logging">Logging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#location-service">Location Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#link-layer">Link Layer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#geonetworking">GeoNetworking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#btp">BTP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#facilities-layer">Facilities Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-protocol-stack">Understanding the Protocol Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-by-step-tutorial">Step-by-Step Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-basic-setup">Step 1: Basic Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-location-service">Step 2: Location Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-geonetworking-router">Step 3: GeoNetworking Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-btp-router">Step 4: BTP Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-local-dynamic-map-ldm">Step 5: Local Dynamic Map (LDM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-6-ca-basic-service">Step 6: CA Basic Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-7-link-layer">Step 7: Link Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-8-run-the-application">Step 8: Run the Application</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#complete-script">Complete Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#need-help">Need Help?</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">FlexStack Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/link_layer.html">Link Layer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#cv2xlinklayer">CV2XLinkLayer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#components">Components</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#building-the-library">Building the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#choosing-a-link-layer">Choosing a Link Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#rawlinklayer">RawLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#quick-start">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#complete-example">Complete Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#complete-script">Complete Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#pythoncv2xlinklayer">PythonCV2XLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#id2">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#id3">Complete Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#cv2xlinklayer-c-library">CV2XLinkLayer C++ Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#library-components">Library Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#building-from-source">Building from Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/link_layer.html#direct-c-api-usage">Direct C++ API Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/link_layer.html#integration-with-flexstack">Integration with FlexStack</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/geonetworking.html">GeoNetworking (GN)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#router-instantiation">Router Instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#what-geonetworking-does">What GeoNetworking Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#architecture">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#key-components">Key Components</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#step-1-configure-the-mib">Step 1: Configure the MIB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#step-2-create-the-router">Step 2: Create the Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#step-3-provide-position-updates">Step 3: Provide Position Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#step-4-connect-to-link-layer">Step 4: Connect to Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules/security.html">Security Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#receiving-packets">Receiving Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#see-also">See Also</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules/btp.html">Basic Transport Protocol (BTP)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#router-instantiation">Router Instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#request-sending-btp-packet">Request Sending BTP Packet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#what-btp-does">What BTP Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#architecture">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#btp-types">BTP Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#well-known-ports">Well-Known Ports</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#step-1-create-geonetworking-router">Step 1: Create GeoNetworking Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#step-2-create-btp-router">Step 2: Create BTP Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#step-3-register-port-callbacks">Step 3: Register Port Callbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#step-4-freeze-callbacks">Step 4: Freeze Callbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/btp.html#step-5-connect-link-layer">Step 5: Connect Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules/applications.html">Applications Layer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#receiving-packets">Receiving Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#integration-with-facilities">Integration with Facilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/btp.html#see-also">See Also</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#what-cams-contain">What CAMs Contain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/ca_basic_service.html#step-1-configure-vehicle-data">Step 1: Configure Vehicle Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/ca_basic_service.html#step-2-set-up-prerequisites">Step 2: Set Up Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/ca_basic_service.html#step-3-create-ca-basic-service">Step 3: Create CA Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#receiving-cams">Receiving CAMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#cam-message-structure">CAM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#cam-generation-rules">CAM Generation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/ca_basic_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-basic-service-management">VRU Basic Service Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-cluster-management">VRU Cluster Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-reception-management">VAM Reception Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-transmission-management">VAM Transmission Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#what-are-vrus">What Are VRUs?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-vs-cam">VAM vs CAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#step-1-configure-device-data-provider">Step 1: Configure Device Data Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#step-2-set-up-prerequisites">Step 2: Set Up Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#step-3-create-vru-awareness-service">Step 3: Create VRU Awareness Service</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-generation-rules">VAM Generation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vam-message-structure">VAM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#vru-clustering">VRU Clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/vru_awareness_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#denm-overview">DENM Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-service">DEN Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-reception-management">DEN Reception Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#what-denms-are-for">What DENMs Are For</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#cam-vs-denm">CAM vs DENM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#step-1-create-den-service">Step 1: Create DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/den_service.html#step-2-use-an-application-service">Step 2: Use an Application Service</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#emergency-vehicle-approaching-service">Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#denm-lifecycle">DENM Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#denm-message-structure">DENM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#cause-codes">Cause Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/den_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-service">LDM Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-maintenance">LDM Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#what-the-ldm-does">What the LDM Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#supported-data-types">Supported Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#step-1-create-the-ldm">Step 1: Create the LDM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#step-2-connect-location-updates">Step 2: Connect Location Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#step-3-connect-to-facility-services">Step 3: Connect to Facility Services</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#data-providers">Data Providers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#register-a-custom-provider">Register a Custom Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#publish-data">Publish Data</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#data-consumers">Data Consumers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#register-as-a-consumer">Register as a Consumer</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#querying-the-ldm">Querying the LDM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#basic-query">Basic Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#filtered-query">Filtered Query</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#subscribing-to-updates">Subscribing to Updates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#subscribe-example">Subscribe Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#area-of-maintenance">Area of Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/facilities/local_dynamic_map.html#see-also">See Also</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/docker-deployment.html">Docker Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/logging.html">Logging</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#logging-configuration">Logging Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#simple-configuration-logging">Simple Configuration Logging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#file-configuration-logging">File Configuration Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/docker-deployment.html">Docker Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#why-use-docker">Why Use Docker?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#step-1-create-project-structure">Step 1: Create Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#step-2-create-the-dockerfile">Step 2: Create the Dockerfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#step-3-create-the-application">Step 3: Create the Application</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#running-a-single-container">Running a Single Container</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#build-and-run">Build and Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#with-custom-arguments">With Custom Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#running-multiple-stations">Running Multiple Stations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#docker-compose-setup">Docker Compose Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#start-all-stations">Start All Stations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#communication-flow">Communication Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#scaling-stations">Scaling Stations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#advanced-configuration">Advanced Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#volume-mounting">Volume Mounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#health-checks">Health Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/docker-deployment.html#debug-commands">Debug Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#complete-project">Complete Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/docker-deployment.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html">Ethernet Deployment with RawLinkLayer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#how-it-works">How It Works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#step-1-find-your-network-interface">Step 1: Find Your Network Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#step-2-create-your-application">Step 2: Create Your Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#step-3-run-with-root-privileges">Step 3: Run with Root Privileges</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#common-errors">Common Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#testing-locally">Testing Locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#two-station-test">Two-Station Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#network-capture">Network Capture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#mac-address-configuration">MAC Address Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/rawlinklayer-ethernet-deployment.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/tutorials/logging.html">Logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#log-levels">Log Levels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#one-line-setup">One-Line Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#better-formatting">Better Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#component-loggers">Component Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#filtering-by-component">Filtering by Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#logging-to-file">Logging to File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#configuration-file">Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#debug-a-specific-issue">Debug a Specific Issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#production-logging">Production Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/tutorials/logging.html#json-logging">JSON Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/tutorials/logging.html#see-also">See Also</a></li>
 </ul>
 </li>
 </ul>
@@ -197,366 +339,562 @@
              
   <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
-<p>The flexStack(R) library was designed to be easy to use and to facilitate the development of V2X applications. This section will guide you through the process of setting up the library and running a simple example.</p>
+<p>Welcome to FlexStack®! This tutorial will walk you through building your first V2X application — a vehicle that broadcasts
+its position to nearby vehicles using <strong>Cooperative Awareness Messages (CAMs)</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By the end of this tutorial, you’ll have a working V2X station that can send and receive CAM messages,
+the foundation of vehicle-to-vehicle communication.</p>
+</div>
+<section id="what-you-ll-build">
+<h2>What You’ll Build<a class="headerlink" href="#what-you-ll-build" title="Permalink to this heading"></a></h2>
+<p>In this tutorial, you’ll create a simple V2X application that:</p>
+<ul class="simple">
+<li><p>📡 <strong>Broadcasts</strong> your vehicle’s position, speed, and heading to nearby vehicles</p></li>
+<li><p>📥 <strong>Receives</strong> CAM messages from other vehicles</p></li>
+<li><p>🗺️ <strong>Stores</strong> received data in a Local Dynamic Map (LDM)</p></li>
+</ul>
+<p>This is the “Hello World” of V2X — the Cooperative Awareness use case that enables vehicles to know about each other’s presence on the road.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<p>Before starting, make sure you have:</p>
+<ul class="simple">
+<li><p>Python 3.8 or higher</p></li>
+<li><p>Linux operating system (required for raw socket access)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sudo</span></code> privileges (needed for low-level network access)</p></li>
+</ul>
+</section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p>The library can be easily installed using the <cite>pip</cite> command:</p>
+<p>Install FlexStack® using pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>v2xflexstack
 </pre></div>
 </div>
-<p>This will automatically install the library and all its dependencies.</p>
-<p>The library has been coded for python versions above 3.8.</p>
+<p>That’s it! All dependencies are installed automatically.</p>
 </section>
-<section id="setting-up-the-example">
-<h2>Setting up the example<a class="headerlink" href="#setting-up-the-example" title="Permalink to this heading"></a></h2>
-<p>Usually the most basic use case behind anyone learning V2X, and more specifically the ETSI C-ITS standards, is
-the so-called Cooperative Awareness Use Case. Which relies on the dissemination and reception of Cooperative Awareness Messages (CAMs).</p>
-<p>CAMs disseminate the basic information of a vehicle, such as its position, speed, heading, and other relevant information.
-This information can then be used by other vehicles to make decisions, such as collision avoidance or even cooperative maneuvers.</p>
-<p>To be able to do that, there will be needed the instantiation of the whole protocol stack. From a the lowest levels, to GeoNetworking and BTP
-on the Network and Transport layers, to the Facilities Layer.</p>
-<p>For more information on each module that will be used, please refer to their reference documentation.</p>
-<p>The following lines will guide you through the instantiation of the whole protocol stack, and the instantiation of a Cooperative Awareness Basic Service.</p>
-<p>The idea behind this tutorial is for the reader to following it by copying and pasting the code snippets into a Python script.
-Understanding that the importing code snippets will be copied at the beggining of the script, and the instantiation code snippets will be copied in the main body of the script.</p>
-<section id="logging">
-<h3>Logging<a class="headerlink" href="#logging" title="Permalink to this heading"></a></h3>
-<p>FlexStack(R) modules use the Python logging module to log messages. To enable logging, you can use the following code:</p>
+<section id="understanding-the-protocol-stack">
+<h2>Understanding the Protocol Stack<a class="headerlink" href="#understanding-the-protocol-stack" title="Permalink to this heading"></a></h2>
+<p>Before diving into code, let’s understand what we’re building. The ETSI C-ITS protocol stack looks like this:</p>
+<pre  class="mermaid">
+        graph TB
+    subgraph &quot;Application Layer&quot;
+        APP[Your Application]
+    end
+    subgraph &quot;Facilities Layer&quot;
+        LDM[Local Dynamic Map]
+        CAM[CA Basic Service]
+    end
+    subgraph &quot;Transport &amp; Network&quot;
+        BTP[BTP Router]
+        GN[GeoNetworking Router]
+    end
+    subgraph &quot;Access Layer&quot;
+        LL[Link Layer]
+    end
+
+    APP --&gt; LDM
+    LDM --&gt; CAM
+    CAM &lt;--&gt; BTP
+    CAM --&gt; LDM
+    BTP &lt;--&gt; GN
+    GN &lt;--&gt; LL
+
+    style APP fill:#e1f5fe
+    style CAM fill:#fff3e0
+    style LDM fill:#fff3e0
+    style BTP fill:#f3e5f5
+    style GN fill:#f3e5f5
+    style LL fill:#e8f5e9
+    </pre><p>Each layer has a specific role:</p>
+<ul class="simple">
+<li><p><strong>Link Layer</strong>: Handles raw network communication (ITS-G5 or C-V2X)</p></li>
+<li><p><strong>GeoNetworking</strong>: Routes messages based on geographic position</p></li>
+<li><p><strong>BTP</strong>: Multiplexes messages to the correct service</p></li>
+<li><p><strong>Facilities Layer</strong>: Provides high-level services like CAM broadcasting</p></li>
+<li><p><strong>Local Dynamic Map</strong>: Stores and manages received V2X data</p></li>
+</ul>
+<p>We’ll build this stack from the bottom up.</p>
+</section>
+<section id="step-by-step-tutorial">
+<h2>Step-by-Step Tutorial<a class="headerlink" href="#step-by-step-tutorial" title="Permalink to this heading"></a></h2>
+<p>Let’s build our CAM broadcaster step by step. Create a new file called <code class="docutils literal notranslate"><span class="pre">cam_example.py</span></code> and follow along.</p>
+<section id="step-1-basic-setup">
+<h3>Step 1: Basic Setup<a class="headerlink" href="#step-1-basic-setup" title="Permalink to this heading"></a></h3>
+<p>First, let’s set up logging and define some constants for our vehicle:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Enable logging to see what&#39;s happening</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_random_mac_address</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a valid random MAC address.&quot;&quot;&quot;</span>
+    <span class="n">octets</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="c1"># Set locally administered and unicast bits</span>
+    <span class="n">octets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11111110</span><span class="p">)</span> <span class="o">|</span> <span class="mb">0b00000010</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">octets</span><span class="p">)</span>
+
+<span class="c1"># Vehicle configuration</span>
+<span class="n">POSITION_COORDINATES</span> <span class="o">=</span> <span class="p">[</span><span class="mf">41.386931</span><span class="p">,</span> <span class="mf">2.112104</span><span class="p">]</span>  <span class="c1"># Barcelona, Spain</span>
+<span class="n">MAC_ADDRESS</span> <span class="o">=</span> <span class="n">generate_random_mac_address</span><span class="p">()</span>
+<span class="n">STATION_ID</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2147483647</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="location-service">
-<h3>Location Service<a class="headerlink" href="#location-service" title="Permalink to this heading"></a></h3>
-<p>The ETSI C-ITS protocol stack requires the knowledge of the node’s position. To do so, there can be instantiated the so-called
-<cite>LocationService`s. Which provide periodical position updates to all protocols. The FlexStack(R) comes with the `GPSDLocationService</cite>
-which gets the position from a GPSD service or, in this tutorial, for simplicity reasons, an static location service will be used.</p>
-<p>To import the static location service:</p>
+<section id="step-2-location-service">
+<h3>Step 2: Location Service<a class="headerlink" href="#step-2-location-service" title="Permalink to this heading"></a></h3>
+<p>V2X is all about location. The protocol stack needs to know where your vehicle is. FlexStack® provides
+different location services — we’ll use a static one for this tutorial:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
-</pre></div>
-</div>
-<p>This <cite>LocationService</cite> feeds a fixed GPS position to all modules getting position from it.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">POSITION_COORDINATES</span> <span class="o">=</span> <span class="p">[</span><span class="mf">41.386931</span><span class="p">,</span> <span class="mf">2.112104</span><span class="p">]</span>
+
+<span class="c1"># Create a location service that reports our fixed position every second</span>
 <span class="n">location_service</span> <span class="o">=</span> <span class="n">ThreadStaticLocationService</span><span class="p">(</span>
-    <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">longitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Update every 1000ms</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="link-layer">
-<h3>Link Layer<a class="headerlink" href="#link-layer" title="Permalink to this heading"></a></h3>
-<p>The Access and Physical Layer of the ETSI C-ITS protocol stack can be instantiated with the so-called <cite>LinkLayer`s.
-Which either connect to the hardware enabling ITS G5 or C-V2X communications or other network infrastructure for testing purposes.
-If there is the appropriate hardware there can be instantiated the `PythonCV2XLinkLayer</cite> to use C-V2X. But in the present tutorial
-there will be used the <cite>RawLinkLayer</cite> that opens a Linux Layer 2 socket to send and receive packets.</p>
-<p>To import the raw link layer:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
-</pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In a real application, you’d use <code class="docutils literal notranslate"><span class="pre">GPSDLocationService</span></code> to get live GPS data from a GPSD daemon.</p>
 </div>
-<p>Then to instantiate it there can be used the following code snippet:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xaa\xbb\xcc\x11\x21\x11</span><span class="s2">&quot;</span>
-<span class="n">link_layer</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span>
-    <span class="s2">&quot;lo&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="p">,</span> <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>The <cite>“lo”</cite> parameter is the Linux layer 2 interface on which the messages will be sent/received. There MAC address also has to be configured.</p>
 </section>
-<section id="geonetworking">
-<h3>GeoNetworking<a class="headerlink" href="#geonetworking" title="Permalink to this heading"></a></h3>
-<p>The GeoNetworking (GN) protocol is one of the main pillars of the ETSI C-ITS protocol stack. To instantiate it, there just have to be
-configured a few parameters and then use it’s router.</p>
-<p>The following imports must be present:</p>
+<section id="step-3-geonetworking-router">
+<h3>Step 3: GeoNetworking Router<a class="headerlink" href="#step-3-geonetworking-router" title="Permalink to this heading"></a></h3>
+<p>GeoNetworking is the heart of V2X — it routes messages based on geographic areas. Let’s set it up:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
-</pre></div>
-</div>
-<p>The <cite>MIB</cite> object must be configured to instantiate the GN Router. Basically it has to be aligned with the pre-configured <cite>mac_address</cite>.
-And there are a few more parameters in the GN address that should also be configured.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
-<span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
-<span class="n">mib</span><span class="o">.</span><span class="n">itsGnLocalGnAddr</span> <span class="o">=</span> <span class="n">gn_addr</span>
+
+<span class="c1"># Configure the GeoNetworking Management Information Base (MIB)</span>
+<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">(</span>
+    <span class="n">itsGnLocalGnAddr</span><span class="o">=</span><span class="n">GNAddress</span><span class="p">(</span>
+        <span class="n">m</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">,</span>      <span class="c1"># Multicast addressing mode</span>
+        <span class="n">st</span><span class="o">=</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">,</span>         <span class="c1"># Station type (see ETSI TS 102 894-2)</span>
+        <span class="n">mid</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">MAC_ADDRESS</span><span class="p">),</span>  <span class="c1"># Mobile ID based on MAC address</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># Create the GeoNetworking router</span>
 <span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Connect location updates to the router</span>
 <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
-<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">link_layer</span>
 </pre></div>
 </div>
-<p>It’s important to remark that both the location service and the link layer previously instantiated must be
-connected to the GN Router; as it can be seen in the last two code lines.</p>
 </section>
-<section id="btp">
-<h3>BTP<a class="headerlink" href="#btp" title="Permalink to this heading"></a></h3>
-<p>The BTP protocol works as a transport protocol multiplexing all received GN messages to the right service/application.</p>
-<p>There is enough with importing the router:</p>
+<section id="step-4-btp-router">
+<h3>Step 4: BTP Router<a class="headerlink" href="#step-4-btp-router" title="Permalink to this heading"></a></h3>
+<p>The Basic Transport Protocol (BTP) multiplexes incoming messages to the right service based on port numbers:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
-</pre></div>
-</div>
-<p>Then to instantiate the BTP Router there is enough with instantiating it and connecting it to the BTP router:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+
+<span class="c1"># Create BTP router and connect it to GeoNetworking</span>
+<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
 <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="facilities-layer">
-<h3>Facilities Layer<a class="headerlink" href="#facilities-layer" title="Permalink to this heading"></a></h3>
-<p>There are two services mandatory to enable a Cooperative Awareness use case: The CA Basic Service itself and the Local Dynamic Map</p>
-<section id="local-dynamic-map">
-<h4>Local Dynamic Map<a class="headerlink" href="#local-dynamic-map" title="Permalink to this heading"></a></h4>
-<p>The Local Dynamic Map is the most complex and necessary facilities layer service. It basically
-collects all of the data coming from all facilities services to then serve this data to possible applications
-in the application layer.</p>
-<p>To instantiate it and give it a callback that will be called when a message is received the following modules should
-be imported:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ldm_factory</span>
+<section id="step-5-local-dynamic-map-ldm">
+<h3>Step 5: Local Dynamic Map (LDM)<a class="headerlink" href="#step-5-local-dynamic-map-ldm" title="Permalink to this heading"></a></h3>
+<p>The Local Dynamic Map is like a database for V2X — it stores all received messages and lets you query them.
+This is where you’ll find data about nearby vehicles:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">LDMFactory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AccessPermission</span><span class="p">,</span>
+    <span class="n">Circle</span><span class="p">,</span>
+    <span class="n">Filter</span><span class="p">,</span>
+    <span class="n">FilterStatement</span><span class="p">,</span>
+    <span class="n">ComparisonOperators</span><span class="p">,</span>
+    <span class="n">GeometricArea</span><span class="p">,</span>
     <span class="n">Location</span><span class="p">,</span>
+    <span class="n">OrderTupleValue</span><span class="p">,</span>
+    <span class="n">OrderingDirection</span><span class="p">,</span>
     <span class="n">SubscribeDataobjectsReq</span><span class="p">,</span>
     <span class="n">SubscribeDataObjectsResp</span><span class="p">,</span>
+    <span class="n">SubscribeDataobjectsResult</span><span class="p">,</span>
     <span class="n">RegisterDataConsumerReq</span><span class="p">,</span>
     <span class="n">RegisterDataConsumerResp</span><span class="p">,</span>
     <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
+    <span class="n">TimestampIts</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAM</span>
-</pre></div>
-</div>
-<p>The following code initializes a Local Dynamic Map and creates a callback function called <cite>ldm_subscription_callback</cite>
-which will be called periodically reporting all the received and cached CAM messages:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a Local Dynamic Map (LDM)</span>
-<span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="p">(</span>
-    <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">(),</span>
+
+<span class="c1"># Define our location for the LDM</span>
+<span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">(</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># Define area of interest: 5km radius around our position</span>
+<span class="n">ldm_area</span> <span class="o">=</span> <span class="n">GeometricArea</span><span class="p">(</span>
+    <span class="n">circle</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">5000</span><span class="p">),</span>
+    <span class="n">rectangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Create the LDM</span>
+<span class="n">ldm_factory</span> <span class="o">=</span> <span class="n">LDMFactory</span><span class="p">()</span>
+<span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="o">.</span><span class="n">create_ldm</span><span class="p">(</span>
+    <span class="n">ldm_location</span><span class="p">,</span>
     <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
     <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
     <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
 
-<span class="c1"># Subscribe to LDM</span>
-<span class="n">register_data_consumer_reponse</span><span class="p">:</span> <span class="n">RegisterDataConsumerResp</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
-        <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
-            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
-            <span class="n">access_permisions</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
-            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">ldm_location</span><span class="p">,</span>
-        <span class="p">)</span>
+<span class="c1"># Keep LDM updated with our position</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let’s register as a data consumer and subscribe to CAM messages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register as a consumer of CAM data</span>
+<span class="n">register_response</span><span class="p">:</span> <span class="n">RegisterDataConsumerResp</span> <span class="o">=</span> <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
+    <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
+        <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+        <span class="n">access_permisions</span><span class="o">=</span><span class="p">(</span><span class="n">AccessPermission</span><span class="o">.</span><span class="n">CAM</span><span class="p">,),</span>
+        <span class="n">area_of_interest</span><span class="o">=</span><span class="n">ldm_area</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">if</span> <span class="n">register_data_consumer_reponse</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+<span class="k">if</span> <span class="n">register_response</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to register with LDM!&quot;</span><span class="p">)</span>
     <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
+<span class="c1"># Define what happens when we receive a CAM</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_cam_received</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">station_id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚗 Received CAM from station: </span><span class="si">{</span><span class="n">station_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">ldm_subscription_callback</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="c1"># We are printing any received CAM message.</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">station_id</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received CAM from : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
-
-<span class="n">subscribe_data_consumer_response</span><span class="p">:</span> <span class="n">SubscribeDataObjectsResp</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">subscribe_data_consumer</span><span class="p">(</span>
-        <span class="n">SubscribeDataobjectsReq</span><span class="p">(</span>
-            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
-            <span class="n">data_object_type</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
-            <span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">notify_time</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">multiplicity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="c1"># Subscribe to CAM messages (excluding our own)</span>
+<span class="n">subscribe_response</span><span class="p">:</span> <span class="n">SubscribeDataObjectsResp</span> <span class="o">=</span> <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">subscribe_data_consumer</span><span class="p">(</span>
+    <span class="n">SubscribeDataobjectsReq</span><span class="p">(</span>
+        <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+        <span class="n">data_object_type</span><span class="o">=</span><span class="p">(</span><span class="n">CAM</span><span class="p">,),</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="o">=</span><span class="n">Filter</span><span class="p">(</span>
+            <span class="n">filter_statement_1</span><span class="o">=</span><span class="n">FilterStatement</span><span class="p">(</span>
+                <span class="s2">&quot;header.stationId&quot;</span><span class="p">,</span>
+                <span class="n">ComparisonOperators</span><span class="o">.</span><span class="n">NOT_EQUAL</span><span class="p">,</span>
+                <span class="n">STATION_ID</span>  <span class="c1"># Don&#39;t notify us about our own CAMs</span>
+            <span class="p">)</span>
         <span class="p">),</span>
-        <span class="n">ldm_subscription_callback</span><span class="p">,</span>
-    <span class="p">)</span>
+        <span class="n">notify_time</span><span class="o">=</span><span class="n">TimestampIts</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">multiplicity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">order</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">OrderTupleValue</span><span class="p">(</span>
+                <span class="n">attribute</span><span class="o">=</span><span class="s2">&quot;cam.generationDeltaTime&quot;</span><span class="p">,</span>
+                <span class="n">ordering_direction</span><span class="o">=</span><span class="n">OrderingDirection</span><span class="o">.</span><span class="n">ASCENDING</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">on_cam_received</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">if</span> <span class="n">subscribe_data_consumer_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="k">if</span> <span class="n">subscribe_response</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SubscribeDataobjectsResult</span><span class="o">.</span><span class="n">SUCCESSFUL</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to subscribe to CAM messages!&quot;</span><span class="p">)</span>
     <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="ca-basic-service">
-<h4>CA Basic Service<a class="headerlink" href="#ca-basic-service" title="Permalink to this heading"></a></h4>
-<p>Finally the Cooperative Awareness (CA) Basic Service itself. Which sends and receives the CAM messages.</p>
-<p>To import it there is enough with importing the service and the VehicleData class which works to configure the
-service.</p>
+<section id="step-6-ca-basic-service">
+<h3>Step 6: CA Basic Service<a class="headerlink" href="#step-6-ca-basic-service" title="Permalink to this heading"></a></h3>
+<p>Now for the main attraction — the Cooperative Awareness Basic Service. This is what actually sends and receives CAM messages:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.ca_basic_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CooperativeAwarenessBasicService</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.cam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">VehicleData</span><span class="p">,</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-<p>Finally, the CA Basic service configuration and instantiation:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a CA Basic Service</span>
-<span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">()</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_id</span> <span class="o">=</span> <span class="n">station_id</span>  <span class="c1"># Station Id of the ITS PDU Header</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_type</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">drive_direction</span> <span class="o">=</span> <span class="s2">&quot;forward&quot;</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_length</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;vehicleLengthValue&quot;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>  <span class="c1"># as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
-    <span class="s2">&quot;vehicleLengthConfidenceIndication&quot;</span><span class="p">:</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_width</span> <span class="o">=</span> <span class="mi">62</span>
 
+<span class="c1"># Configure our vehicle&#39;s properties</span>
+<span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">(</span>
+    <span class="n">station_id</span><span class="o">=</span><span class="n">STATION_ID</span><span class="p">,</span>
+    <span class="n">station_type</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># Passenger car (see ETSI TS 102 894-2)</span>
+    <span class="n">drive_direction</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span>
+    <span class="n">vehicle_length</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;vehicleLengthValue&quot;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>  <span class="c1"># Unknown length</span>
+        <span class="s2">&quot;vehicleLengthConfidenceIndication&quot;</span><span class="p">:</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">vehicle_width</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span>  <span class="c1"># ~1.5m width</span>
+<span class="p">)</span>
+
+<span class="c1"># Create the CA Basic Service</span>
 <span class="n">ca_basic_service</span> <span class="o">=</span> <span class="n">CooperativeAwarenessBasicService</span><span class="p">(</span>
     <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
     <span class="n">vehicle_data</span><span class="o">=</span><span class="n">vehicle_data</span><span class="p">,</span>
     <span class="n">ldm</span><span class="o">=</span><span class="n">ldm</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+
+<span class="c1"># Connect location updates to CAM transmission</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span>
+    <span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p>Finally, to make sure the script keeps working unless stopped, there is enough with the following lines:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to stop the program.&quot;</span><span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-</pre></div>
-</div>
 </section>
-</section>
-</section>
-<section id="complete-script">
-<h2>Complete Script<a class="headerlink" href="#complete-script" title="Permalink to this heading"></a></h2>
-<p>The whole script can be found below, as it uses low-level sockets it must be executed with sudo privileges:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<section id="step-7-link-layer">
+<h3>Step 7: Link Layer<a class="headerlink" href="#step-7-link-layer" title="Permalink to this heading"></a></h3>
+<p>Finally, we need to connect everything to the network. The Link Layer handles the actual packet transmission:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
 
-<span class="c1"># Link Layer Imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
+<span class="c1"># Freeze BTP callbacks before starting (prevents race conditions)</span>
+<span class="n">btp_router</span><span class="o">.</span><span class="n">freeze_callbacks</span><span class="p">()</span>
 
-<span class="c1"># GeoNetworking imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
-
-<span class="c1"># BTP Router imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
-
-<span class="c1"># Location Service imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
-
-<span class="c1"># Local Dynamic Map imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ldm_factory</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">Location</span><span class="p">,</span>
-    <span class="n">SubscribeDataobjectsReq</span><span class="p">,</span>
-    <span class="n">SubscribeDataObjectsResp</span><span class="p">,</span>
-    <span class="n">RegisterDataConsumerReq</span><span class="p">,</span>
-    <span class="n">RegisterDataConsumerResp</span><span class="p">,</span>
-    <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAM</span>
-
-<span class="c1"># CA Basic Service imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.ca_basic_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">CooperativeAwarenessBasicService</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.cam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">VehicleData</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># Basic Configuration Parameters</span>
-<span class="n">POSITION_COORDINATES</span> <span class="o">=</span> <span class="p">[</span><span class="mf">41.386931</span><span class="p">,</span> <span class="mf">2.112104</span><span class="p">]</span>
-<span class="n">mac_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xaa\xbb\xcc\x11\x21\x11</span><span class="s2">&quot;</span>
-<span class="n">station_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mac_address</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="c1"># Instantiate a Location Service</span>
-<span class="n">location_service</span> <span class="o">=</span> <span class="n">ThreadStaticLocationService</span><span class="p">(</span>
-    <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">longitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="c1"># Instantiate a GN router</span>
-<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
-<span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
-<span class="n">mib</span><span class="o">.</span><span class="n">itsGnLocalGnAddr</span> <span class="o">=</span> <span class="n">gn_addr</span>
-<span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
-
-<span class="c1"># Instantiate a Link Layer</span>
+<span class="c1"># Create the link layer on the loopback interface</span>
 <span class="n">link_layer</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span>
-    <span class="s2">&quot;lo&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="p">,</span> <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span>
+    <span class="s2">&quot;lo&quot;</span><span class="p">,</span>  <span class="c1"># Network interface (use &quot;lo&quot; for testing)</span>
+    <span class="n">MAC_ADDRESS</span><span class="p">,</span>
+    <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span>
 <span class="p">)</span>
 
+<span class="c1"># Connect GeoNetworking to the link layer</span>
 <span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">link_layer</span>
-
-<span class="c1"># Instantiate a BTP router</span>
-<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
-<span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
-
-<span class="c1"># Instantiate a Local Dynamic Map (LDM)</span>
-<span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">()</span>
-<span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="p">(</span>
-    <span class="n">ldm_location</span><span class="p">,</span>
-    <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
-    <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
-    <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
-
-<span class="c1"># Subscribe to LDM</span>
-<span class="n">register_data_consumer_reponse</span><span class="p">:</span> <span class="n">RegisterDataConsumerResp</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
-        <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
-            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
-            <span class="n">access_permisions</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
-            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">ldm_location</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="k">if</span> <span class="n">register_data_consumer_reponse</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">ldm_subscription_callback</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="c1"># We are printing any received CAM message.</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">station_id</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received CAM from : </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
-
-<span class="n">subscribe_data_consumer_response</span><span class="p">:</span> <span class="n">SubscribeDataObjectsResp</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">subscribe_data_consumer</span><span class="p">(</span>
-        <span class="n">SubscribeDataobjectsReq</span><span class="p">(</span>
-            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
-            <span class="n">data_object_type</span><span class="o">=</span><span class="p">[</span><span class="n">CAM</span><span class="p">],</span>
-            <span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">notify_time</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">multiplicity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">ldm_subscription_callback</span><span class="p">,</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="k">if</span> <span class="n">subscribe_data_consumer_response</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Instantiate a CA Basic Service</span>
-<span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">()</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_id</span> <span class="o">=</span> <span class="n">station_id</span>  <span class="c1"># Station Id of the ITS PDU Header</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">station_type</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Station Type as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">drive_direction</span> <span class="o">=</span> <span class="s2">&quot;forward&quot;</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_length</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;vehicleLengthValue&quot;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>  <span class="c1"># as specified in ETSI TS 102 894-2 V2.3.1 (2024-08)</span>
-    <span class="s2">&quot;vehicleLengthConfidenceIndication&quot;</span><span class="p">:</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">vehicle_data</span><span class="o">.</span><span class="n">vehicle_width</span> <span class="o">=</span> <span class="mi">62</span>
-
-<span class="n">ca_basic_service</span> <span class="o">=</span> <span class="n">CooperativeAwarenessBasicService</span><span class="p">(</span>
-    <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
-    <span class="n">vehicle_data</span><span class="o">=</span><span class="n">vehicle_data</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to stop the program.&quot;</span><span class="p">)</span>
-<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For testing, we use the loopback interface <code class="docutils literal notranslate"><span class="pre">&quot;lo&quot;</span></code>. In production, you’d use your actual network
+interface (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;eth0&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;wlan0&quot;</span></code>) or specialized V2X hardware with <code class="docutils literal notranslate"><span class="pre">PythonCV2XLinkLayer</span></code>.</p>
+</div>
+</section>
+<section id="step-8-run-the-application">
+<h3>Step 8: Run the Application<a class="headerlink" href="#step-8-run-the-application" title="Permalink to this heading"></a></h3>
+<p>Add the main loop to keep everything running:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ CA Basic Service is running!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📡 Broadcasting CAMs and listening for nearby vehicles...&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to exit.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">👋 Shutting down...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Clean up</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">stop_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="n">link_layer</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="complete-example">
+<h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this heading"></a></h2>
+<p>Here’s the complete script. Save it as <code class="docutils literal notranslate"><span class="pre">cam_example.py</span></code> and run with <code class="docutils literal notranslate"><span class="pre">sudo</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python<span class="w"> </span>cam_example.py
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="ch">#!/usr/bin/env python3</span>
+<span class="linenos">  2</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  3</span><span class="sd">FlexStack® CAM Example</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="sd">A simple V2X application that broadcasts Cooperative Awareness Messages (CAMs)</span>
+<span class="linenos">  6</span><span class="sd">and listens for CAMs from nearby vehicles.</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="sd">Run with: sudo python cam_example.py</span>
+<span class="linenos">  9</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="linenos"> 12</span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="linenos"> 13</span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="c1"># FlexStack imports</span>
+<span class="linenos"> 16</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
+<span class="linenos"> 17</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
+<span class="linenos"> 18</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
+<span class="linenos"> 19</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
+<span class="linenos"> 20</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+<span class="linenos"> 21</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
+<span class="linenos"> 22</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">LDMFactory</span>
+<span class="linenos"> 23</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAM</span>
+<span class="linenos"> 24</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_classes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 25</span>    <span class="n">AccessPermission</span><span class="p">,</span>
+<span class="linenos"> 26</span>    <span class="n">Circle</span><span class="p">,</span>
+<span class="linenos"> 27</span>    <span class="n">ComparisonOperators</span><span class="p">,</span>
+<span class="linenos"> 28</span>    <span class="n">Filter</span><span class="p">,</span>
+<span class="linenos"> 29</span>    <span class="n">FilterStatement</span><span class="p">,</span>
+<span class="linenos"> 30</span>    <span class="n">GeometricArea</span><span class="p">,</span>
+<span class="linenos"> 31</span>    <span class="n">Location</span><span class="p">,</span>
+<span class="linenos"> 32</span>    <span class="n">OrderTupleValue</span><span class="p">,</span>
+<span class="linenos"> 33</span>    <span class="n">OrderingDirection</span><span class="p">,</span>
+<span class="linenos"> 34</span>    <span class="n">RegisterDataConsumerReq</span><span class="p">,</span>
+<span class="linenos"> 35</span>    <span class="n">RegisterDataConsumerResp</span><span class="p">,</span>
+<span class="linenos"> 36</span>    <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
+<span class="linenos"> 37</span>    <span class="n">SubscribeDataobjectsReq</span><span class="p">,</span>
+<span class="linenos"> 38</span>    <span class="n">SubscribeDataObjectsResp</span><span class="p">,</span>
+<span class="linenos"> 39</span>    <span class="n">SubscribeDataobjectsResult</span><span class="p">,</span>
+<span class="linenos"> 40</span>    <span class="n">TimestampIts</span><span class="p">,</span>
+<span class="linenos"> 41</span><span class="p">)</span>
+<span class="linenos"> 42</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.ca_basic_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 43</span>    <span class="n">CooperativeAwarenessBasicService</span><span class="p">,</span>
+<span class="linenos"> 44</span><span class="p">)</span>
+<span class="linenos"> 45</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.cam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 46</span>    <span class="n">VehicleData</span><span class="p">,</span>
+<span class="linenos"> 47</span><span class="p">)</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="c1"># Enable logging</span>
+<span class="linenos"> 50</span><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="k">def</span><span class="w"> </span><span class="nf">generate_random_mac_address</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a valid random MAC address.&quot;&quot;&quot;</span>
+<span class="linenos"> 55</span>    <span class="n">octets</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+<span class="linenos"> 56</span>    <span class="n">octets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mb">0b11111110</span><span class="p">)</span> <span class="o">|</span> <span class="mb">0b00000010</span>
+<span class="linenos"> 57</span>    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">octets</span><span class="p">)</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="c1"># Configuration</span>
+<span class="linenos"> 61</span><span class="n">POSITION_COORDINATES</span> <span class="o">=</span> <span class="p">[</span><span class="mf">41.386931</span><span class="p">,</span> <span class="mf">2.112104</span><span class="p">]</span>  <span class="c1"># Barcelona, Spain</span>
+<span class="linenos"> 62</span><span class="n">MAC_ADDRESS</span> <span class="o">=</span> <span class="n">generate_random_mac_address</span><span class="p">()</span>
+<span class="linenos"> 63</span><span class="n">STATION_ID</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2147483647</span><span class="p">)</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos"> 67</span>    <span class="c1"># ========== Step 2: Location Service ==========</span>
+<span class="linenos"> 68</span>    <span class="n">location_service</span> <span class="o">=</span> <span class="n">ThreadStaticLocationService</span><span class="p">(</span>
+<span class="linenos"> 69</span>        <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="linenos"> 70</span>        <span class="n">latitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="linenos"> 71</span>        <span class="n">longitude</span><span class="o">=</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="linenos"> 72</span>    <span class="p">)</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span>    <span class="c1"># ========== Step 3: GeoNetworking ==========</span>
+<span class="linenos"> 75</span>    <span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">(</span>
+<span class="linenos"> 76</span>        <span class="n">itsGnLocalGnAddr</span><span class="o">=</span><span class="n">GNAddress</span><span class="p">(</span>
+<span class="linenos"> 77</span>            <span class="n">m</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">,</span>
+<span class="linenos"> 78</span>            <span class="n">st</span><span class="o">=</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">,</span>
+<span class="linenos"> 79</span>            <span class="n">mid</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">MAC_ADDRESS</span><span class="p">),</span>
+<span class="linenos"> 80</span>        <span class="p">),</span>
+<span class="linenos"> 81</span>    <span class="p">)</span>
+<span class="linenos"> 82</span>    <span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos"> 83</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span>    <span class="c1"># ========== Step 4: BTP ==========</span>
+<span class="linenos"> 86</span>    <span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+<span class="linenos"> 87</span>    <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span>    <span class="c1"># ========== Step 5: Local Dynamic Map ==========</span>
+<span class="linenos"> 90</span>    <span class="n">ldm_location</span> <span class="o">=</span> <span class="n">Location</span><span class="o">.</span><span class="n">initializer</span><span class="p">(</span>
+<span class="linenos"> 91</span>        <span class="n">latitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span>
+<span class="linenos"> 92</span>        <span class="n">longitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">POSITION_COORDINATES</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span>
+<span class="linenos"> 93</span>    <span class="p">)</span>
+<span class="linenos"> 94</span>    <span class="n">ldm_area</span> <span class="o">=</span> <span class="n">GeometricArea</span><span class="p">(</span>
+<span class="linenos"> 95</span>        <span class="n">circle</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">5000</span><span class="p">),</span>
+<span class="linenos"> 96</span>        <span class="n">rectangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="linenos"> 97</span>        <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="linenos"> 98</span>    <span class="p">)</span>
+<span class="linenos"> 99</span>    <span class="n">ldm_factory</span> <span class="o">=</span> <span class="n">LDMFactory</span><span class="p">()</span>
+<span class="linenos">100</span>    <span class="n">ldm</span> <span class="o">=</span> <span class="n">ldm_factory</span><span class="o">.</span><span class="n">create_ldm</span><span class="p">(</span>
+<span class="linenos">101</span>        <span class="n">ldm_location</span><span class="p">,</span>
+<span class="linenos">102</span>        <span class="n">ldm_maintenance_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
+<span class="linenos">103</span>        <span class="n">ldm_service_type</span><span class="o">=</span><span class="s2">&quot;Reactive&quot;</span><span class="p">,</span>
+<span class="linenos">104</span>        <span class="n">ldm_database_type</span><span class="o">=</span><span class="s2">&quot;Dictionary&quot;</span><span class="p">,</span>
+<span class="linenos">105</span>    <span class="p">)</span>
+<span class="linenos">106</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">ldm_location</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span>    <span class="c1"># Register with LDM</span>
+<span class="linenos">109</span>    <span class="n">register_response</span><span class="p">:</span> <span class="n">RegisterDataConsumerResp</span> <span class="o">=</span> <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
+<span class="linenos">110</span>        <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
+<span class="linenos">111</span>            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+<span class="linenos">112</span>            <span class="n">access_permisions</span><span class="o">=</span><span class="p">(</span><span class="n">AccessPermission</span><span class="o">.</span><span class="n">CAM</span><span class="p">,),</span>
+<span class="linenos">113</span>            <span class="n">area_of_interest</span><span class="o">=</span><span class="n">ldm_area</span><span class="p">,</span>
+<span class="linenos">114</span>        <span class="p">)</span>
+<span class="linenos">115</span>    <span class="p">)</span>
+<span class="linenos">116</span>    <span class="k">if</span> <span class="n">register_response</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<span class="linenos">117</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to register with LDM!&quot;</span><span class="p">)</span>
+<span class="linenos">118</span>        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">119</span>
+<span class="linenos">120</span>    <span class="c1"># CAM received callback</span>
+<span class="linenos">121</span>    <span class="k">def</span><span class="w"> </span><span class="nf">on_cam_received</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">RequestDataObjectsResp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">122</span>        <span class="n">station_id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data_objects</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dataObject&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">][</span><span class="s2">&quot;stationId&quot;</span><span class="p">]</span>
+<span class="linenos">123</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🚗 Received CAM from station: </span><span class="si">{</span><span class="n">station_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">124</span>
+<span class="linenos">125</span>    <span class="c1"># Subscribe to CAMs</span>
+<span class="linenos">126</span>    <span class="n">subscribe_response</span><span class="p">:</span> <span class="n">SubscribeDataObjectsResp</span> <span class="o">=</span> <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">subscribe_data_consumer</span><span class="p">(</span>
+<span class="linenos">127</span>        <span class="n">SubscribeDataobjectsReq</span><span class="p">(</span>
+<span class="linenos">128</span>            <span class="n">application_id</span><span class="o">=</span><span class="n">CAM</span><span class="p">,</span>
+<span class="linenos">129</span>            <span class="n">data_object_type</span><span class="o">=</span><span class="p">(</span><span class="n">CAM</span><span class="p">,),</span>
+<span class="linenos">130</span>            <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">131</span>            <span class="nb">filter</span><span class="o">=</span><span class="n">Filter</span><span class="p">(</span>
+<span class="linenos">132</span>                <span class="n">filter_statement_1</span><span class="o">=</span><span class="n">FilterStatement</span><span class="p">(</span>
+<span class="linenos">133</span>                    <span class="s2">&quot;header.stationId&quot;</span><span class="p">,</span>
+<span class="linenos">134</span>                    <span class="n">ComparisonOperators</span><span class="o">.</span><span class="n">NOT_EQUAL</span><span class="p">,</span>
+<span class="linenos">135</span>                    <span class="n">STATION_ID</span><span class="p">,</span>
+<span class="linenos">136</span>                <span class="p">)</span>
+<span class="linenos">137</span>            <span class="p">),</span>
+<span class="linenos">138</span>            <span class="n">notify_time</span><span class="o">=</span><span class="n">TimestampIts</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+<span class="linenos">139</span>            <span class="n">multiplicity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">140</span>            <span class="n">order</span><span class="o">=</span><span class="p">(</span>
+<span class="linenos">141</span>                <span class="n">OrderTupleValue</span><span class="p">(</span>
+<span class="linenos">142</span>                    <span class="n">attribute</span><span class="o">=</span><span class="s2">&quot;cam.generationDeltaTime&quot;</span><span class="p">,</span>
+<span class="linenos">143</span>                    <span class="n">ordering_direction</span><span class="o">=</span><span class="n">OrderingDirection</span><span class="o">.</span><span class="n">ASCENDING</span><span class="p">,</span>
+<span class="linenos">144</span>                <span class="p">),</span>
+<span class="linenos">145</span>            <span class="p">),</span>
+<span class="linenos">146</span>        <span class="p">),</span>
+<span class="linenos">147</span>        <span class="n">on_cam_received</span><span class="p">,</span>
+<span class="linenos">148</span>    <span class="p">)</span>
+<span class="linenos">149</span>    <span class="k">if</span> <span class="n">subscribe_response</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SubscribeDataobjectsResult</span><span class="o">.</span><span class="n">SUCCESSFUL</span><span class="p">:</span>
+<span class="linenos">150</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to subscribe to CAM messages!&quot;</span><span class="p">)</span>
+<span class="linenos">151</span>        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span>    <span class="c1"># ========== Step 6: CA Basic Service ==========</span>
+<span class="linenos">154</span>    <span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">(</span>
+<span class="linenos">155</span>        <span class="n">station_id</span><span class="o">=</span><span class="n">STATION_ID</span><span class="p">,</span>
+<span class="linenos">156</span>        <span class="n">station_type</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="linenos">157</span>        <span class="n">drive_direction</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span>
+<span class="linenos">158</span>        <span class="n">vehicle_length</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">159</span>            <span class="s2">&quot;vehicleLengthValue&quot;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>
+<span class="linenos">160</span>            <span class="s2">&quot;vehicleLengthConfidenceIndication&quot;</span><span class="p">:</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">,</span>
+<span class="linenos">161</span>        <span class="p">},</span>
+<span class="linenos">162</span>        <span class="n">vehicle_width</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span>
+<span class="linenos">163</span>    <span class="p">)</span>
+<span class="linenos">164</span>    <span class="n">ca_basic_service</span> <span class="o">=</span> <span class="n">CooperativeAwarenessBasicService</span><span class="p">(</span>
+<span class="linenos">165</span>        <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+<span class="linenos">166</span>        <span class="n">vehicle_data</span><span class="o">=</span><span class="n">vehicle_data</span><span class="p">,</span>
+<span class="linenos">167</span>        <span class="n">ldm</span><span class="o">=</span><span class="n">ldm</span><span class="p">,</span>
+<span class="linenos">168</span>    <span class="p">)</span>
+<span class="linenos">169</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span>
+<span class="linenos">170</span>        <span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span>
+<span class="linenos">171</span>    <span class="p">)</span>
+<span class="linenos">172</span>
+<span class="linenos">173</span>    <span class="c1"># ========== Step 7: Link Layer ==========</span>
+<span class="linenos">174</span>    <span class="n">btp_router</span><span class="o">.</span><span class="n">freeze_callbacks</span><span class="p">()</span>
+<span class="linenos">175</span>    <span class="n">link_layer</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span>
+<span class="linenos">176</span>        <span class="s2">&quot;lo&quot;</span><span class="p">,</span>
+<span class="linenos">177</span>        <span class="n">MAC_ADDRESS</span><span class="p">,</span>
+<span class="linenos">178</span>        <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">,</span>
+<span class="linenos">179</span>    <span class="p">)</span>
+<span class="linenos">180</span>    <span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">link_layer</span>
+<span class="linenos">181</span>
+<span class="linenos">182</span>    <span class="c1"># ========== Step 8: Run ==========</span>
+<span class="linenos">183</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ CA Basic Service is running!&quot;</span><span class="p">)</span>
+<span class="linenos">184</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📡 Broadcasting CAMs and listening for nearby vehicles...&quot;</span><span class="p">)</span>
+<span class="linenos">185</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press Ctrl+C to exit.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">186</span>
+<span class="linenos">187</span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos">188</span>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">189</span>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">190</span>    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<span class="linenos">191</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">👋 Shutting down...&quot;</span><span class="p">)</span>
+<span class="linenos">192</span>
+<span class="linenos">193</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">stop_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+<span class="linenos">194</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="linenos">195</span>    <span class="n">link_layer</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">196</span>
+<span class="linenos">197</span>
+<span class="linenos">198</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">199</span>    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="need-help">
+<h2>Need Help?<a class="headerlink" href="#need-help" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Check the <a class="reference internal" href="overview.html"><span class="doc">Overview</span></a> for a high-level introduction</p></li>
+<li><p>Browse the module documentation in the sidebar</p></li>
+<li><p>Visit our <a class="reference external" href="https://github.com/Fundacio-i2CAT/FlexStack">GitHub repository</a> for issues and discussions</p></li>
+</ul>
 </section>
 </section>
 
@@ -565,7 +903,7 @@ service.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="architecture.html" class="btn btn-neutral float-right" title="FlexStack Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules/link_layer.html" class="btn btn-neutral float-right" title="Link Layer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,3 +1,10 @@
 FlexStack Architecture
 ======================
 
+.. mermaid::
+
+   sequenceDiagram
+       participant A as Application
+       participant B as BTP Layer
+       A->>B: Send message
+       B-->>A: Acknowledge

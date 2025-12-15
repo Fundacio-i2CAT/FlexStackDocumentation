@@ -1,522 +1,810 @@
+.. _local_dynamic_map:
+
 Local Dynamic Map
 =================
 
-The Local Dynamic Map (LDM) is in charge of locally storing, managing,
-and sharing the messages received in a structured manner.
+The **Local Dynamic Map (LDM)** is FlexStack's intelligent data storage system. It collects, 
+organizes, and serves V2X messages — giving your applications a real-time view of the 
+surrounding traffic environment.
 
-**Required** component is: 
+.. note::
 
-- `Location Service <location_service.md>`__
+   The LDM implements ETSI EN 302 895 V1.1.1. Think of it as a database that automatically 
+   manages message validity based on time and location.
 
-.. important::
-    `Logging <logging.md>`__ is always an optional component. However, it is highly recommended.
+What the LDM Does
+-----------------
 
-A quickstart is available `here <#quickstart>`__, but keep reading if
-more detailed information about the component is needed.
+.. mermaid::
 
---------------
+   flowchart LR
+       subgraph "Data Providers"
+           CAM[CA Basic Service<br/>CAMs]
+           DEN[DEN Service<br/>DENMs]
+           VRU[VRU Service<br/>VAMs]
+       end
+       
+       subgraph "LDM"
+           DB[(LDM Database)]
+           MT[Maintenance<br/>Auto-cleanup]
+       end
+       
+       subgraph "Data Consumers"
+           APP1[Collision Warning App]
+           APP2[Traffic Analysis App]
+           APP3[Navigation App]
+       end
+       
+       CAM -->|"Publish"| DB
+       DEN -->|"Publish"| DB
+       VRU -->|"Publish"| DB
+       DB -->|"Query"| APP1
+       DB -->|"Subscribe"| APP2
+       DB -->|"Query"| APP3
+       MT -.->|"Remove expired"| DB
+       
+       style DB fill:#e3f2fd,stroke:#1565c0
 
-Local Dynamic Map Overview
---------------------------
+**Key Features:**
 
-The Local Dynamic Map follows the `ETSI EN 302 895 V1.1.1
-(2014-09) <https://www.etsi.org/deliver/etsi_en/302800_302899/302895/01.01.01_60/en_302895v010101p.pdf>`__
-standard. Newer standards have been published, but no significant
-relevant changes have been introduced. Please refer to the ETSI standard for more detailed information.
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
 
-The Local Dynamic Map is composed of two subcomponents: 
+   * - Feature
+     - Description
+   * - 📥 **Data Collection**
+     - Receives messages from CAM, DENM, VAM services
+   * - 🗄️ **Organized Storage**
+     - Stores messages with timestamps and locations
+   * - 🔍 **Query Interface**
+     - Find specific messages by station ID, type, or location
+   * - 📡 **Subscriptions**
+     - Get notified when new messages arrive
+   * - 🧹 **Auto Maintenance**
+     - Automatically removes expired or out-of-area messages
 
-- `LDM Service <#ldm-service>`__ 
-- `LDM Maintenance <#ldm-maintenance>`__
+----
 
---------------
+Architecture
+------------
 
-LDM Service
-~~~~~~~~~~~~~~~~~~~~~~~~~
+The LDM consists of two main components:
 
-The LDM is connected to authorized `LDM Data Providers <#ldm-data-providers>`__ and `LDM Data Consumers <#ldm-data-consumers>`__. `LDM Data
-Providers <#ldm-data-providers>`__ supply information to the LDM, which then makes this data available to `LDM Data Consumers <#ldm-data-consumers>`__. The LDM offers three different types
-of interfaces: 
+.. mermaid::
 
-- A `publish interface <#ldm-publish-interface>`__ for `LDM Data Providers <#ldm-data-providers>`__. The providers publish information through `LDM Data Objects <#local-dynamic-map-ldm-data-object>`__. 
-- A `query interface <#ldm-query-interface>`__ for `LDM Data Consumers <#ldm-data-consumers>`__. This query returns a list of `LDM Data Objects <#local-dynamic-map-ldm-data-object>`__. 
-- A `publish/subscribe interface <#ldm-publish/subscribe-interface>`__ for `LDM Data Consumers <#ldm-data-consumers>`__. It also returns a list of `LDM Data Objects <#local-dynamic-map-ldm-data-object>`__.
+   flowchart TB
+       subgraph "LDM Service"
+           REG[Registration<br/>Providers & Consumers]
+           PUB[Publish Interface<br/>IF-LDM-3]
+           QRY[Query Interface<br/>IF-LDM-4]
+           SUB[Subscribe Interface<br/>IF-LDM-4]
+       end
+       
+       subgraph "LDM Maintenance"
+           TIME[Time Validity<br/>Check]
+           AREA[Area of Maintenance<br/>Check]
+           CLEAN[Cleanup<br/>Service]
+       end
+       
+       subgraph "Storage"
+           DB[(LDM Database)]
+       end
+       
+       subgraph "Location"
+           LOC[Location Service]
+       end
+       
+       REG --> DB
+       PUB --> DB
+       QRY --> DB
+       SUB --> DB
+       TIME --> CLEAN
+       AREA --> CLEAN
+       CLEAN --> DB
+       LOC --> AREA
+       
+       style DB fill:#fff3e0,stroke:#e65100
 
-The LDM provides: 
+**Components:**
 
-- Mechanisms for facilities to register and deregister as `LDM Data Providers <#ldm-data-providers>`__. 
-- Mechanisms for applications to register and deregister as `LDM Data Providers <#ldm-data-providers>`__ or `LDM Data Consumers <#ldm-data-consumers>`__. 
-- Verification of the authorization of `LDM Data Providers <#ldm-data-providers>`__ and `LDM Data Consumers <#ldm-data-consumers>`__ before granting data access.
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
 
-LDM Maintenance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * - Component
+     - Description
+   * - **LDM Service**
+     - Handles registration, publishing, queries, and subscriptions
+   * - **LDM Maintenance**
+     - Removes expired messages and those outside the area
+   * - **IF-LDM-3**
+     - Interface for Data Providers (publish data)
+   * - **IF-LDM-4**
+     - Interface for Data Consumers (query/subscribe)
 
-The LDM is responsible for maintaining all `LDM Data
-Objects <#local-dynamic-map-ldm-data-object>`__ received from `LDM Data
-Providers <#ldm-data-providers>`__ throughout their validity period and
-within the `LDM Area of Maintenance <#ldm-area-of-maintenance>`__.
+----
 
-An `LDM Data Object <#local-dynamic-map-ldm-data-object>`__ is
-considered valid for the duration of its specified time validity,
-starting from its assigned timestamp. Each LDM Data Provider defines the
-timestamp and time validity for the `LDM Data
-Object <#local-dynamic-map-ldm-data-object>`__ it submits:
+Supported Data Types
+--------------------
 
--  The timestamp is set when adding or updating an `LDM Data
-   Object <#local-dynamic-map-ldm-data-object>`__.
--  The default time validity for all `LDM Data
-   Objects <#local-dynamic-map-ldm-data-object>`__ is established during
-   registration. This default validity is overridden by a specific time
-   validity assigned when an `LDM Data
-   Object <#local-dynamic-map-ldm-data-object>`__ is added or updated.
+The LDM can store various V2X message types:
 
-Additionally, an `LDM Data
-Object <#local-dynamic-map-ldm-data-object>`__ is considered valid if
-its location intersects with the `LDM Area of
-Maintenance <#ldm-area-of-maintenance>`__. The `LDM Data
-Provider <#ldm-data-providers>`__ specifies this location when adding or
-updating an `LDM Data Object <#local-dynamic-map-ldm-data-object>`__.
-The `LDM Area of Maintenance <#ldm-area-of-maintenance>`__ is a defined
-geographical region that may be dynamically adjusted based on the
-real-time location of the host ITS-S.
+.. list-table::
+   :header-rows: 1
+   :widths: 15 25 60
 
---------------
+   * - Type
+     - Access Permission
+     - Description
+   * - **CAM**
+     - ``AccessPermission.CAM``
+     - Cooperative Awareness Messages from vehicles
+   * - **DENM**
+     - ``AccessPermission.DENM``
+     - Decentralized Environmental Notifications
+   * - **VAM**
+     - ``AccessPermission.VAM``
+     - VRU Awareness Messages
+   * - **MAPEM**
+     - ``AccessPermission.MAPEM``
+     - Map topology messages
+   * - **SPATEM**
+     - ``AccessPermission.SPATEM``
+     - Signal phase and timing
 
-LDM Declaration
+----
+
+Getting Started
 ---------------
 
-LDM Data Providers
-~~~~~~~~~~~~~~~~~~
+Step 1: Create the LDM
+~~~~~~~~~~~~~~~~~~~~~~
 
-LDM Data Providers are facilities or applications authorized to supply
-data to the LDM. They register with the LDM and submit `LDM Data
-Objects <#ldm-data-object>`__ that contain timestamped and
-location-referenced information.
+Use the ``LDMFactory`` to create an LDM instance:
 
-.. code:: py
+.. code-block:: python
 
+   from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       Location,
+       GeometricArea,
+       Circle,
+   )
+
+   # Define LDM location (your position)
+   ldm_location = Location.initializer(
+       latitude=int(41.386931 * 10**7),   # Scaled integer format
+       longitude=int(2.112104 * 10**7),
+   )
+
+   # Define area of interest (5 km radius)
+   ldm_area = GeometricArea(
+       circle=Circle(radius=5000),
+       rectangle=None,
+       ellipse=None,
+   )
+
+   # Create the LDM
+   ldm_factory = LDMFactory()
+   ldm = ldm_factory.create_ldm(
+       ldm_location,
+       ldm_maintenance_type="Reactive",
+       ldm_service_type="Reactive",
+       ldm_database_type="Dictionary",
+   )
+
+**LDM Configuration Options:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Parameter
+     - Description
+   * - ``ldm_maintenance_type``
+     - ``"Reactive"`` — cleans up on access
+   * - ``ldm_service_type``
+     - ``"Reactive"`` — processes requests on demand
+   * - ``ldm_database_type``
+     - ``"Dictionary"`` — in-memory Python dict storage
+
+Step 2: Connect Location Updates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Keep the LDM's area of maintenance updated with your position:
+
+.. code-block:: python
+
+   from flexstack.utils.static_location_service import ThreadStaticLocationService
+
+   location_service = ThreadStaticLocationService(
+       period=1000,
+       latitude=41.386931,
+       longitude=2.112104,
+   )
+
+   # Update LDM location when position changes
+   location_service.add_callback(ldm_location.location_service_callback)
+
+Step 3: Connect to Facility Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The LDM works best when connected to facility services like CA Basic Service:
+
+.. code-block:: python
+
+   from flexstack.facilities.ca_basic_service.ca_basic_service import (
+       CooperativeAwarenessBasicService,
+   )
+
+   # CA Basic Service automatically publishes to LDM
+   ca_basic_service = CooperativeAwarenessBasicService(
+       btp_router=btp_router,
+       vehicle_data=vehicle_data,
+       ldm=ldm,  # Pass the LDM here
+   )
+
+----
+
+Data Providers
+--------------
+
+Data Providers publish messages to the LDM. Facility services (CAM, DENM, VAM) 
+automatically register as providers when you pass the LDM to them.
+
+Register a Custom Provider
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For custom applications that need to publish data:
+
+.. code-block:: python
+
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       RegisterDataProviderReq,
+       AccessPermission,
+       TimeValidity,
+   )
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+
+   # Register as a data provider
    ldm.ldm_if_ldm_3.register_data_provider(
        RegisterDataProviderReq(
            application_id=CAM,
-           access_permissions=access_permissions,
-           time_validity=TimeValidity(time_validity),
+           access_permissions=[AccessPermission.CAM],
+           time_validity=TimeValidity(5),  # Messages valid for 5 seconds
        )
    )
 
-Where;
+Publish Data
+~~~~~~~~~~~~
 
-.. code:: py
+.. code-block:: python
 
-   access_permission = [CAM]
-   time_validity = 5
-
-Access permissions provide the LDM Data Provider access to provide
-specific type of data objects, in this case CAMs. The time validity
-provides the LDM the time for which the message must be stored. In this
-case 5 seconds.
-
-LDM Data Consumers
-~~~~~~~~~~~~~~~~~~
-
-LDM Data Consumers are facilities or applications authorized to request
-and retrieve data from the LDM. Consumers interact with the LDM through
-query and publish/subscribe interfaces.
-
-To register a data consumer the following lines of code must be used
-(example for application requiring VAM and CAM messages);
-
-.. code:: py
-
-   register_data_consumer_reponse: RegisterDataConsumerResp = ldm.register_data_consumer(
-               RegisterDataConsumerReq(
-                   application_id=MAPEM, # TODO: Allow application to sign up!!
-                   access_permisions=[VAM, CAM],
-                   area_of_interest=location,
-               )
-           )
-   if register_data_consumer_reponse.result == 2:
-       raise Exception(f"Failed to register data consumer: {str(register_data_consumer_reponse)}")
-
-Each LDM Data Consumer must also share the area of interest;
-
-.. code:: py
-
-   reference_position = ReferencePosition(
-       latitude=0,
-       longitude=0,
-       position_confidence_ellipse=PositionConfidenceEllipse(
-           semi_major_confidence=0,
-           semi_major_orientation=0,
-           semi_minor_confidence=0,
-       ),
-       altitude=Altitude(altitude_value=0, altitude_confidence=0),
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       AddDataProviderReq,
+       TimestampIts,
+       Location,
+       TimeValidity,
    )
-   reference_area = ReferenceArea(
-       geometric_area=GeometricArea(circle=Circle(radius=0), rectangle=None, ellipse=None),
-       relevance_area=RelevanceArea(
-           relevance_distance=RelevanceDistance(relevance_distance=1),
-           relevance_traffic_direction=RelevanceTrafficDirection(relevance_traffic_direction=0),
-       ),
+
+   # Publish a CAM to the LDM
+   timestamp = TimestampIts.initialize_with_utc_timestamp_seconds()
+   
+   response = ldm.ldm_if_ldm_3.add_provider_data(
+       AddDataProviderReq(
+           application_id=CAM,
+           timestamp=timestamp,
+           location=Location.location_builder_circle(
+               latitude=cam["cam"]["camParameters"]["basicContainer"]["referencePosition"]["latitude"],
+               longitude=cam["cam"]["camParameters"]["basicContainer"]["referencePosition"]["longitude"],
+               altitude=cam["cam"]["camParameters"]["basicContainer"]["referencePosition"]["altitude"]["altitudeValue"],
+               radius=0,
+           ),
+           data_object=cam,
+           time_validity=TimeValidity(5),
+       )
    )
-   location = Location(reference_position, reference_area)
 
-LDM Data Object
-~~~~~~~~~~~~~~~
+----
 
-An LDM Data Object is an entity stored in the LDM, Data objects may
-originate from `Cooperative Awareness
-Messages <cooperative-awareness-messages.md>`__ (CAMs), `Decentralized
-Environmental Notification
-Messages <decentralized-environmental-notification-messages.md>`__
-(DENMs), or other sources.
-
-An example of a data object (i.e., actual CAM message in Dictionary
-format) from a CAM message is;
-
-.. code:: py
-
-   data_object = {
-                   "header": {
-                           "protocolVersion": 2, 
-                           "messageId": 2, 
-                           "stationId": 0
-                           },
-                   "cam": {
-                       "generationDeltaTime": 0,
-                       "camParameters": {
-                           "basicContainer": {
-                               "stationType": 0,
-                               "referencePosition": {
-                                   "latitude": 900000001,
-                                   "longitude": 1800000001,
-                                   "positionConfidenceEllipse": {
-                                       "semiMajorAxisLength": 4095,
-                                       "semiMinorAxisLength": 4095,
-                                       "semiMajorAxisOrientation": 3601,
-                                   },
-                                   "altitude": {
-                                       "altitudeValue": 800001,
-                                       "altitudeConfidence": "unavailable",
-                                   },
-                               },
-                           },
-                           "highFrequencyContainer": (
-                               "basicVehicleContainerHighFrequency",
-                               {
-                                   "heading": {"headingValue": 3601, "headingConfidence": 127},
-                                   "speed": {"speedValue": 16383, "speedConfidence": 127},
-                                   "driveDirection": "unavailable",
-                                   "vehicleLength": {
-                                       "vehicleLengthValue": 1023,
-                                       "vehicleLengthConfidenceIndication": "unavailable",
-                                   },
-                                   "vehicleWidth": 62,
-                                   "longitudinalAcceleration": {
-                                       "value": 161,
-                                       "confidence": 102,
-                                   },
-                                   "curvature": {
-                                       "curvatureValue": 1023,
-                                       "curvatureConfidence": "unavailable",
-                                   },
-                                   "curvatureCalculationMode": "unavailable",
-                                   "yawRate": {
-                                       "yawRateValue": 32767,
-                                       "yawRateConfidence": "unavailable",
-                                   },
-                               },
-                           ),
-                       },
-                   },
-               }
-
-LDM Area of Maintenance
-~~~~~~~~~~~~~~~~~~~~~~~
-
-The LDM Area of Maintenance defines the geographical region within which
-the LDM maintains data. This area is dynamically updated based on the
-host ITS-S location and is used to determine the validity of data
-objects.
-
-The LDM must be declared with the LDM Area of Maintenance, this can be
-done easily with the following code;
-
-Using the same `Location Service <location-service.md>`__ that is used
-for the other layers of the V2X stack;
-
-.. code:: py
-
-   location_service = LocationService()
-
-We can create an LDM Location with the following line;
-
-.. code:: py
-
-   ldm_location = Location.initializer()
-
-The add a location callback to have the LDM Area of Maintenance be
-updated every time a new location (usually form a GPS service) recieves
-a new position;
-
-.. code:: py
-
-   location_service.add_callback(ldm_location.location_service_callback)
-
-So, bundling everything together the LDM Area of Maitenance can be
-declared with the following three lines of code;
-
-.. code:: py
-
-
-   ldm_location = Location.initializer()
-   location_service.add_callback(ldm_location.location_service_callback)
-
-.. code:: py
-
-   reference_position = ReferencePosition(
-       latitude=0,
-       longitude=0,
-       position_confidence_ellipse=PositionConfidenceEllipse(
-           semi_major_confidence=0,
-           semi_major_orientation=0,
-           semi_minor_confidence=0,
-       ),
-       altitude=Altitude(altitude_value=0, altitude_confidence=0),
-   )
-   reference_area = ReferenceArea(
-       geometric_area=GeometricArea(circle=Circle(radius=0), rectangle=None, ellipse=None),
-       relevance_area=RelevanceArea(
-           relevance_distance=RelevanceDistance(relevance_distance=1),
-           relevance_traffic_direction=RelevanceTrafficDirection(relevance_traffic_direction=0),
-       ),
-   )
-   location = Location(reference_position, reference_area)
-
+Data Consumers
 --------------
 
-Local Dynamic Map Interfacing Options
--------------------------------------
+Data Consumers retrieve messages from the LDM using queries or subscriptions.
 
-LDM Publish Interface
-~~~~~~~~~~~~~~~~~~~~~
+Register as a Consumer
+~~~~~~~~~~~~~~~~~~~~~~
 
-To publish data to the LDM as an LDM Data Provider the following must be
-done;
+.. code-block:: python
 
-.. code:: py
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       RegisterDataConsumerReq,
+       RegisterDataConsumerResp,
+       AccessPermission,
+       GeometricArea,
+       Circle,
+   )
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
 
-   data = AddDataProviderReq(
+   # Register to consume CAMs and VAMs
+   response: RegisterDataConsumerResp = ldm.if_ldm_4.register_data_consumer(
+       RegisterDataConsumerReq(
+           application_id=CAM,
+           access_permisions=(
+               AccessPermission.CAM,
+               AccessPermission.VAM,
+               AccessPermission.DENM,
+           ),
+           area_of_interest=GeometricArea(
+               circle=Circle(radius=5000),  # 5 km radius
+               rectangle=None,
+               ellipse=None,
+           ),
+       )
+   )
+
+   if response.result == 2:
+       print("Registration failed!")
+       exit(1)
+
+----
+
+Querying the LDM
+----------------
+
+Query for specific messages using filters:
+
+.. mermaid::
+
+   flowchart LR
+       APP[Application] -->|"Query Request"| LDM[(LDM)]
+       LDM -->|"Filtered Results"| APP
+       
+       subgraph "Query Options"
+           F[Filter by field]
+           O[Order results]
+           T[Filter by type]
+       end
+
+Basic Query
+~~~~~~~~~~~
+
+.. code-block:: python
+
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       RequestDataObjectsReq,
+       RequestDataObjectsResp,
+       Filter,
+       FilterStatement,
+       ComparisonOperators,
+       OrderTupleValue,
+       OrderingDirection,
+   )
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM, VAM
+
+   # Create a query for CAMs and VAMs
+   request = RequestDataObjectsReq(
        application_id=CAM,
-       time_stamp=TimestampIts().insert_unix_timestamp(time.time()),
-       location=Location.location_builder_circle(
-           latitude=cam["cam"]["camParameters"]["basicContainer"][
-               "referencePosition"
-           ]["latitude"],
-           longitude=cam["cam"]["camParameters"]["basicContainer"][
-               "referencePosition"
-           ]["longitude"],
-           altitude=cam["cam"]["camParameters"]["basicContainer"][
-               "referencePosition"
-           ]["altitude"]["altitudeValue"],
-           radius=0,
-       ),
-       data_object=cam,
-       time_validity=TimeValidity(time_validity),
-   )
-
-   response = ldm.ldm_if_ldm_3.add_provider_data(data)
-
-LDM Query Interface
-~~~~~~~~~~~~~~~~~~~
-
-A data consumer requests specific data objects from the LDM using
-queries. The LDM returns matching objects that meet the requested
-criteria.
-
-To query the LDM, a Request Data Object Request must be created;
-
-.. code:: py
-
-   request_data_object = RequestDataObjectsReq(
-       application_id=MAPEM,
        data_object_type=[CAM, VAM],
-       priority=None,
-       order=order,
-       filter=filter,
+       priority=0,
+       order=(OrderTupleValue("timeStamp", OrderingDirection.ASCENDING),),
+       filter=None,  # No filter = return all
    )
 
-Where the filter and order are;
+   # Execute the query
+   result: RequestDataObjectsResp = ldm.request_data_objects(request)
 
-.. code:: py
+   for obj in result.data_objects:
+       print(f"Station: {obj['dataObject']['header']['stationId']}")
 
+Filtered Query
+~~~~~~~~~~~~~~
+
+Find messages from a specific station:
+
+.. code-block:: python
+
+   # Filter: header.stationId == 12345
    filter = Filter(
        FilterStatement(
            "header.stationId",
-           ComparisonOperators(0),
-           station_id,
+           ComparisonOperators.EQUAL,
+           12345,
        )
    )
 
-   order = [OrderTuple("timeStamp", OrderingDirection(1))]
-
-The filter is for the condition of “header.stationId == 0”, and the
-order is a list of Orders, where each header from the `LDM Data
-Object <#ldm-data-object>`__ can be used. Once the Request Data Objects
-Request has been declared the request for data object can be done;
-
-.. code:: py
-
-   ldm_packets: RequestDataObjectsResp = self.ldm.request_data_objects(request_data_object)
-
-LDM Publish/Subscribe Interface
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A data consumer subscribes to specific types of LDM Data Objects,
-receiving updates whenever relevant data changes or new data becomes
-available.
-
-To subscribe to the LDM, a Subscribe Data Object Request must be used.
-Here the typical LDM parameters must be used, as well as an LDM
-Subscription Callback.
-
-.. code:: py
-
-   subscribe_data_consumer_response: SubscribeDataObjectsResp = ldm.if_ldm_4.subscribe_data_consumer(
-       SubscribeDataobjectsReq(
-           application_id=SPATEM,
-           data_object_type=[CAM, VAM, DENM],
-           priority=None,
-           filter=None,
-           notify_time=0.5,
-           multiplicity=None,
-           order=None,
-       ),
-       ldm_subscription_callback,
+   request = RequestDataObjectsReq(
+       application_id=CAM,
+       data_object_type=[CAM],
+       priority=0,
+       order=(OrderTupleValue("timeStamp", OrderingDirection.DESCENDING),),
+       filter=filter,
    )
-   if subscribe_data_consumer_response.result.result != 0:
-       raise Exception(f"Failed to subscribe to data objects: {str(subscribe_data_consumer_response.result)}")
 
-This will call the ldm_subscrition_callback every 0.5 seconds (notifiy_time) with the Request Data Objects Response class.
+   result = ldm.request_data_objects(request)
+
+**Available Comparison Operators:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+   * - ``EQUAL``
+     - Field equals value
+   * - ``NOT_EQUAL``
+     - Field does not equal value
+   * - ``GREATER_THAN``
+     - Field is greater than value
+   * - ``LESS_THAN``
+     - Field is less than value
+
+----
+
+Subscribing to Updates
+----------------------
+
+Get notified when new messages arrive:
+
+.. mermaid::
+
+   sequenceDiagram
+       participant App as Application
+       participant LDM as LDM
+       participant CAM as CA Basic Service
+       
+       App->>LDM: Subscribe (filter, callback)
+       LDM-->>App: Subscription confirmed
+       
+       loop Every matching message
+           CAM->>LDM: New CAM arrives
+           LDM->>App: Callback with data
+       end
+
+Subscribe Example
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       SubscribeDataobjectsReq,
+       SubscribeDataObjectsResp,
+       SubscribeDataobjectsResult,
+       Filter,
+       FilterStatement,
+       ComparisonOperators,
+       OrderTupleValue,
+       OrderingDirection,
+       TimestampIts,
+   )
+
+   # Define callback function
+   def on_new_message(data: RequestDataObjectsResp) -> None:
+       for obj in data.data_objects:
+           station_id = obj["dataObject"]["header"]["stationId"]
+           print(f"📨 New message from station {station_id}")
+
+   # Subscribe to CAMs (excluding our own)
+   MY_STATION_ID = 12345
+   
+   response: SubscribeDataObjectsResp = ldm.if_ldm_4.subscribe_data_consumer(
+       SubscribeDataobjectsReq(
+           application_id=CAM,
+           data_object_type=(CAM,),
+           priority=1,
+           filter=Filter(
+               filter_statement_1=FilterStatement(
+                   "header.stationId",
+                   ComparisonOperators.NOT_EQUAL,
+                   MY_STATION_ID,
+               )
+           ),
+           notify_time=TimestampIts(0),  # Notify immediately
+           multiplicity=1,
+           order=(
+               OrderTupleValue(
+                   attribute="cam.generationDeltaTime",
+                   ordering_direction=OrderingDirection.ASCENDING,
+               ),
+           ),
+       ),
+       on_new_message,  # Callback function
+   )
+
+   if response.result != SubscribeDataobjectsResult.SUCCESSFUL:
+       print("Subscription failed!")
+
+----
+
+LDM Data Object
+---------------
+
+Messages are stored as LDM Data Objects:
+
+.. code-block:: python
+
+   # Example CAM stored in LDM
+   data_object = {
+       "header": {
+           "protocolVersion": 2,
+           "messageId": 2,
+           "stationId": 12345
+       },
+       "cam": {
+           "generationDeltaTime": 5000,
+           "camParameters": {
+               "basicContainer": {
+                   "stationType": 5,
+                   "referencePosition": {
+                       "latitude": 413869310,
+                       "longitude": 21121040,
+                       # ... more fields
+                   }
+               },
+               "highFrequencyContainer": {
+                   # Speed, heading, etc.
+               }
+           }
+       }
+   }
+
+----
+
+Area of Maintenance
+-------------------
+
+The LDM only keeps messages within a defined geographical area:
+
+.. mermaid::
+
+   flowchart TB
+       subgraph "Area of Maintenance"
+           CENTER[Your Position<br/>📍]
+           R1((5 km radius))
+       end
+       
+       MSG1[Message A<br/>✅ Inside] --> CENTER
+       MSG2[Message B<br/>✅ Inside] --> CENTER
+       MSG3[Message C<br/>❌ Outside] -.->|"Rejected"| CENTER
+       
+       style CENTER fill:#e8f5e9,stroke:#2e7d32
+       style MSG3 fill:#ffebee,stroke:#c62828
+
+Messages outside the area of maintenance are automatically removed.
+
+----
+
+Complete Example
+----------------
+
+Here's a complete example using LDM with CA Basic Service:
+
+.. code-block:: python
+   :linenos:
+
+   #!/usr/bin/env python3
+   """
+   Local Dynamic Map Example
+   
+   Stores and queries CAMs using the LDM.
+   Run with: sudo python ldm_example.py
+   """
+
+   import logging
+   import random
+   import time
+
+   from flexstack.linklayer.raw_link_layer import RawLinkLayer
+   from flexstack.geonet.router import Router as GNRouter
+   from flexstack.geonet.mib import MIB
+   from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+   from flexstack.btp.router import Router as BTPRouter
+   from flexstack.utils.static_location_service import ThreadStaticLocationService
+   from flexstack.facilities.ca_basic_service.ca_basic_service import (
+       CooperativeAwarenessBasicService,
+   )
+   from flexstack.facilities.ca_basic_service.cam_transmission_management import VehicleData
+   from flexstack.facilities.local_dynamic_map.factory import LDMFactory
+   from flexstack.facilities.local_dynamic_map.ldm_classes import (
+       AccessPermission,
+       Circle,
+       ComparisonOperators,
+       Filter,
+       FilterStatement,
+       GeometricArea,
+       Location,
+       OrderTupleValue,
+       OrderingDirection,
+       RegisterDataConsumerReq,
+       RegisterDataConsumerResp,
+       RequestDataObjectsResp,
+       SubscribeDataobjectsReq,
+       SubscribeDataObjectsResp,
+       SubscribeDataobjectsResult,
+       TimestampIts,
+   )
+   from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
+
+   logging.basicConfig(level=logging.INFO)
+
+   # Configuration
+   POSITION = [41.386931, 2.112104]
+   MAC_ADDRESS = bytes([(random.randint(0, 255) & 0xFE) | 0x02] + 
+                       [random.randint(0, 255) for _ in range(5)])
+   STATION_ID = random.randint(1, 2147483647)
 
 
-Quickstart
-----------
+   def main():
+       # Location Service
+       location_service = ThreadStaticLocationService(
+           period=1000,
+           latitude=POSITION[0],
+           longitude=POSITION[1],
+       )
 
-The Local Dynamic Map can be used in conjunction with any Facility Layer component, in this case the `VRU Awareness
-Message <vru-basic-service.md>`__ is presented;
+       # GeoNetworking
+       mib = MIB(
+           itsGnLocalGnAddr=GNAddress(
+               m=M.GN_MULTICAST,
+               st=ST.PASSENGER_CAR,
+               mid=MID(MAC_ADDRESS),
+           ),
+       )
+       gn_router = GNRouter(mib=mib, sign_service=None)
+       location_service.add_callback(gn_router.refresh_ego_position_vector)
 
-.. code:: py
+       # BTP
+       btp_router = BTPRouter(gn_router)
+       gn_router.register_indication_callback(btp_router.btp_data_indication)
 
-    import logging
-    import argparse
-    from time import sleep
-    from sys import exit
+       # Local Dynamic Map
+       ldm_location = Location.initializer(
+           latitude=int(POSITION[0] * 10**7),
+           longitude=int(POSITION[1] * 10**7),
+       )
+       ldm_area = GeometricArea(
+           circle=Circle(radius=5000),
+           rectangle=None,
+           ellipse=None,
+       )
+       ldm_factory = LDMFactory()
+       ldm = ldm_factory.create_ldm(
+           ldm_location,
+           ldm_maintenance_type="Reactive",
+           ldm_service_type="Reactive",
+           ldm_database_type="Dictionary",
+       )
+       location_service.add_callback(ldm_location.location_service_callback)
+
+       # Register as LDM Consumer
+       response: RegisterDataConsumerResp = ldm.if_ldm_4.register_data_consumer(
+           RegisterDataConsumerReq(
+               application_id=CAM,
+               access_permisions=(AccessPermission.CAM,),
+               area_of_interest=ldm_area,
+           )
+       )
+       if response.result == 2:
+           print("❌ LDM registration failed!")
+           exit(1)
+
+       # Subscribe to incoming CAMs
+       def on_cam_received(data: RequestDataObjectsResp) -> None:
+           if data.data_objects:
+               station = data.data_objects[0]["dataObject"]["header"]["stationId"]
+               print(f"📨 Received CAM from station {station}")
+
+       sub_response: SubscribeDataObjectsResp = ldm.if_ldm_4.subscribe_data_consumer(
+           SubscribeDataobjectsReq(
+               application_id=CAM,
+               data_object_type=(CAM,),
+               priority=1,
+               filter=Filter(
+                   filter_statement_1=FilterStatement(
+                       "header.stationId",
+                       ComparisonOperators.NOT_EQUAL,
+                       STATION_ID,
+                   )
+               ),
+               notify_time=TimestampIts(0),
+               multiplicity=1,
+               order=(
+                   OrderTupleValue(
+                       attribute="cam.generationDeltaTime",
+                       ordering_direction=OrderingDirection.ASCENDING,
+                   ),
+               ),
+           ),
+           on_cam_received,
+       )
+       if sub_response.result != SubscribeDataobjectsResult.SUCCESSFUL:
+           print("❌ LDM subscription failed!")
+           exit(1)
+
+       # CA Basic Service with LDM
+       vehicle_data = VehicleData(
+           station_id=STATION_ID,
+           station_type=5,
+           drive_direction="forward",
+           vehicle_length={
+               "vehicleLengthValue": 1023,
+               "vehicleLengthConfidenceIndication": "unavailable",
+           },
+           vehicle_width=62,
+       )
+       ca_basic_service = CooperativeAwarenessBasicService(
+           btp_router=btp_router,
+           vehicle_data=vehicle_data,
+           ldm=ldm,
+       )
+       location_service.add_callback(
+           ca_basic_service.cam_transmission_management.location_service_callback
+       )
+
+       # Link Layer
+       btp_router.freeze_callbacks()
+       link_layer = RawLinkLayer(
+           "lo",
+           MAC_ADDRESS,
+           receive_callback=gn_router.gn_data_indicate,
+       )
+       gn_router.link_layer = link_layer
+
+       print("✅ LDM with CA Basic Service running!")
+       print("📡 Sending CAMs and listening for others...")
+       print("Press Ctrl+C to exit\n")
+
+       try:
+           while True:
+               time.sleep(1)
+       except KeyboardInterrupt:
+           print("\n👋 Shutting down...")
+
+       location_service.stop_event.set()
+       location_service.location_service_thread.join()
+       link_layer.sock.close()
 
 
-    from flexstack.facilities.vru_awareness_service.vru_awareness_service import VRUAwarenessService
-    from flexstack.facilities.vru_awareness_service.vam_transmission_management import DeviceDataProvider
-    from flexstack.utils.static_location_service import ThreadStaticLocationService as LocationService
+   if __name__ == "__main__":
+       main()
 
-    from flexstack.facilities.local_dynamic_map.factory import LDMFactory
-    from flexstack.facilities.local_dynamic_map.ldm_classes import (
-        Location,
-        RequestDataObjectsResp,
-    )
+----
 
-    from flexstack.btp.router import Router as BTPRouter
+Use Cases
+---------
 
-    from flexstack.geonet.router import Router
-    from flexstack.geonet.mib import MIB
-    from flexstack.geonet.gn_address import GNAddress, M, ST, MID
+.. grid:: 2
+    :gutter: 3
 
-    from flexstack.linklayer.raw_link_layer import RawLinkLayer
+    .. grid-item-card:: 🚗 Collision Avoidance
+        
+        Query the LDM to find nearby vehicles and calculate collision risks 
+        based on their positions and trajectories.
 
+    .. grid-item-card:: 🚦 Traffic Analysis
+        
+        Subscribe to all CAMs in an area to analyze traffic density, 
+        average speeds, and flow patterns.
 
-    def __configure_logging(log_level: str) -> None:
-        numeric_level = getattr(logging, log_level.upper(), None)
-        if not isinstance(numeric_level, int):
-            raise ValueError(f"Invalid log level: {log_level}")
-        logging.basicConfig(level=numeric_level)
+    .. grid-item-card:: ⚠️ Hazard Awareness
+        
+        Store DENMs in the LDM and query for active hazards along your 
+        planned route.
 
+    .. grid-item-card:: 🚴 VRU Protection
+        
+        Combine CAMs and VAMs in the LDM to detect vulnerable road users 
+        near vehicles.
 
-    def ldm_subscription_callback(response: RequestDataObjectsResp) -> None:
-        print(response.data_objects)
+----
 
+See Also
+--------
 
-    def configure_v2x(station_id: int, log_level: str) -> None | Exception:
-        # Configure logging level
-        __configure_logging(log_level)
-
-        # Geonet
-        mac_address = b"\x00\x00\x00\x00\x00" + bytes([station_id])
-        mib = MIB()
-        gn_addr = GNAddress()
-        gn_addr.set_m(M.GN_MULTICAST)
-        gn_addr.set_st(ST.CYCLIST)
-        gn_addr.set_mid(MID(mac_address))
-        gn_router = Router(mib=mib, sign_service=None)
-
-        # Link-Layer
-        ll = RawLinkLayer(iface="lo", mac_address=mac_address, receive_callback=gn_router.gn_data_indicate)
-        gn_router.link_layer = ll
-
-        # BTP
-        btp_router = BTPRouter(gn_router)
-        gn_router.register_indication_callback(btp_router.btp_data_indication)
-
-
-        # Facility - Location Service
-        location_service = LocationService()
-
-        location_service.add_callback(gn_router.refresh_ego_position_vector)
-
-        # Facility - Local Dynamic Maps
-        ldm_location = Location.initializer()
-        location_service.add_callback(ldm_location.location_service_callback)
-        ldm_factory = LDMFactory()
-        local_dynamic_map = ldm_factory.create_ldm(
-            ldm_location, ldm_maintenance_type="Reactive", ldm_service_type="Reactive", ldm_database_type="Dictionary"
-        )
-        ldm_factory.subscribe_to_ldm(
-            own_station_id=station_id,
-            ldm_location=ldm_location,
-            callback_function=ldm_subscription_callback,
-        )
-
-        # Facility - Device Data Provider
-        device_data_provider = DeviceDataProvider(station_id=station_id)
-
-        # Facility - VRU Awareness Service
-        vru_awareness_service = VRUAwarenessService(
-            btp_router=btp_router, device_data_provider=device_data_provider, ldm=local_dynamic_map
-        )
-        btp_router.freeze_callbacks()
-        location_service.add_callback(vru_awareness_service.vam_transmission_management.location_service_callback)
-
-
-    if __name__ == "__main__":
-        args = argparse.ArgumentParser(description="FlexStack CAM Sender/Receiver")
-        args.add_argument("--station-id", type=int, default=0, help="Station ID")
-        args.add_argument("--log-level", type=str, default="INFO", help="Logging level (DEBUG, INFO)")
-        args = args.parse_args()
-
-        configure_v2x(args.station_id, args.log_level)
-        try:
-            while True:
-                sleep(1)
-        except KeyboardInterrupt:
-            print("\nKeyboardInterrupt caught. Cleaning up...")
-            exit(0)
-
-The only issue that may be encountered here is `Networking
-Interface <issues-networking-interface.md>`__.
-
-Logging is included to provide a way to visualize sent messages. View
-`Logging <logging.md>`__ for detailed usage instructions.
-
-
---------------
-
-Explore the example scripts available, expand upon them, or use them as
-a baseline to create your own implementations. If you have any
-questions, feel free to post in the `forum <forum-url>`__.
+- :doc:`/getting_started` — Complete V2X tutorial
+- :doc:`ca_basic_service` — Cooperative Awareness Messages
+- :doc:`den_service` — Decentralized Environmental Notifications
+- :doc:`vru_awareness_service` — VRU Awareness Messages
+- :doc:`/modules/btp` — Transport layer

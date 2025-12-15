@@ -6,16 +6,26 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Docker Deployment &mdash; FlexStack 0.9.6 documentation</title>
+  <title>Docker Deployment &mdash; FlexStack 0.10.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=7430def1"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=31ca06fa"></script>
       <script src="../../_static/doctools.js?v=888ff710"></script>
       <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../_static/design-tabs.js?v=36754332"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -49,117 +59,221 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#what-you-ll-build">What You’ll Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#setting-up-the-example">Setting up the example</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#logging">Logging</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#location-service">Location Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#link-layer">Link Layer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#geonetworking">GeoNetworking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#btp">BTP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#facilities-layer">Facilities Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#understanding-the-protocol-stack">Understanding the Protocol Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#step-by-step-tutorial">Step-by-Step Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-1-basic-setup">Step 1: Basic Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-2-location-service">Step 2: Location Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-3-geonetworking-router">Step 3: GeoNetworking Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-4-btp-router">Step 4: BTP Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-5-local-dynamic-map-ldm">Step 5: Local Dynamic Map (LDM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-6-ca-basic-service">Step 6: CA Basic Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-7-link-layer">Step 7: Link Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getting_started.html#step-8-run-the-application">Step 8: Run the Application</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-script">Complete Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#what-s-next">What’s Next?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#need-help">Need Help?</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">FlexStack Architecture</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">FlexStack(R) Modules</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../link_layer.html">Link Layer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#cv2xlinklayer">CV2XLinkLayer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#components">Components</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#building-the-library">Building the Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#choosing-a-link-layer">Choosing a Link Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#rawlinklayer">RawLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#quick-start">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#complete-example">Complete Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#complete-script">Complete Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#pythoncv2xlinklayer">PythonCV2XLinkLayer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#id2">Quick Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#id3">Complete Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#cv2xlinklayer-c-library">CV2XLinkLayer C++ Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#library-components">Library Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#building-from-source">Building from Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../link_layer.html#direct-c-api-usage">Direct C++ API Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../link_layer.html#integration-with-flexstack">Integration with FlexStack</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../geonetworking.html">GeoNetworking (GN)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#router-instantiation">Router Instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#request-sending-geonetworking-packet">Request Sending GeoNetworking Packet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#receiving-geonetworking-packet">Receiving GeoNetworking Packet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#what-geonetworking-does">What GeoNetworking Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#architecture">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#key-components">Key Components</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#step-1-configure-the-mib">Step 1: Configure the MIB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#step-2-create-the-router">Step 2: Create the Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#step-3-provide-position-updates">Step 3: Provide Position Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geonetworking.html#step-4-connect-to-link-layer">Step 4: Connect to Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../security.html">Security Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#receiving-packets">Receiving Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geonetworking.html#see-also">See Also</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../btp.html">Basic Transport Protocol (BTP)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../btp.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../btp.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../btp.html#router-instantiation">Router Instantiation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../btp.html#request-sending-btp-packet">Request Sending BTP Packet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../btp.html#response-receiving-btp-packet">Response Receiving BTP Packet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#what-btp-does">What BTP Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#architecture">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#btp-types">BTP Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#well-known-ports">Well-Known Ports</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../btp.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#step-1-create-geonetworking-router">Step 1: Create GeoNetworking Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#step-2-create-btp-router">Step 2: Create BTP Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#step-3-register-port-callbacks">Step 3: Register Port Callbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#step-4-freeze-callbacks">Step 4: Freeze Callbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../btp.html#step-5-connect-link-layer">Step 5: Connect Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../applications.html">Applications Layer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#receiving-packets">Receiving Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#integration-with-facilities">Integration with Facilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../btp.html#see-also">See Also</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Facilities Services</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../facilities/ca_basic_service.html">Cooperative Awareness (CA) Basic Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#diagram">Diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#basic-script-sending-and-receiving-cams">Basic Script sending and receiving CAMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#what-cams-contain">What CAMs Contain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/ca_basic_service.html#step-1-configure-vehicle-data">Step 1: Configure Vehicle Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/ca_basic_service.html#step-2-set-up-prerequisites">Step 2: Set Up Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/ca_basic_service.html#step-3-create-ca-basic-service">Step 3: Create CA Basic Service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#receiving-cams">Receiving CAMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#cam-message-structure">CAM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#cam-generation-rules">CAM Generation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/ca_basic_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facilities/vru_awareness_service.html">VRU Awareness Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-awareness-messages-overview">VRU Awareness Messages Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-basic-service-management">VRU Basic Service Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-cluster-management">VRU Cluster Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-reception-management">VAM Reception Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-transmission-management">VAM Transmission Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-encoding-decoding">VAM Encoding &amp; Decoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#what-are-vrus">What Are VRUs?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-vs-cam">VAM vs CAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#step-1-configure-device-data-provider">Step 1: Configure Device Data Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#step-2-set-up-prerequisites">Step 2: Set Up Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/vru_awareness_service.html#step-3-create-vru-awareness-service">Step 3: Create VRU Awareness Service</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#quickstart">Quickstart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#interfacing-with-the-vru-basic-service">Interfacing with the VRU Basic Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-generation-rules">VAM Generation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vam-message-structure">VAM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#vru-clustering">VRU Clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/vru_awareness_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facilities/den_service.html">Decentralized Environmental Notification (DEN) Service</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#denm-overview">DENM Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-service">DEN Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-reception-management">DEN Reception Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#den-transmission-management">DEN Transmission Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#what-denms-are-for">What DENMs Are For</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#cam-vs-denm">CAM vs DENM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#step-1-create-den-service">Step 1: Create DEN Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/den_service.html#step-2-use-an-application-service">Step 2: Use an Application Service</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#application-layer-emergency-vehicle-approaching-service">Application Layer: Emergency Vehicle Approaching Service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#emergency-vehicle-approaching-service">Emergency Vehicle Approaching Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#denm-lifecycle">DENM Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#denm-message-structure">DENM Message Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#cause-codes">Cause Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/den_service.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../facilities/local_dynamic_map.html">Local Dynamic Map</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-overview">Local Dynamic Map Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-service">LDM Service</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-maintenance">LDM Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#what-the-ldm-does">What the LDM Does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#supported-data-types">Supported Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#step-1-create-the-ldm">Step 1: Create the LDM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#step-2-connect-location-updates">Step 2: Connect Location Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#step-3-connect-to-facility-services">Step 3: Connect to Facility Services</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-declaration">LDM Declaration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-providers">LDM Data Providers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-consumers">LDM Data Consumers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-area-of-maintenance">LDM Area of Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#data-providers">Data Providers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#register-a-custom-provider">Register a Custom Provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#publish-data">Publish Data</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#local-dynamic-map-interfacing-options">Local Dynamic Map Interfacing Options</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-publish-interface">LDM Publish Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-query-interface">LDM Query Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-publish-subscribe-interface">LDM Publish/Subscribe Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#data-consumers">Data Consumers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#register-as-a-consumer">Register as a Consumer</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#querying-the-ldm">Querying the LDM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#basic-query">Basic Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#filtered-query">Filtered Query</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#subscribing-to-updates">Subscribing to Updates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../facilities/local_dynamic_map.html#subscribe-example">Subscribe Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#ldm-data-object">LDM Data Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#area-of-maintenance">Area of Maintenance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#complete-example">Complete Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../facilities/local_dynamic_map.html#see-also">See Also</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker Deployment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-use-docker">Why Use Docker?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-create-project-structure">Step 1: Create Project Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-create-the-dockerfile">Step 2: Create the Dockerfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-create-the-application">Step 3: Create the Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-single-container">Running a Single Container</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-run">Build and Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-custom-arguments">With Custom Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-multiple-stations">Running Multiple Stations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docker-compose-setup">Docker Compose Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-all-stations">Start All Stations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#communication-flow">Communication Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaling-stations">Scaling Stations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-configuration">Advanced Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#volume-mounting">Volume Mounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#health-checks">Health Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debug-commands">Debug Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-project">Complete Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="rawlinklayer-ethernet-deployment.html">Sending and Recieving V2X Messages Through Ethernet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="logging.html#logging-configuration">Logging Configuration</a><ul>
@@ -196,153 +310,554 @@
            <div itemprop="articleBody">
              
   <section id="docker-deployment">
-<h1>Docker Deployment<a class="headerlink" href="#docker-deployment" title="Permalink to this heading"></a></h1>
-<p>The easist way to deploy the Flexstack is through a Dockerfile.</p>
-<p>With the following Dockerfile you can directly deploy the Flexstack;</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">FROM</span> <span class="n">python</span><span class="p">:</span><span class="mf">3.9</span><span class="o">-</span><span class="n">slim</span>
+<span id="id1"></span><h1>Docker Deployment<a class="headerlink" href="#docker-deployment" title="Permalink to this heading"></a></h1>
+<p>Deploy FlexStack V2X applications in isolated, reproducible containers using <strong>Docker</strong>.
+This guide shows you how to containerize your C-ITS stations and run multiple instances
+that communicate with each other.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Docker is the easiest way to deploy FlexStack — no system dependencies to manage,
+consistent environments across machines, and easy scaling.</p>
+</div>
+<section id="why-use-docker">
+<h2>Why Use Docker?<a class="headerlink" href="#why-use-docker" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Benefit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>📦 <strong>Isolation</strong></p></td>
+<td><p>Each C-ITS station runs in its own container</p></td>
+</tr>
+<tr class="row-odd"><td><p>🔄 <strong>Reproducibility</strong></p></td>
+<td><p>Same environment on development and production</p></td>
+</tr>
+<tr class="row-even"><td><p>📈 <strong>Scalability</strong></p></td>
+<td><p>Easily spawn multiple stations with Docker Compose</p></td>
+</tr>
+<tr class="row-odd"><td><p>🌐 <strong>Networking</strong></p></td>
+<td><p>Built-in virtual networks for V2X communication</p></td>
+</tr>
+<tr class="row-even"><td><p>🚀 <strong>Easy Deployment</strong></p></td>
+<td><p>Single command to start your entire V2X system</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TB
+    subgraph &quot;Docker Host&quot;
+        subgraph &quot;Container 1&quot;
+            FS1[FlexStack&lt;br/&gt;Station 1]
+        end
 
-<span class="n">WORKDIR</span> <span class="o">/</span><span class="n">app</span>
+        subgraph &quot;Container 2&quot;
+            FS2[FlexStack&lt;br/&gt;Station 2]
+        end
 
-<span class="n">COPY</span> <span class="n">app</span><span class="o">.</span><span class="n">py</span> <span class="o">.</span>
+        subgraph &quot;Container 3&quot;
+            FS3[FlexStack&lt;br/&gt;Station 3]
+        end
 
-<span class="n">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> \
-    <span class="n">gcc</span> \
-    <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> \
-    <span class="n">build</span><span class="o">-</span><span class="n">essential</span> \
-    <span class="o">&amp;&amp;</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">apt</span><span class="o">/</span><span class="n">lists</span><span class="o">/*</span>
+        NET[Docker Network&lt;br/&gt;v2xnet]
+    end
 
-<span class="n">RUN</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="n">v2xflexstack</span>
+    FS1 &lt;--&gt;|&quot;VAM/CAM&quot;| NET
+    FS2 &lt;--&gt;|&quot;VAM/CAM&quot;| NET
+    FS3 &lt;--&gt;|&quot;VAM/CAM&quot;| NET
 
-<span class="n">CMD</span> <span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+    style NET fill:#e3f2fd,stroke:#1565c0
+    </pre></section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<section id="step-1-create-project-structure">
+<h3>Step 1: Create Project Structure<a class="headerlink" href="#step-1-create-project-structure" title="Permalink to this heading"></a></h3>
+<p>Create a directory with the following files:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my-v2x-project/
+├── app.py              # Your FlexStack application
+├── Dockerfile          # Container definition
+└── docker-compose.yml  # Multi-container setup
 </pre></div>
 </div>
-<p>The only requirement would be to have the <code class="docutils literal notranslate"><span class="pre">app.py</span></code> Python script.
-Which can be the following;</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging.config</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">VRUAwarenessService</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceDataProvider</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">parse_mac_address_to_int</span><span class="p">(</span><span class="n">mac_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">mac_address</span> <span class="o">=</span> <span class="n">mac_address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-    <span class="n">mac_address</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mac_address</span><span class="p">]</span>
-    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">mac_address</span><span class="p">)</span>
-
-<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run a C-ITS station.&quot;</span><span class="p">)</span>
-<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-    <span class="s2">&quot;--station-id&quot;</span><span class="p">,</span>
-    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Station ID for C-ITS Station&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-    <span class="s2">&quot;--mac-address&quot;</span><span class="p">,</span>
-    <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;aa:bb:cc:11:22:33&quot;</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The MAC address to send CAMs to (e.g. &quot;aa:bb:cc:dd:ee:ff&quot;)&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-
-
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-
-<span class="c1"># Geonet</span>
-<span class="n">mac_address</span> <span class="o">=</span> <span class="n">parse_mac_address_to_int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">mac_address</span><span class="p">)</span>
-<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">()</span>
-<span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">()</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_st</span><span class="p">(</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">)</span>
-<span class="n">gn_addr</span><span class="o">.</span><span class="n">set_mid</span><span class="p">(</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
-<span class="n">mib</span><span class="o">.</span><span class="n">itsGnLocalGnAddr</span> <span class="o">=</span> <span class="n">gn_addr</span>
-<span class="n">gn_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-<span class="c1"># Link-Layer</span>
-<span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="s2">&quot;eth0&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span>
-                  <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
-<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>
-
-<span class="c1"># BTP</span>
-<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
-<span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
-
-
-<span class="c1"># Facility - Location Service</span>
-<span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
-
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
-
-<span class="c1"># Facility - Device Data Provider</span>
-<span class="n">device_data_provider</span> <span class="o">=</span> <span class="n">DeviceDataProvider</span><span class="p">()</span>
-<span class="n">device_data_provider</span><span class="o">.</span><span class="n">station_id</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">station_id</span>
-<span class="n">device_data_provider</span><span class="o">.</span><span class="n">station_type</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Cyclist</span>
-
-<span class="c1"># Facility - VRU Awareness Service</span>
-<span class="n">vru_awareness_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
-                                            <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data_provider</span><span class="p">)</span>
-
-<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">vru_awareness_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span><span class="p">)</span>
-
-<span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</section>
+<section id="step-2-create-the-dockerfile">
+<h3>Step 2: Create the Dockerfile<a class="headerlink" href="#step-2-create-the-dockerfile" title="Permalink to this heading"></a></h3>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.9-slim</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c"># Install system dependencies</span>
+<span class="linenos"> 6</span><span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 7</span><span class="w">    </span>gcc<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 8</span><span class="w">    </span>python3-dev<span class="w"> </span><span class="se">\</span>
+<span class="linenos"> 9</span><span class="w">    </span>build-essential<span class="w"> </span><span class="se">\</span>
+<span class="linenos">10</span><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="c"># Install FlexStack</span>
+<span class="linenos">13</span><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>v2xflexstack
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="c"># Copy application</span>
+<span class="linenos">16</span><span class="k">COPY</span><span class="w"> </span>app.py<span class="w"> </span>.
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="c"># Run the application</span>
+<span class="linenos">19</span><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Once the Dockerfile and app.py files are created, inside the same
-directory;</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project/
-├── app.py
-├── Dockerfile
-└── docker-compose.yml
+<p><strong>What this does:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Line</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">python:3.9-slim</span></code></p></td>
+<td><p>Use lightweight Python 3.9 base image</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span></code></p></td>
+<td><p>Install C compiler for native extensions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">v2xflexstack</span></code></p></td>
+<td><p>Install FlexStack package</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CMD</span> <span class="pre">[&quot;python&quot;,</span> <span class="pre">&quot;app.py&quot;]</span></code></p></td>
+<td><p>Run your application on container start</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-3-create-the-application">
+<h3>Step 3: Create the Application<a class="headerlink" href="#step-3-create-the-application" title="Permalink to this heading"></a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">app.py</span></code> — a VRU station that broadcasts VAMs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="ch">#!/usr/bin/env python3</span>
+<span class="linenos">  2</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  3</span><span class="sd">FlexStack Docker Application</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="sd">A C-ITS VRU station that sends and receives VAMs.</span>
+<span class="linenos">  6</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="linenos">  9</span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vru_awareness_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 12</span>    <span class="n">VRUAwarenessService</span><span class="p">,</span>
+<span class="linenos"> 13</span><span class="p">)</span>
+<span class="linenos"> 14</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.vru_awareness_service.vam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 15</span>    <span class="n">DeviceDataProvider</span><span class="p">,</span>
+<span class="linenos"> 16</span><span class="p">)</span>
+<span class="linenos"> 17</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 18</span>    <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span><span class="p">,</span>
+<span class="linenos"> 19</span><span class="p">)</span>
+<span class="linenos"> 20</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">BTPRouter</span>
+<span class="linenos"> 21</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
+<span class="linenos"> 22</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
+<span class="linenos"> 23</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
+<span class="linenos"> 24</span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="k">def</span><span class="w"> </span><span class="nf">parse_mac_address</span><span class="p">(</span><span class="n">mac_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert MAC address string to bytes.&quot;&quot;&quot;</span>
+<span class="linenos"> 29</span>    <span class="n">parts</span> <span class="o">=</span> <span class="n">mac_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<span class="linenos"> 30</span>    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">)</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos"> 34</span>    <span class="c1"># Parse command line arguments</span>
+<span class="linenos"> 35</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;FlexStack C-ITS Station&quot;</span><span class="p">)</span>
+<span class="linenos"> 36</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos"> 37</span>        <span class="s2">&quot;--station-id&quot;</span><span class="p">,</span>
+<span class="linenos"> 38</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos"> 39</span>        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos"> 40</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Unique station identifier&quot;</span><span class="p">,</span>
+<span class="linenos"> 41</span>    <span class="p">)</span>
+<span class="linenos"> 42</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos"> 43</span>        <span class="s2">&quot;--mac-address&quot;</span><span class="p">,</span>
+<span class="linenos"> 44</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="linenos"> 45</span>        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;aa:bb:cc:11:22:33&quot;</span><span class="p">,</span>
+<span class="linenos"> 46</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;MAC address (e.g., aa:bb:cc:dd:ee:ff)&quot;</span><span class="p">,</span>
+<span class="linenos"> 47</span>    <span class="p">)</span>
+<span class="linenos"> 48</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos"> 49</span>        <span class="s2">&quot;--interface&quot;</span><span class="p">,</span>
+<span class="linenos"> 50</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="linenos"> 51</span>        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;eth0&quot;</span><span class="p">,</span>
+<span class="linenos"> 52</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Network interface to use&quot;</span><span class="p">,</span>
+<span class="linenos"> 53</span>    <span class="p">)</span>
+<span class="linenos"> 54</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos"> 55</span>
+<span class="linenos"> 56</span>    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+<span class="linenos"> 57</span>        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+<span class="linenos"> 58</span>        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;[</span><span class="si">%(levelname)s</span><span class="s2">] Station </span><span class="si">%(station_id)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="linenos"> 59</span>        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;station_id&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">station_id</span><span class="p">},</span>
+<span class="linenos"> 60</span>    <span class="p">)</span>
+<span class="linenos"> 61</span>    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span>    <span class="n">mac_address</span> <span class="o">=</span> <span class="n">parse_mac_address</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">mac_address</span><span class="p">)</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span>    <span class="c1"># GeoNetworking</span>
+<span class="linenos"> 66</span>    <span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">(</span>
+<span class="linenos"> 67</span>        <span class="n">itsGnLocalGnAddr</span><span class="o">=</span><span class="n">GNAddress</span><span class="p">(</span>
+<span class="linenos"> 68</span>            <span class="n">m</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">,</span>
+<span class="linenos"> 69</span>            <span class="n">st</span><span class="o">=</span><span class="n">ST</span><span class="o">.</span><span class="n">CYCLIST</span><span class="p">,</span>
+<span class="linenos"> 70</span>            <span class="n">mid</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">),</span>
+<span class="linenos"> 71</span>        <span class="p">),</span>
+<span class="linenos"> 72</span>    <span class="p">)</span>
+<span class="linenos"> 73</span>    <span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span>    <span class="c1"># Link Layer</span>
+<span class="linenos"> 76</span>    <span class="n">link_layer</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span>
+<span class="linenos"> 77</span>        <span class="n">iface</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span>
+<span class="linenos"> 78</span>        <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span>
+<span class="linenos"> 79</span>        <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">,</span>
+<span class="linenos"> 80</span>    <span class="p">)</span>
+<span class="linenos"> 81</span>    <span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">link_layer</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span>    <span class="c1"># BTP</span>
+<span class="linenos"> 84</span>    <span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
+<span class="linenos"> 85</span>    <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span>    <span class="c1"># Location Service</span>
+<span class="linenos"> 88</span>    <span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
+<span class="linenos"> 89</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span>    <span class="c1"># VRU Awareness Service</span>
+<span class="linenos"> 92</span>    <span class="n">device_data</span> <span class="o">=</span> <span class="n">DeviceDataProvider</span><span class="p">(</span>
+<span class="linenos"> 93</span>        <span class="n">station_id</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">station_id</span><span class="p">,</span>
+<span class="linenos"> 94</span>        <span class="n">station_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Cyclist</span>
+<span class="linenos"> 95</span>    <span class="p">)</span>
+<span class="linenos"> 96</span>    <span class="n">vru_service</span> <span class="o">=</span> <span class="n">VRUAwarenessService</span><span class="p">(</span>
+<span class="linenos"> 97</span>        <span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span>
+<span class="linenos"> 98</span>        <span class="n">device_data_provider</span><span class="o">=</span><span class="n">device_data</span><span class="p">,</span>
+<span class="linenos"> 99</span>    <span class="p">)</span>
+<span class="linenos">100</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span>
+<span class="linenos">101</span>        <span class="n">vru_service</span><span class="o">.</span><span class="n">vam_transmission_management</span><span class="o">.</span><span class="n">location_service_callback</span>
+<span class="linenos">102</span>    <span class="p">)</span>
+<span class="linenos">103</span>
+<span class="linenos">104</span>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;�� Station </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">station_id</span><span class="si">}</span><span class="s2"> started on </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">interface</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">105</span>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📡 MAC: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">mac_address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">106</span>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Broadcasting VAMs...&quot;</span><span class="p">)</span>
+<span class="linenos">107</span>
+<span class="linenos">108</span>    <span class="c1"># Keep running</span>
+<span class="linenos">109</span>    <span class="n">location_service</span><span class="o">.</span><span class="n">location_service_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="linenos">110</span>
+<span class="linenos">111</span>
+<span class="linenos">112</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">113</span>    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Run the following commands;</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="running-a-single-container">
+<h2>Running a Single Container<a class="headerlink" href="#running-a-single-container" title="Permalink to this heading"></a></h2>
+<section id="build-and-run">
+<h3>Build and Run<a class="headerlink" href="#build-and-run" title="Permalink to this heading"></a></h3>
+<p>Build the Docker image:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>flexstack<span class="w"> </span>.
 </pre></div>
 </div>
-<p>Then;</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>flexstack
+<p>Run a single C-ITS station:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--network<span class="w"> </span>host<span class="w"> </span>--privileged<span class="w"> </span>flexstack
 </pre></div>
 </div>
-<p>This will create one C-ITS station, with one Flexstack, so messages will
-only be sent. To send and recieve messages we can create a
-docker-compose file;</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--network</span> <span class="pre">host</span></code> and <code class="docutils literal notranslate"><span class="pre">--privileged</span></code> flags are required for raw socket
+access to network interfaces. This allows FlexStack to send/receive Ethernet frames.</p>
+</div>
+</section>
+<section id="with-custom-arguments">
+<h3>With Custom Arguments<a class="headerlink" href="#with-custom-arguments" title="Permalink to this heading"></a></h3>
+<p>Override the station ID and MAC address:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--network<span class="w"> </span>host<span class="w"> </span>--privileged<span class="w"> </span>flexstack<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>app.py<span class="w"> </span>--station-id<span class="w"> </span><span class="m">42</span><span class="w"> </span>--mac-address<span class="w"> </span>aa:bb:cc:dd:ee:ff
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="running-multiple-stations">
+<h2>Running Multiple Stations<a class="headerlink" href="#running-multiple-stations" title="Permalink to this heading"></a></h2>
+<p>Use Docker Compose to run multiple C-ITS stations that communicate with each other.</p>
+<section id="docker-compose-setup">
+<h3>Docker Compose Setup<a class="headerlink" href="#docker-compose-setup" title="Permalink to this heading"></a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nt">services</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="c1"># First C-ITS Station (Cyclist)</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nt">station1</span><span class="p">:</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flexstack_station_1</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;app.py&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--station-id&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--mac-address&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;aa:bb:cc:11:22:01&quot;</span><span class="p p-Indicator">]</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nt">cap_add</span><span class="p">:</span>
+<span class="linenos">12</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_ADMIN</span>
+<span class="linenos">13</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_RAW</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">  </span><span class="c1"># Second C-ITS Station (Cyclist)</span>
+<span class="linenos">16</span><span class="w">  </span><span class="nt">station2</span><span class="p">:</span>
+<span class="linenos">17</span><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flexstack_station_2</span>
+<span class="linenos">19</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;app.py&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--station-id&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--mac-address&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;aa:bb:cc:11:22:02&quot;</span><span class="p p-Indicator">]</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="linenos">21</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
+<span class="linenos">22</span><span class="w">    </span><span class="nt">cap_add</span><span class="p">:</span>
+<span class="linenos">23</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_ADMIN</span>
+<span class="linenos">24</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_RAW</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">  </span><span class="c1"># Third C-ITS Station (Cyclist)</span>
+<span class="linenos">27</span><span class="w">  </span><span class="nt">station3</span><span class="p">:</span>
+<span class="linenos">28</span><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="linenos">29</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flexstack_station_3</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;app.py&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--station-id&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--mac-address&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;aa:bb:cc:11:22:03&quot;</span><span class="p p-Indicator">]</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="linenos">32</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
+<span class="linenos">33</span><span class="w">    </span><span class="nt">cap_add</span><span class="p">:</span>
+<span class="linenos">34</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_ADMIN</span>
+<span class="linenos">35</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_RAW</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span><span class="nt">networks</span><span class="p">:</span>
+<span class="linenos">38</span><span class="w">  </span><span class="nt">v2xnet</span><span class="p">:</span>
+<span class="linenos">39</span><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+</pre></div>
+</div>
+<p><strong>Key Configuration:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">networks:</span> <span class="pre">v2xnet</span></code></p></td>
+<td><p>All stations share the same virtual network</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cap_add:</span> <span class="pre">NET_ADMIN,</span> <span class="pre">NET_RAW</span></code></p></td>
+<td><p>Required capabilities for raw socket access</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">command</span></code></p></td>
+<td><p>Override default command with station-specific args</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="start-all-stations">
+<h3>Start All Stations<a class="headerlink" href="#start-all-stations" title="Permalink to this heading"></a></h3>
+<p>Launch all stations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up
+</pre></div>
+</div>
+<p>Or run in background:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+<p>View logs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>logs<span class="w"> </span>-f
+</pre></div>
+</div>
+<p>Stop all stations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>down
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="communication-flow">
+<h2>Communication Flow<a class="headerlink" href="#communication-flow" title="Permalink to this heading"></a></h2>
+<p>When multiple stations run in Docker Compose, they communicate through the shared network:</p>
+<pre  class="mermaid">
+        sequenceDiagram
+    participant S1 as Station 1&lt;br/&gt;(Cyclist)
+    participant NET as Docker Network&lt;br/&gt;(v2xnet)
+    participant S2 as Station 2&lt;br/&gt;(Cyclist)
+    participant S3 as Station 3&lt;br/&gt;(Cyclist)
 
-<span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">flexstack1</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xflex_app</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/app</span>
-<span class="w">    </span><span class="nt">working_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/app</span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--station-id&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--mac-address&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;aa:bb:cc:11:22:31&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
-<span class="w">  </span><span class="nt">flexstack2</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
-<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xflex_app_2</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/app</span>
-<span class="w">    </span><span class="nt">working_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/app</span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--station-id&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--mac-address&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;aa:bb:cc:11:22:32&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
-<span class="nt">networks</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">v2xnet</span><span class="p">:</span>
+    loop Every ~500ms
+        S1-&gt;&gt;NET: Broadcast VAM
+        NET-&gt;&gt;S2: Receive VAM
+        NET-&gt;&gt;S3: Receive VAM
+
+        S2-&gt;&gt;NET: Broadcast VAM
+        NET-&gt;&gt;S1: Receive VAM
+        NET-&gt;&gt;S3: Receive VAM
+
+        S3-&gt;&gt;NET: Broadcast VAM
+        NET-&gt;&gt;S1: Receive VAM
+        NET-&gt;&gt;S2: Receive VAM
+    end
+    </pre></section>
+<hr class="docutils" />
+<section id="scaling-stations">
+<h2>Scaling Stations<a class="headerlink" href="#scaling-stations" title="Permalink to this heading"></a></h2>
+<p>Easily scale to many stations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run 5 instances of the station service</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>--scale<span class="w"> </span><span class="nv">station1</span><span class="o">=</span><span class="m">5</span>
 </pre></div>
 </div>
-<p>With this we will be able to create two C-ITS instances that send and
-recieve messages. Through a Docker-Compose network.</p>
+<p>Or define a scalable service in <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cyclist</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
+<span class="w">    </span><span class="nt">cap_add</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_ADMIN</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_RAW</span>
+<span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="advanced-configuration">
+<h2>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this heading"></a></h2>
+<section id="environment-variables">
+<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading"></a></h3>
+<p>Use environment variables for configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">station</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STATION_ID=1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MAC_ADDRESS=aa:bb:cc:11:22:33</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_LEVEL=DEBUG</span>
+</pre></div>
+</div>
+<p>Then in your <code class="docutils literal notranslate"><span class="pre">app.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">station_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;STATION_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<span class="n">mac_address</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MAC_ADDRESS&quot;</span><span class="p">,</span> <span class="s2">&quot;aa:bb:cc:11:22:33&quot;</span><span class="p">)</span>
+<span class="n">log_level</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="volume-mounting">
+<h3>Volume Mounting<a class="headerlink" href="#volume-mounting" title="Permalink to this heading"></a></h3>
+<p>Mount local files for development (changes reflect immediately):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">station</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./app.py:/app/app.py</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2xnet</span>
+</pre></div>
+</div>
+</section>
+<section id="health-checks">
+<h3>Health Checks<a class="headerlink" href="#health-checks" title="Permalink to this heading"></a></h3>
+<p>Add health checks to monitor station status:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">station</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;import</span><span class="nv"> </span><span class="s">flexstack&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Issue</p></th>
+<th class="head"><p>Solution</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Permission denied</strong></p></td>
+<td><p>Add <code class="docutils literal notranslate"><span class="pre">--privileged</span></code> flag or <code class="docutils literal notranslate"><span class="pre">cap_add:</span> <span class="pre">NET_ADMIN,</span> <span class="pre">NET_RAW</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Interface not found</strong></p></td>
+<td><p>Check interface name with <code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">link</span></code> inside container</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stations not communicating</strong></p></td>
+<td><p>Ensure all stations are on the same Docker network</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Build fails</strong></p></td>
+<td><p>Check that <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">build-essential</span></code> are installed</p></td>
+</tr>
+</tbody>
+</table>
+<section id="debug-commands">
+<h3>Debug Commands<a class="headerlink" href="#debug-commands" title="Permalink to this heading"></a></h3>
+<p>Enter a running container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>flexstack_station_1<span class="w"> </span>/bin/bash
+</pre></div>
+</div>
+<p>Check network interfaces:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>flexstack_station_1<span class="w"> </span>ip<span class="w"> </span>link
+</pre></div>
+</div>
+<p>View container logs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>flexstack_station_1
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="complete-project">
+<h2>Complete Project<a class="headerlink" href="#complete-project" title="Permalink to this heading"></a></h2>
+<p>Here’s the complete project structure with all files:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my-v2x-project/
+├── app.py              # Application code (see Step 3)
+├── Dockerfile          # Container definition (see Step 2)
+└── docker-compose.yml  # Multi-container setup
+</pre></div>
+</div>
+<p><strong>Quick commands:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build</span>
+docker-compose<span class="w"> </span>build
+
+<span class="c1"># Start all stations</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># View logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>-f
+
+<span class="c1"># Stop everything</span>
+docker-compose<span class="w"> </span>down
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../getting_started.html"><span class="doc">Getting Started</span></a> — Complete V2X tutorial</p></li>
+<li><p><a class="reference internal" href="../facilities/vru_awareness_service.html"><span class="doc">VRU Awareness Service</span></a> — VRU Awareness Service details</p></li>
+<li><p><a class="reference internal" href="../facilities/ca_basic_service.html"><span class="doc">Cooperative Awareness (CA) Basic Service</span></a> — For vehicle CAM stations</p></li>
+<li><p><a class="reference internal" href="../link_layer.html"><span class="doc">Link Layer</span></a> — Network interface configuration</p></li>
+</ul>
+</section>
 </section>
 
 
