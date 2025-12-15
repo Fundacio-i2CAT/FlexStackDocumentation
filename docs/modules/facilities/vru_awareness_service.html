@@ -555,16 +555,13 @@ specifically designed for VRUs who need extra protection on the road.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.router</span><span class="w"> </span><span class="kn">import</span> <span class="n">Router</span> <span class="k">as</span> <span class="n">GNRouter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.mib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIB</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.gn_address</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNAddress</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ST</span><span class="p">,</span> <span class="n">MID</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.utils.static_location_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadStaticLocationService</span> <span class="k">as</span> <span class="n">LocationService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.linklayer.raw_link_layer</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawLinkLayer</span>
 
 <span class="n">MAC_ADDRESS</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00\x11\x22\x33\x44\x55</span><span class="s1">&#39;</span>
 
 <span class="c1"># Location Service</span>
-<span class="n">location_service</span> <span class="o">=</span> <span class="n">ThreadStaticLocationService</span><span class="p">(</span>
-    <span class="n">period</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-    <span class="n">latitude</span><span class="o">=</span><span class="mf">41.386931</span><span class="p">,</span>
-    <span class="n">longitude</span><span class="o">=</span><span class="mf">2.112104</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
 
 <span class="c1"># GeoNetworking + BTP</span>
 <span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">(</span>
@@ -575,6 +572,8 @@ specifically designed for VRUs who need extra protection on the road.</p>
     <span class="p">),</span>
 <span class="p">)</span>
 <span class="n">gn_router</span> <span class="o">=</span> <span class="n">GNRouter</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="s2">&quot;lo&quot;</span><span class="p">,</span> <span class="n">mac_address</span><span class="o">=</span><span class="n">MAC_ADDRESS</span><span class="p">,</span> <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">)</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>
 <span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">(</span><span class="n">gn_router</span><span class="p">)</span>
 <span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span><span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">)</span>
 <span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">)</span>

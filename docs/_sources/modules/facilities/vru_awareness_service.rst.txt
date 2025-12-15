@@ -186,16 +186,13 @@ The VRU Awareness Service requires:
    from flexstack.geonet.router import Router as GNRouter
    from flexstack.geonet.mib import MIB
    from flexstack.geonet.gn_address import GNAddress, M, ST, MID
-   from flexstack.utils.static_location_service import ThreadStaticLocationService
+   from flexstack.utils.static_location_service import ThreadStaticLocationService as LocationService
+   from flexstack.linklayer.raw_link_layer import RawLinkLayer
 
    MAC_ADDRESS = b'\x00\x11\x22\x33\x44\x55'
 
    # Location Service
-   location_service = ThreadStaticLocationService(
-       period=1000,
-       latitude=41.386931,
-       longitude=2.112104,
-   )
+   location_service = LocationService()
 
    # GeoNetworking + BTP
    mib = MIB(
@@ -206,6 +203,8 @@ The VRU Awareness Service requires:
        ),
    )
    gn_router = GNRouter(mib=mib, sign_service=None)
+   ll = RawLinkLayer(iface="lo", mac_address=MAC_ADDRESS, receive_callback=gn_router.gn_data_indicate)
+   gn_router.link_layer = ll
    btp_router = BTPRouter(gn_router)
    gn_router.register_indication_callback(btp_router.btp_data_indication)
    location_service.add_callback(gn_router.refresh_ego_position_vector)
