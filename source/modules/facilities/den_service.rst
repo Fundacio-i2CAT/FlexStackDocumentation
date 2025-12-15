@@ -463,4 +463,3 @@ See Also
 - :doc:`ca_basic_service` — Cooperative Awareness Messages
 - :doc:`local_dynamic_map` — Store and query received DENMs
 - :doc:`/modules/btp` — Transport layer (BTP port 2002)
-- :doc:`/modules/applications` — Application layer services

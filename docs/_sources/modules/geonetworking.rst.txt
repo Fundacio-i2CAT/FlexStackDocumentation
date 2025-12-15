@@ -415,4 +415,3 @@ See Also
 - :doc:`/getting_started` — Complete tutorial building a V2X application
 - :doc:`link_layer` — Link Layer implementations (RawLinkLayer, C-V2X)
 - :doc:`btp` — Basic Transport Protocol for port multiplexing
-- :doc:`/architecture` — Overall FlexStack architecture
