@@ -424,8 +424,9 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
 <p>First, describe your vehicle using <code class="docutils literal notranslate"><span class="pre">VehicleData</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.ca_basic_service.cam_transmission_management</span><span class="w"> </span><span class="kn">import</span> <span class="n">VehicleData</span>
 
+<span class="n">STATION_ID</span> <span class="o">=</span> <span class="mi">12345</span>  <span class="c1"># Unique ID for your station</span>
 <span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">(</span>
-    <span class="n">station_id</span><span class="o">=</span><span class="mi">12345</span><span class="p">,</span>              <span class="c1"># Unique ID for your station</span>
+    <span class="n">station_id</span><span class="o">=</span><span class="n">STATION_ID</span><span class="p">,</span>
     <span class="n">station_type</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>                <span class="c1"># 5 = Passenger car</span>
     <span class="n">drive_direction</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">,</span>     <span class="c1"># &quot;forward&quot;, &quot;backward&quot;, or &quot;unavailable&quot;</span>
     <span class="n">vehicle_length</span><span class="o">=</span><span class="p">{</span>
@@ -621,6 +622,8 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
     <span class="n">SubscribeDataobjectsResult</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="n">ldm_area</span> <span class="o">=</span> <span class="n">GeometricArea</span><span class="p">(</span><span class="n">circle</span><span class="o">=</span><span class="n">Circle</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">5000</span><span class="p">),</span> <span class="n">rectangle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
 <span class="c1"># Register as a CAM consumer</span>
 <span class="n">ldm</span><span class="o">.</span><span class="n">if_ldm_4</span><span class="o">.</span><span class="n">register_data_consumer</span><span class="p">(</span>
     <span class="n">RegisterDataConsumerReq</span><span class="p">(</span>
@@ -646,7 +649,7 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
             <span class="n">filter_statement_1</span><span class="o">=</span><span class="n">FilterStatement</span><span class="p">(</span>
                 <span class="s2">&quot;header.stationId&quot;</span><span class="p">,</span>
                 <span class="n">ComparisonOperators</span><span class="o">.</span><span class="n">NOT_EQUAL</span><span class="p">,</span>
-                <span class="n">MY_STATION_ID</span><span class="p">,</span>  <span class="c1"># Don&#39;t notify about our own CAMs</span>
+                <span class="n">STATION_ID</span><span class="p">,</span>  <span class="c1"># Don&#39;t notify about our own CAMs</span>
             <span class="p">)</span>
         <span class="p">),</span>
         <span class="n">notify_time</span><span class="o">=</span><span class="n">TimestampIts</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>

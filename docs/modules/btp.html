@@ -654,6 +654,10 @@ starting the link layer. This ensures thread safety and optimal performance.</p>
 <hr class="docutils" />
 <section id="receiving-packets">
 <h2>Receiving Packets<a class="headerlink" href="#receiving-packets" title="Permalink to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All reception callbacks must be registered <strong>before</strong> calling <code class="docutils literal notranslate"><span class="pre">freeze_callbacks()</span></code>!</p>
+</div>
 <p>Incoming packets are delivered to the registered callback for that port:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.btp.service_access_point</span><span class="w"> </span><span class="kn">import</span> <span class="n">BTPDataIndication</span>
 

@@ -290,6 +290,10 @@ To send a BTP packet, create a ``BTPDataRequest``:
 Receiving Packets
 -----------------
 
+.. warning::
+
+   All reception callbacks must be registered **before** calling ``freeze_callbacks()``!
+
 Incoming packets are delivered to the registered callback for that port:
 
 .. code-block:: python

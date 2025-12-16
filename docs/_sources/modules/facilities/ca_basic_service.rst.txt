@@ -87,8 +87,9 @@ First, describe your vehicle using ``VehicleData``:
 
    from flexstack.facilities.ca_basic_service.cam_transmission_management import VehicleData
 
+   STATION_ID = 12345  # Unique ID for your station
    vehicle_data = VehicleData(
-       station_id=12345,              # Unique ID for your station
+       station_id=STATION_ID,          
        station_type=5,                # 5 = Passenger car
        drive_direction="forward",     # "forward", "backward", or "unavailable"
        vehicle_length={
@@ -262,6 +263,8 @@ To be notified when CAMs arrive, subscribe to the LDM:
        SubscribeDataobjectsResult,
    )
 
+   ldm_area = GeometricArea(circle=Circle(radius=5000), rectangle=None, ellipse=None)
+
    # Register as a CAM consumer
    ldm.if_ldm_4.register_data_consumer(
        RegisterDataConsumerReq(
@@ -287,7 +290,7 @@ To be notified when CAMs arrive, subscribe to the LDM:
                filter_statement_1=FilterStatement(
                    "header.stationId",
                    ComparisonOperators.NOT_EQUAL,
-                   MY_STATION_ID,  # Don't notify about our own CAMs
+                   STATION_ID,  # Don't notify about our own CAMs
                )
            ),
            notify_time=TimestampIts(0),
