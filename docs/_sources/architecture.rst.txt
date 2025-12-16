@@ -1,3 +1,0 @@
-FlexStack Architecture
-======================
-

@@ -672,6 +672,7 @@ automatically register as providers when you pass the LDM to them.</p>
     <span class="n">AccessPermission</span><span class="p">,</span>
     <span class="n">GeometricArea</span><span class="p">,</span>
     <span class="n">Circle</span><span class="p">,</span>
+    <span class="n">RequestDataObjectsResp</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.facilities.local_dynamic_map.ldm_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAM</span>
 
@@ -859,7 +860,7 @@ automatically register as providers when you pass the LDM to them.</p>
 <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SubscribeDataobjectsResult</span><span class="o">.</span><span class="n">SUCCESSFUL</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subscription failed!&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subscription failed! Ensure the LDM Data Consumer is registered.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
