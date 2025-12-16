@@ -324,6 +324,7 @@ Register as a Consumer
        AccessPermission,
        GeometricArea,
        Circle,
+       RequestDataObjectsResp,
    )
    from flexstack.facilities.local_dynamic_map.ldm_constants import CAM
 
@@ -514,7 +515,7 @@ Subscribe Example
    )
 
    if response.result != SubscribeDataobjectsResult.SUCCESSFUL:
-       print("Subscription failed!")
+       print("Subscription failed! Ensure the LDM Data Consumer is registered.")
 
 ----
 
