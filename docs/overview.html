@@ -18,6 +18,14 @@
       <script src="_static/doctools.js?v=888ff710"></script>
       <script src="_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="_static/design-tabs.js?v=36754332"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -48,6 +56,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
@@ -109,7 +118,10 @@
 <li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#step-4-connect-to-link-layer">Step 4: Connect to Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#sending-packets">Sending Packets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/geonetworking.html#sending-geobroadcast-packets">Sending GeoBroadcast Packets</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#receiving-packets">Receiving Packets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#complete-example">Complete Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules/geonetworking.html#see-also">See Also</a></li>
@@ -407,6 +419,66 @@ location.</p></li>
 </tbody>
 </table>
 </section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
+<pre  class="mermaid">
+        flowchart TB
+%% Application Layer
+subgraph APP[&quot;Application Layer&quot;]
+    EX[&quot;Application&quot;]
+end
+
+%% Facilities Layer
+subgraph FL[&quot;Facilities Layer&quot;]
+    LDM[(&quot;Local Dynamic Map (LDM)&quot;)]
+    subgraph T[&quot; &quot;]
+        CA[&quot;CA Basic Service&quot;]
+        VRUAW[&quot;VRU Awareness Service&quot;]
+        DEN[&quot;DEN Service&quot;]
+    end
+end
+
+%% Transport Layer
+subgraph TL[&quot;Transport Layer&quot;]
+    BTP[&quot;Basic Transport Protocol (BTP) Router&quot;]
+end
+
+%% Network Layer
+subgraph NL[&quot;Network Layer&quot;]
+    GN[&quot;Geonetworking Router&quot;]
+end
+
+%% Link Layer
+subgraph LL[&quot;Link Layer&quot;]
+    direction LR
+    RWLL[&quot;RawLinkLayer&quot;]
+    CV2XLL[&quot;PythonCV2XLinkLayer&quot;]
+    RWLL ~~~|&quot;Or&quot;| CV2XLL
+end
+
+%% Connections
+EX &lt;--&gt;|&quot;App-Fac SAP&quot;| LDM
+LDM &lt;--&gt; VRUAW
+LDM &lt;--&gt; CA
+LDM &lt;--&gt; DEN
+VRUAW &lt;--&gt;|&quot;Facilities-BTP SAP&quot;| BTP
+CA &lt;--&gt;|&quot;Facilities-BTP SAP&quot;| BTP
+DEN &lt;--&gt;|&quot;Facilities-BTP SAP&quot;| BTP
+BTP &lt;--&gt;|&quot;BTP-GN SAP&quot;| GN
+GN &lt;--&gt; LL
+
+%% Styling
+style APP fill:#e3f2fd,stroke:#42a5f5,stroke-width:2px
+style FL fill:#e8f5e9,stroke:#66bb6a,stroke-width:2px
+style T fill:transparent,stroke:transparent
+style TL fill:#fff3e0,stroke:#ffa726,stroke-width:2px
+style NL fill:#f3e5f5,stroke:#ab47bc,stroke-width:2px
+style LL fill:#eeeeee,stroke:#bdbdbd,stroke-width:2px
+style LDM fill:#c8e6c9,stroke:#388e3c
+style VRUAW fill:#fff3e0,stroke:#f57c00
+style CA fill:#fffde7,stroke:#fbc02d
+style DEN fill:#ffebee,stroke:#e53935
+    </pre></section>
 </section>
 
 

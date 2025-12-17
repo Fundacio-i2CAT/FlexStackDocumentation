@@ -44,3 +44,64 @@ Modules
 +-------------------+-------------------+----------------------------------------------------------+
 
 
+Architecture
+------------
+
+.. mermaid::
+
+    flowchart TB
+    %% Application Layer
+    subgraph APP["Application Layer"]
+        EX["Application"]
+    end
+
+    %% Facilities Layer
+    subgraph FL["Facilities Layer"]
+        LDM[("Local Dynamic Map (LDM)")]
+        subgraph T[" "]
+            CA["CA Basic Service"]
+            VRUAW["VRU Awareness Service"]
+            DEN["DEN Service"]
+        end
+    end
+
+    %% Transport Layer
+    subgraph TL["Transport Layer"]
+        BTP["Basic Transport Protocol (BTP) Router"]
+    end
+
+    %% Network Layer
+    subgraph NL["Network Layer"]
+        GN["Geonetworking Router"]
+    end
+
+    %% Link Layer
+    subgraph LL["Link Layer"]
+        direction LR
+        RWLL["RawLinkLayer"]
+        CV2XLL["PythonCV2XLinkLayer"]
+        RWLL ~~~|"Or"| CV2XLL
+    end
+
+    %% Connections
+    EX <-->|"App-Fac SAP"| LDM
+    LDM <--> VRUAW
+    LDM <--> CA
+    LDM <--> DEN
+    VRUAW <-->|"Facilities-BTP SAP"| BTP
+    CA <-->|"Facilities-BTP SAP"| BTP
+    DEN <-->|"Facilities-BTP SAP"| BTP
+    BTP <-->|"BTP-GN SAP"| GN
+    GN <--> LL
+
+    %% Styling
+    style APP fill:#e3f2fd,stroke:#42a5f5,stroke-width:2px
+    style FL fill:#e8f5e9,stroke:#66bb6a,stroke-width:2px
+    style T fill:transparent,stroke:transparent
+    style TL fill:#fff3e0,stroke:#ffa726,stroke-width:2px
+    style NL fill:#f3e5f5,stroke:#ab47bc,stroke-width:2px
+    style LL fill:#eeeeee,stroke:#bdbdbd,stroke-width:2px
+    style LDM fill:#c8e6c9,stroke:#388e3c
+    style VRUAW fill:#fff3e0,stroke:#f57c00
+    style CA fill:#fffde7,stroke:#fbc02d
+    style DEN fill:#ffebee,stroke:#e53935
