@@ -271,6 +271,49 @@ To send a GeoNetworking packet, create a ``GNDataRequest`` with all necessary pa
    * - ``data``
      - The actual payload bytes
 
+
+Sending GeoBroadcast Packets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To send a GeoBroadcast packet to a specific geographic area, set the 
+``packet_transport_type`` accordingly:
+
+.. code-block:: python
+
+   from flexstack.geonet.service_access_point import GNDataRequest
+   from flexstack.geonet.service_access_point import (
+      GNDataRequest,
+      CommonNH,
+      PacketTransportType,
+      CommunicationProfile,
+      Area,
+      GeoBroadcastHST,
+      HeaderType,
+   )
+
+   payload = b"example_payload_data"
+
+   gn_request = GNDataRequest(
+      upper_protocol_entity = CommonNH.ANY,
+      packet_transport_type = PacketTransportType(
+                  header_subtype=GeoBroadcastHST.GEOBROADCAST_CIRCLE,
+                  header_type=HeaderType.GEOBROADCAST,
+               ),
+      area=Area(
+         a=1000,  # Radius in meters
+         b=0,
+         angle=0,
+         latitude=int(2.112104*10**7), # Latitude in 1e-7 degrees
+         longitude=int(41.386931*10**7), # Longitude in 1e-7 degrees
+      ),
+      communication_profile=CommunicationProfile.UNSPECIFIED,
+      data=payload,
+      length=len(payload),
+   )
+
+   # Send the GeoBroadcast packet
+   gn_router.gn_data_request(gn_request)
+
 ----
 
 Receiving Packets

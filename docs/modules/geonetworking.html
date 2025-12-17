@@ -117,7 +117,10 @@ window.addEventListener("load", () => mermaid.run());
 <li class="toctree-l3"><a class="reference internal" href="#step-4-connect-to-link-layer">Step 4: Connect to Link Layer</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#sending-packets">Sending Packets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sending-packets">Sending Packets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sending-geobroadcast-packets">Sending GeoBroadcast Packets</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#receiving-packets">Receiving Packets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
@@ -625,6 +628,46 @@ or pass a security service for signed V2X messages.</p>
 </tr>
 </tbody>
 </table>
+<section id="sending-geobroadcast-packets">
+<h3>Sending GeoBroadcast Packets<a class="headerlink" href="#sending-geobroadcast-packets" title="Permalink to this heading"></a></h3>
+<p>To send a GeoBroadcast packet to a specific geographic area, set the
+<code class="docutils literal notranslate"><span class="pre">packet_transport_type</span></code> accordingly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.service_access_point</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNDataRequest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flexstack.geonet.service_access_point</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+   <span class="n">GNDataRequest</span><span class="p">,</span>
+   <span class="n">CommonNH</span><span class="p">,</span>
+   <span class="n">PacketTransportType</span><span class="p">,</span>
+   <span class="n">CommunicationProfile</span><span class="p">,</span>
+   <span class="n">Area</span><span class="p">,</span>
+   <span class="n">GeoBroadcastHST</span><span class="p">,</span>
+   <span class="n">HeaderType</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;example_payload_data&quot;</span>
+
+<span class="n">gn_request</span> <span class="o">=</span> <span class="n">GNDataRequest</span><span class="p">(</span>
+   <span class="n">upper_protocol_entity</span> <span class="o">=</span> <span class="n">CommonNH</span><span class="o">.</span><span class="n">ANY</span><span class="p">,</span>
+   <span class="n">packet_transport_type</span> <span class="o">=</span> <span class="n">PacketTransportType</span><span class="p">(</span>
+               <span class="n">header_subtype</span><span class="o">=</span><span class="n">GeoBroadcastHST</span><span class="o">.</span><span class="n">GEOBROADCAST_CIRCLE</span><span class="p">,</span>
+               <span class="n">header_type</span><span class="o">=</span><span class="n">HeaderType</span><span class="o">.</span><span class="n">GEOBROADCAST</span><span class="p">,</span>
+            <span class="p">),</span>
+   <span class="n">area</span><span class="o">=</span><span class="n">Area</span><span class="p">(</span>
+      <span class="n">a</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Radius in meters</span>
+      <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+      <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+      <span class="n">latitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">2.112104</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span> <span class="c1"># Latitude in 1e-7 degrees</span>
+      <span class="n">longitude</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">41.386931</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">),</span> <span class="c1"># Longitude in 1e-7 degrees</span>
+   <span class="p">),</span>
+   <span class="n">communication_profile</span><span class="o">=</span><span class="n">CommunicationProfile</span><span class="o">.</span><span class="n">UNSPECIFIED</span><span class="p">,</span>
+   <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+   <span class="n">length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the GeoBroadcast packet</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_request</span><span class="p">(</span><span class="n">gn_request</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <hr class="docutils" />
 <section id="receiving-packets">
