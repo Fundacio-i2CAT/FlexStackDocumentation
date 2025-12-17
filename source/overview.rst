@@ -105,3 +105,125 @@ Architecture
     style VRUAW fill:#fff3e0,stroke:#f57c00
     style CA fill:#fffde7,stroke:#fbc02d
     style DEN fill:#ffebee,stroke:#e53935
+
+
+Sequence Diagram
+----------------
+
+Setup
+~~~~~
+
+To set-up a basic V2X communication scenario using the FlexStack(R) library, the following
+sequence of interactions between the different modules takes place:
+
+.. mermaid::
+
+   sequenceDiagram
+       autonumber
+       participant LS as Location Service
+       participant FLC as Facility Layer Component
+       participant BTP as BTP
+       participant GN as GeoNet
+       participant LL as Link Layer
+
+       LL ->> GN: Register GN Data Indicate Callback
+       GN ->> LL: Register Link Layer
+       GN ->> BTP: Register BTP Indication Callback
+       LS ->> GN: Add GN Refresh Ego Position Vector Callback
+       LS ->> FLC: Add Facility Layer Callback
+
+A sample code snippet illustrating the setup process is provided below. 
+
+.. note::
+
+   Please note that this is a simplified example for illustration purposes only. Refer to each module's sections to get detailed information on their setup and configuration.
+
+.. code-block:: python
+
+    gn_addr = GNAddress(m=M.GN_MULTICAST, st=ST.PASSENGER_CAR, mid=MID(mac_address))
+    mib = MIB(itsGnLocalGnAddr=gn_addr)
+    gn_router = Router(mib=mib, sign_service=None)
+
+    ll = RawLinkLayer(
+        iface="lo",
+        mac_address=mac_address,
+        receive_callback=gn_router.gn_data_indicate,
+    )  # 1. Create and register GN data indicate callback
+
+    gn_router.link_layer = ll  # 2. Register link layer
+
+    btp_router = BTPRouter()
+    gn_router.register_indication_callback(
+        btp_router.btp_data_indication,
+    )  # 3. Register BTP indication callback
+
+    location_service = LocationService()
+    location_service.add_callback(
+        gn_router.refresh_ego_position_vector,
+    )  # 4. Add GN refresh ego position vector callback
+
+    vehicle_data = VehicleData(station_id=station_id)
+    ca_basic_service = CooperativeAwarenessBasicService(btp_router=btp_router, vehicle_data=vehicle_data)
+    location_service.add_callback(
+        ca_basic_service.cam_transmission_management
+        .location_update_callback,
+    )  # 5. Add facility layer callback
+
+
+The code snippet above demonstrates how to set up the interactions between the Location Service, GeoNetworking, BTP, and Facility Layer components in the FlexStack(R) library.
+
+
+Message Transmission
+~~~~~~~~~~~~~~~~~~~~~
+
+Message transmissions are generally trigger by a location update received from the Location Service (e.g., new GPS position). The following sequence diagram illustrates the steps involved in transmitting a message through the protocol stack:
+
+.. mermaid::
+
+   sequenceDiagram
+       
+       participant LS as Location Service
+       participant FLC as Facility Layer Component
+       participant BTP as BTP
+       participant GN as GeoNet
+       participant LL as Link Layer
+
+       loop Periodic Position Update
+           LS ->> FLC: New GPS Position Received
+           FLC ->> FLC: Encode Facility-Layer Headers
+
+           FLC ->> BTP: Create BTP Data Request
+           BTP ->> BTP: Encode & Append BTP Headers
+
+           BTP ->> GN: Create GN Data Request
+           GN ->> GN: Encode & Append GN Headers
+
+           GN ->> LL: Send Message to Link Layer
+       end
+
+Message Reception
+~~~~~~~~~~~~~~~~~
+
+Message receptions are triggered by incoming messages at the Link Layer. The following sequence diagram illustrates the steps involved in receiving a message through the protocol stack:
+
+.. mermaid::
+
+   sequenceDiagram
+       
+       participant LS as Location Service
+       participant FLC as Facility Layer Component
+       participant BTP as BTP
+       participant GN as GeoNet
+       participant LL as Link Layer
+
+       loop Link Layer Incoming Message
+        LL ->> LL: Waiting for Incoming Messages
+        LL ->> GN: Create GN Data Indicate
+        GN ->> GN: Decode & Remove GN Headers
+
+        GN ->> BTP: Create BTP Data Indicate
+        BTP ->> BTP: Decode & Remove BTP Headers
+
+        BTP ->> FLC: Call Facility-Layer Reception Callback
+        FLC ->> FLC: Decode Message and Store to LDM
+       end
