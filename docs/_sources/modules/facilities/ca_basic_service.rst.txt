@@ -42,13 +42,17 @@ The CA Basic Service sits in the **Facilities Layer** and connects to BTP for tr
 
 .. mermaid::
 
-   erdiagram TB
+   flowchart TB
+       subgraph APP["Application Layer"]
+           EX["Application"]
+       end
        subgraph "Facilities Layer"
-           subgraph CA["CA Basic Service"]
-              TM[Transmission<br/>Management]
-              RM[Reception<br/>Management]
-           end
            LDM[(Local Dynamic Map)]
+           subgraph CA["CA Basic Service"]
+              direction LR
+              RM[Reception<br/>Management] ~~~ TM[Transmission<br/>Management]
+           end
+           
        end
        
        subgraph "Location"
@@ -58,12 +62,11 @@ The CA Basic Service sits in the **Facilities Layer** and connects to BTP for tr
        subgraph "Transport"
            BTP[BTP Router<br/>Port 2001]
        end
+       APP --- LDM
+       LDM ---|"Store Received"| CA
+       LOC -->|"Position Updates"| CA
+       CA <-->|"Facilities-BTP SAP"| BTP
        
-       LOC -->|"Position Updates"| TM
-       TM -->|"Generate CAM"| CA
-       CA <-->|"Send/Receive"| BTP
-       CA -->|"Store Received"| LDM
-       RM -->|"Process CAM"| CA
        
        style CA fill:#fff3e0,stroke:#f57c00
        style LDM fill:#e8f5e9
@@ -313,14 +316,32 @@ A CAM contains three main containers:
 .. mermaid::
 
    flowchart LR
-       subgraph CAM[CAM Message]
-           H[ITS PDU Header]
-           BC[Basic Container]
-           HFC[High Frequency Container]
-           LFC[Low Frequency Container]
-       end
-       
-       H --> BC --> HFC --> LFC
+      subgraph CAM["Cooperative Awareness Message (CAM)"]
+      direction LR
+      header["ITS PDU Header"]
+      basic["Basic Container"]
+
+      subgraph HF["High Frequency Container"]
+         direction TB
+         veh["Vehicle HF container"]
+         other["Other Containers"]
+         veh ~~~|"Or"| other
+      end
+      subgraph LF["Low Frequency Container (Optional)"]
+         direction TB
+         vehlf["Vehicle LF container"]
+      end
+      subgraph SP["Special Vehicle Container (Optional)"]
+         direction TB
+         publictransport["Public Transport Container "]
+         special["Special Transport Container"]
+         publictransport ~~~|"Or"| special
+      end
+      header ~~~ basic
+      basic ~~~ HF
+      HF ~~~ LF
+      LF ~~~ SP
+      end
 
 .. list-table::
    :header-rows: 1
@@ -334,8 +355,10 @@ A CAM contains three main containers:
      - Station type, reference position
    * - **High Frequency Container**
      - Heading, speed, drive direction, vehicle length, width, acceleration
-   * - **Low Frequency Container**
+   * - **Low Frequency Container** (Optional)
      - Vehicle role, exterior lights, path history
+   * - **Special Vehicle Container** (Optional)
+     - Public transport or special transport details
 
 ----
 

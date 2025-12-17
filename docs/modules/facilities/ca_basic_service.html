@@ -385,13 +385,17 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
 <h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
 <p>The CA Basic Service sits in the <strong>Facilities Layer</strong> and connects to BTP for transport:</p>
 <pre  class="mermaid">
-        erdiagram TB
+        flowchart TB
+    subgraph APP[&quot;Application Layer&quot;]
+        EX[&quot;Application&quot;]
+    end
     subgraph &quot;Facilities Layer&quot;
-        subgraph CA[&quot;CA Basic Service&quot;]
-           TM[Transmission&lt;br/&gt;Management]
-           RM[Reception&lt;br/&gt;Management]
-        end
         LDM[(Local Dynamic Map)]
+        subgraph CA[&quot;CA Basic Service&quot;]
+           direction LR
+           RM[Reception&lt;br/&gt;Management] ~~~ TM[Transmission&lt;br/&gt;Management]
+        end
+
     end
 
     subgraph &quot;Location&quot;
@@ -401,12 +405,11 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
     subgraph &quot;Transport&quot;
         BTP[BTP Router&lt;br/&gt;Port 2001]
     end
+    APP --- LDM
+    LDM ---|&quot;Store Received&quot;| CA
+    LOC --&gt;|&quot;Position Updates&quot;| CA
+    CA &lt;--&gt;|&quot;Facilities-BTP SAP&quot;| BTP
 
-    LOC --&gt;|&quot;Position Updates&quot;| TM
-    TM --&gt;|&quot;Generate CAM&quot;| CA
-    CA &lt;--&gt;|&quot;Send/Receive&quot;| BTP
-    CA --&gt;|&quot;Store Received&quot;| LDM
-    RM --&gt;|&quot;Process CAM&quot;| CA
 
     style CA fill:#fff3e0,stroke:#f57c00
     style LDM fill:#e8f5e9
@@ -670,14 +673,32 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
 <p>A CAM contains three main containers:</p>
 <pre  class="mermaid">
         flowchart LR
-    subgraph CAM[CAM Message]
-        H[ITS PDU Header]
-        BC[Basic Container]
-        HFC[High Frequency Container]
-        LFC[Low Frequency Container]
-    end
+   subgraph CAM[&quot;Cooperative Awareness Message (CAM)&quot;]
+   direction LR
+   header[&quot;ITS PDU Header&quot;]
+   basic[&quot;Basic Container&quot;]
 
-    H --&gt; BC --&gt; HFC --&gt; LFC
+   subgraph HF[&quot;High Frequency Container&quot;]
+      direction TB
+      veh[&quot;Vehicle HF container&quot;]
+      other[&quot;Other Containers&quot;]
+      veh ~~~|&quot;Or&quot;| other
+   end
+   subgraph LF[&quot;Low Frequency Container (Optional)&quot;]
+      direction TB
+      vehlf[&quot;Vehicle LF container&quot;]
+   end
+   subgraph SP[&quot;Special Vehicle Container (Optional)&quot;]
+      direction TB
+      publictransport[&quot;Public Transport Container &quot;]
+      special[&quot;Special Transport Container&quot;]
+      publictransport ~~~|&quot;Or&quot;| special
+   end
+   header ~~~ basic
+   basic ~~~ HF
+   HF ~~~ LF
+   LF ~~~ SP
+   end
     </pre><table class="docutils align-default">
 <colgroup>
 <col style="width: 25.0%" />
@@ -698,8 +719,11 @@ V2X message type, enabling vehicles to be aware of each other’s presence.</p>
 <tr class="row-even"><td><p><strong>High Frequency Container</strong></p></td>
 <td><p>Heading, speed, drive direction, vehicle length, width, acceleration</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Low Frequency Container</strong></p></td>
+<tr class="row-odd"><td><p><strong>Low Frequency Container</strong> (Optional)</p></td>
 <td><p>Vehicle role, exterior lights, path history</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Special Vehicle Container</strong> (Optional)</p></td>
+<td><p>Public transport or special transport details</p></td>
 </tr>
 </tbody>
 </table>

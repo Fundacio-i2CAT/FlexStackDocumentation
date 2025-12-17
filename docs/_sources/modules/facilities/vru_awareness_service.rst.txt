@@ -74,38 +74,36 @@ The VRU Awareness Service consists of several components:
 .. mermaid::
 
    flowchart TB
-       subgraph "Application Layer"
-           APP[VRU Application]
-       end
-       
-       subgraph "VRU Awareness Service"
-           VAS[VRU Basic Service<br/>Management]
-           TM[VAM Transmission<br/>Management]
-           RM[VAM Reception<br/>Management]
-           CM[Cluster Management<br/>⚠️ Not Implemented]
-           COD[VAM Coder]
-       end
-       
-       subgraph "Data Providers"
-           DDP[Device Data Provider]
-           LOC[Location Service]
-       end
-       
-       subgraph "Transport"
-           BTP[BTP Router<br/>Port 2004]
-       end
-       
-       APP --> VAS
-       DDP --> VAS
-       LOC --> TM
-       VAS <--> TM
-       VAS <--> RM
-       VAS <--> CM
-       VAS <--> COD
-       VAS <-->|"Send/Receive"| BTP
-       
-       style VAS fill:#e3f2fd,stroke:#1565c0
-       style CM fill:#ffebee,stroke:#c62828,stroke-dasharray: 5 5
+      subgraph APP["Application Layer"]
+         EX["Application"]
+      end
+      subgraph "Facilities Layer"
+         LDM[(Local Dynamic Map)]
+         subgraph VRUAW["VRU Awareness Service"]
+            direction LR
+            RM[Reception<br/>Management] ~~~ TM[Transmission<br/>Management]
+            TM ~~~ CM[Cluster Management<br/>⚠️ Not Implemented]
+         end
+         
+      end
+      
+      subgraph "Location"
+         LOC[Location Service]
+      end
+      
+      subgraph "Transport"
+         BTP[BTP Router<br/>Port 2018]
+      end
+      APP --- LDM
+      LDM ---|"Store Received"| VRUAW
+      LOC -->|"Position Updates"| VRUAW
+      VRUAW <-->|"Facilities-BTP SAP"| BTP
+      
+      
+      style VRUAW fill:#fff3e0,stroke:#f57c00
+      style LDM fill:#e8f5e9
+      style CM fill:#ffebee,stroke:#c62828,stroke-dasharray: 5 5
+
 
 **Components:**
 
@@ -268,16 +266,22 @@ A VAM contains information specific to VRUs:
 .. mermaid::
 
    flowchart LR
-       subgraph VAM[VAM Message]
-           H[ITS PDU Header]
-           BC[VRU Basic Container]
-           HFC[VRU High Frequency<br/>Container]
-           LFC[VRU Low Frequency<br/>Container]
-           CC[VRU Cluster<br/>Container]
-       end
-       
-       H --> BC --> HFC --> LFC --> CC
-
+      subgraph CAM["Vulnerable Road User (VRU) Awareness Message (VAM)"]
+      direction LR
+      header["ITS PDU Header"]
+      basic["Basic Container"]
+      HF["High Frequency Container"]
+      LF["Low Frequency Container (optional)"]
+      CL["Cluster Information Container (optional)"]
+      CLOP["Cluster Operation Container (optional)"]
+      MOT["Motion Prediction Container (optional)"]
+      header ~~~ basic
+      basic ~~~ HF
+      HF ~~~ LF
+      LF ~~~ CL
+      CL ~~~ CLOP
+      CLOP ~~~ MOT
+      end
 .. list-table::
    :header-rows: 1
    :widths: 25 75

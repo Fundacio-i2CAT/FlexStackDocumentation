@@ -429,38 +429,35 @@ specifically designed for VRUs who need extra protection on the road.</p>
 <p>The VRU Awareness Service consists of several components:</p>
 <pre  class="mermaid">
         flowchart TB
-    subgraph &quot;Application Layer&quot;
-        APP[VRU Application]
-    end
+   subgraph APP[&quot;Application Layer&quot;]
+      EX[&quot;Application&quot;]
+   end
+   subgraph &quot;Facilities Layer&quot;
+      LDM[(Local Dynamic Map)]
+      subgraph VRUAW[&quot;VRU Awareness Service&quot;]
+         direction LR
+         RM[Reception&lt;br/&gt;Management] ~~~ TM[Transmission&lt;br/&gt;Management]
+         TM ~~~ CM[Cluster Management&lt;br/&gt;⚠️ Not Implemented]
+      end
 
-    subgraph &quot;VRU Awareness Service&quot;
-        VAS[VRU Basic Service&lt;br/&gt;Management]
-        TM[VAM Transmission&lt;br/&gt;Management]
-        RM[VAM Reception&lt;br/&gt;Management]
-        CM[Cluster Management&lt;br/&gt;⚠️ Not Implemented]
-        COD[VAM Coder]
-    end
+   end
 
-    subgraph &quot;Data Providers&quot;
-        DDP[Device Data Provider]
-        LOC[Location Service]
-    end
+   subgraph &quot;Location&quot;
+      LOC[Location Service]
+   end
 
-    subgraph &quot;Transport&quot;
-        BTP[BTP Router&lt;br/&gt;Port 2004]
-    end
+   subgraph &quot;Transport&quot;
+      BTP[BTP Router&lt;br/&gt;Port 2018]
+   end
+   APP --- LDM
+   LDM ---|&quot;Store Received&quot;| VRUAW
+   LOC --&gt;|&quot;Position Updates&quot;| VRUAW
+   VRUAW &lt;--&gt;|&quot;Facilities-BTP SAP&quot;| BTP
 
-    APP --&gt; VAS
-    DDP --&gt; VAS
-    LOC --&gt; TM
-    VAS &lt;--&gt; TM
-    VAS &lt;--&gt; RM
-    VAS &lt;--&gt; CM
-    VAS &lt;--&gt; COD
-    VAS &lt;--&gt;|&quot;Send/Receive&quot;| BTP
 
-    style VAS fill:#e3f2fd,stroke:#1565c0
-    style CM fill:#ffebee,stroke:#c62828,stroke-dasharray: 5 5
+   style VRUAW fill:#fff3e0,stroke:#f57c00
+   style LDM fill:#e8f5e9
+   style CM fill:#ffebee,stroke:#c62828,stroke-dasharray: 5 5
     </pre><p><strong>Components:</strong></p>
 <table class="docutils align-default">
 <colgroup>
@@ -642,15 +639,22 @@ specifically designed for VRUs who need extra protection on the road.</p>
 <p>A VAM contains information specific to VRUs:</p>
 <pre  class="mermaid">
         flowchart LR
-    subgraph VAM[VAM Message]
-        H[ITS PDU Header]
-        BC[VRU Basic Container]
-        HFC[VRU High Frequency&lt;br/&gt;Container]
-        LFC[VRU Low Frequency&lt;br/&gt;Container]
-        CC[VRU Cluster&lt;br/&gt;Container]
-    end
-
-    H --&gt; BC --&gt; HFC --&gt; LFC --&gt; CC
+   subgraph CAM[&quot;Vulnerable Road User (VRU) Awareness Message (VAM)&quot;]
+   direction LR
+   header[&quot;ITS PDU Header&quot;]
+   basic[&quot;Basic Container&quot;]
+   HF[&quot;High Frequency Container&quot;]
+   LF[&quot;Low Frequency Container (optional)&quot;]
+   CL[&quot;Cluster Information Container (optional)&quot;]
+   CLOP[&quot;Cluster Operation Container (optional)&quot;]
+   MOT[&quot;Motion Prediction Container (optional)&quot;]
+   header ~~~ basic
+   basic ~~~ HF
+   HF ~~~ LF
+   LF ~~~ CL
+   CL ~~~ CLOP
+   CLOP ~~~ MOT
+   end
     </pre><table class="docutils align-default">
 <colgroup>
 <col style="width: 25.0%" />
