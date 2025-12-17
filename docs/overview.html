@@ -57,6 +57,12 @@ window.addEventListener("load", () => mermaid.run());
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-diagram">Sequence Diagram</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-transmission">Message Transmission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#message-reception">Message Reception</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
@@ -479,6 +485,113 @@ style VRUAW fill:#fff3e0,stroke:#f57c00
 style CA fill:#fffde7,stroke:#fbc02d
 style DEN fill:#ffebee,stroke:#e53935
     </pre></section>
+<section id="sequence-diagram">
+<h2>Sequence Diagram<a class="headerlink" href="#sequence-diagram" title="Permalink to this heading"></a></h2>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h3>
+<p>To set-up a basic V2X communication scenario using the FlexStack(R) library, the following
+sequence of interactions between the different modules takes place:</p>
+<pre  class="mermaid">
+        sequenceDiagram
+    autonumber
+    participant LS as Location Service
+    participant FLC as Facility Layer Component
+    participant BTP as BTP
+    participant GN as GeoNet
+    participant LL as Link Layer
+
+    LL -&gt;&gt; GN: Register GN Data Indicate Callback
+    GN -&gt;&gt; LL: Register Link Layer
+    GN -&gt;&gt; BTP: Register BTP Indication Callback
+    LS -&gt;&gt; GN: Add GN Refresh Ego Position Vector Callback
+    LS -&gt;&gt; FLC: Add Facility Layer Callback
+    </pre><p>A sample code snippet illustrating the setup process is provided below.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that this is a simplified example for illustration purposes only. Refer to each module’s sections to get detailed information on their setup and configuration.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gn_addr</span> <span class="o">=</span> <span class="n">GNAddress</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">GN_MULTICAST</span><span class="p">,</span> <span class="n">st</span><span class="o">=</span><span class="n">ST</span><span class="o">.</span><span class="n">PASSENGER_CAR</span><span class="p">,</span> <span class="n">mid</span><span class="o">=</span><span class="n">MID</span><span class="p">(</span><span class="n">mac_address</span><span class="p">))</span>
+<span class="n">mib</span> <span class="o">=</span> <span class="n">MIB</span><span class="p">(</span><span class="n">itsGnLocalGnAddr</span><span class="o">=</span><span class="n">gn_addr</span><span class="p">)</span>
+<span class="n">gn_router</span> <span class="o">=</span> <span class="n">Router</span><span class="p">(</span><span class="n">mib</span><span class="o">=</span><span class="n">mib</span><span class="p">,</span> <span class="n">sign_service</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">ll</span> <span class="o">=</span> <span class="n">RawLinkLayer</span><span class="p">(</span>
+    <span class="n">iface</span><span class="o">=</span><span class="s2">&quot;lo&quot;</span><span class="p">,</span>
+    <span class="n">mac_address</span><span class="o">=</span><span class="n">mac_address</span><span class="p">,</span>
+    <span class="n">receive_callback</span><span class="o">=</span><span class="n">gn_router</span><span class="o">.</span><span class="n">gn_data_indicate</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 1. Create and register GN data indicate callback</span>
+
+<span class="n">gn_router</span><span class="o">.</span><span class="n">link_layer</span> <span class="o">=</span> <span class="n">ll</span>  <span class="c1"># 2. Register link layer</span>
+
+<span class="n">btp_router</span> <span class="o">=</span> <span class="n">BTPRouter</span><span class="p">()</span>
+<span class="n">gn_router</span><span class="o">.</span><span class="n">register_indication_callback</span><span class="p">(</span>
+    <span class="n">btp_router</span><span class="o">.</span><span class="n">btp_data_indication</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 3. Register BTP indication callback</span>
+
+<span class="n">location_service</span> <span class="o">=</span> <span class="n">LocationService</span><span class="p">()</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span>
+    <span class="n">gn_router</span><span class="o">.</span><span class="n">refresh_ego_position_vector</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 4. Add GN refresh ego position vector callback</span>
+
+<span class="n">vehicle_data</span> <span class="o">=</span> <span class="n">VehicleData</span><span class="p">(</span><span class="n">station_id</span><span class="o">=</span><span class="n">station_id</span><span class="p">)</span>
+<span class="n">ca_basic_service</span> <span class="o">=</span> <span class="n">CooperativeAwarenessBasicService</span><span class="p">(</span><span class="n">btp_router</span><span class="o">=</span><span class="n">btp_router</span><span class="p">,</span> <span class="n">vehicle_data</span><span class="o">=</span><span class="n">vehicle_data</span><span class="p">)</span>
+<span class="n">location_service</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span>
+    <span class="n">ca_basic_service</span><span class="o">.</span><span class="n">cam_transmission_management</span>
+    <span class="o">.</span><span class="n">location_update_callback</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># 5. Add facility layer callback</span>
+</pre></div>
+</div>
+<p>The code snippet above demonstrates how to set up the interactions between the Location Service, GeoNetworking, BTP, and Facility Layer components in the FlexStack(R) library.</p>
+</section>
+<section id="message-transmission">
+<h3>Message Transmission<a class="headerlink" href="#message-transmission" title="Permalink to this heading"></a></h3>
+<p>Message transmissions are generally trigger by a location update received from the Location Service (e.g., new GPS position). The following sequence diagram illustrates the steps involved in transmitting a message through the protocol stack:</p>
+<pre  class="mermaid">
+        sequenceDiagram
+
+    participant LS as Location Service
+    participant FLC as Facility Layer Component
+    participant BTP as BTP
+    participant GN as GeoNet
+    participant LL as Link Layer
+
+    loop Periodic Position Update
+        LS -&gt;&gt; FLC: New GPS Position Received
+        FLC -&gt;&gt; FLC: Encode Facility-Layer Headers
+
+        FLC -&gt;&gt; BTP: Create BTP Data Request
+        BTP -&gt;&gt; BTP: Encode &amp; Append BTP Headers
+
+        BTP -&gt;&gt; GN: Create GN Data Request
+        GN -&gt;&gt; GN: Encode &amp; Append GN Headers
+
+        GN -&gt;&gt; LL: Send Message to Link Layer
+    end
+    </pre></section>
+<section id="message-reception">
+<h3>Message Reception<a class="headerlink" href="#message-reception" title="Permalink to this heading"></a></h3>
+<p>Message receptions are triggered by incoming messages at the Link Layer. The following sequence diagram illustrates the steps involved in receiving a message through the protocol stack:</p>
+<pre  class="mermaid">
+        sequenceDiagram
+
+    participant LS as Location Service
+    participant FLC as Facility Layer Component
+    participant BTP as BTP
+    participant GN as GeoNet
+    participant LL as Link Layer
+
+    loop Link Layer Incoming Message
+     LL -&gt;&gt; LL: Waiting for Incoming Messages
+     LL -&gt;&gt; GN: Create GN Data Indicate
+     GN -&gt;&gt; GN: Decode &amp; Remove GN Headers
+
+     GN -&gt;&gt; BTP: Create BTP Data Indicate
+     BTP -&gt;&gt; BTP: Decode &amp; Remove BTP Headers
+
+     BTP -&gt;&gt; FLC: Call Facility-Layer Reception Callback
+     FLC -&gt;&gt; FLC: Decode Message and Store to LDM
+    end
+    </pre></section>
+</section>
 </section>
 
 
